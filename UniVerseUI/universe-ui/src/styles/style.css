@@ -1,0 +1,34 @@
+*{
+    margin: 0;
+}
+
+body{ 
+    color: white;
+    background-color: #1a1e47;
+    background-image: linear-gradient(43deg, #1a1e47 0%, #0b0e2b 46%, #090c26 100%);
+}
+
+.app-container{
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+}
+
+.sidebar{
+    background-color: #001A33;
+    width: 15%;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#home-page{
+    width: 85%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
