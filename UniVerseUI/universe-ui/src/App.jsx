@@ -6,20 +6,32 @@ import { Courses } from './pages/Courses'
 import { Jobs } from './pages/Jobs'
 import { Events } from './pages/Events'
 import { Groups } from './pages/Groups'
+import { Chats } from './pages/Chats'
+import { Settings } from './pages/Settings'
+import { Topbar } from './components/Topbar'
+import { UserPanel } from './components/UserPanel'
 
 function App() {
 
   return (
     <div className='app-container'>
       <Sidebar/>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/news" element={<News/>}/>
-        <Route path="/courses" element={<Courses/>}/>
-        <Route path="/jobs" element={<Jobs/>}/>
-        <Route path="/events" element={<Events/>}/>
-        <Route path="/groups" element={<Groups/>}/>
-      </Routes>
+      <div className='wrapper'>
+        <Topbar/>
+        <main id='main-container'>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/news" element={<News/>}/>
+            <Route path="/courses" element={<Courses/>}/>
+            <Route path="/jobs" element={<Jobs/>}/>
+            <Route path="/events" element={<Events/>}/>
+            <Route path="/groups" element={<Groups/>}/>
+            <Route path="/chats" element={<Chats/>}/>
+            <Route path="/settings" element={<Settings/>}/>
+          </Routes>
+        </main>
+      </div>
+      <UserPanel/>
     </div>
   )
 }
