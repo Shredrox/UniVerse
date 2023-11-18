@@ -1,6 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import UniVerseLogo from '../assets/images/logo-universe.png'
 import HomeIcon from '../assets/icons/icon-home.svg'
 import NewsIcon from '../assets/icons/icon-newspaper.svg'
@@ -12,10 +11,10 @@ import ChatsIcon from '../assets/icons/icon-chat.svg'
 import SettingsIcon from '../assets/icons/icon-cog.svg'
 
 export const Sidebar = () => {
-  const [activeButton, setActiveButton] = useState(1);
+  const location = useLocation();
 
-  function setButton(id){
-    setActiveButton(id);
+  function isActive(path){
+    return location.pathname === path ? 'link-btn' : 'link-btn-off'
   }
 
   const linksData = [
@@ -37,9 +36,9 @@ export const Sidebar = () => {
       
       <ul>
         {linksData.map((link) =>
-          <li>
-            <Link to={link.to} className='link'>
-              <button key={link.id} className={activeButton === link.id ? 'link-btn' : 'link-btn-off'} onClick={() => setButton(link.id)}>
+          <li key={link.id}>
+            <Link key={link.id} to={link.to} className='link'>
+              <button key={link.id} className={isActive(link.to)}>
                 <img src={link.icon} className='link-icon'/>
                 {link.text}
               </button>
@@ -49,7 +48,7 @@ export const Sidebar = () => {
       </ul>
 
       <Link to='/settings' className='link settings-link'>
-        <button className={activeButton === 8 ? 'link-btn' : 'link-btn-off'} onClick={() => setButton(8)}>
+        <button className={isActive('/settings')}>
           <img src={SettingsIcon} className='link-icon'/>
           Settings
         </button>
