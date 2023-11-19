@@ -20,7 +20,7 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={check ? <MainLayout /> : <Landing/>}>
+      <Route path="/" element={isLoggedIn ? <MainLayout setLoggedIn={setLoggedIn}/> : <Landing setLoggedIn={setLoggedIn}/>}>
         <Route path="/" element={<Home/>}/>
         <Route path="/news" element={<News/>}/>
         <Route path="/courses" element={<Courses/>}/>

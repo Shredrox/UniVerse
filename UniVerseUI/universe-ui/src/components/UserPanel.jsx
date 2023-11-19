@@ -1,7 +1,7 @@
 import React from 'react'
 import BellIcon from '../assets/icons/icon-bell.svg'
 
-export const UserPanel = () => {
+export const UserPanel = ({setLoggedIn}) => {
   return (
     <div className='user-panel'>
         <div className='notifications-container'>
@@ -11,7 +11,8 @@ export const UserPanel = () => {
         </div>
         <div className='profile-container'>
             <div className='profile-picture'></div>
-            User         
+            User
+            <button onClick={() => setLoggedIn()} className='confirm-button'>Log Out</button>         
         </div>
         <div className='profile-container'>
             Chats

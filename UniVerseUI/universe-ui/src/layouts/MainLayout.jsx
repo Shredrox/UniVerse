@@ -4,7 +4,7 @@ import { Sidebar } from '../components/Sidebar'
 import { Topbar } from '../components/Topbar'
 import { UserPanel } from '../components/UserPanel'
 
-export const MainLayout = () => {
+export const MainLayout = ({setLoggedIn}) => {
     return(
       <>
         <Sidebar/>
@@ -14,7 +14,7 @@ export const MainLayout = () => {
             <Outlet />
           </main>
         </div>
-        <UserPanel/>
+        <UserPanel setLoggedIn={setLoggedIn}/>
       </>
     );
 }   
