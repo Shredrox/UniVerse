@@ -1,34 +1,88 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useAuth } from '../hooks/useAuth'
 
-export const AccessForm = ({setLoggedIn}) => {
+import axios from 'axios'
+
+export const AccessForm = () => {
+  const { setAuth } = useAuth();
   const [activeButton, setActiveButton] = useState(1);
 
-  function setButton(btn){
-    setActiveButton(btn);
+  const errRef = useRef();
+
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  useEffect(() =>{
+    setErrorMsg('');
+  }, [username, password])
+
+  const handleSubmit = async () =>{
+    try{
+      let url;
+
+      if(activeButton === 1){
+        url = 'https://localhost:7115/api/User/Login';
+      }
+      else{
+        url = 'https://localhost:7115/api/User/Register';
+      }
+
+      const response = await axios.post(url,
+        JSON.stringify({username, email, password}),
+        {
+          headers: {'Content-Type': 'application/json'}
+        }
+      );
+
+      console.log(JSON.stringify(response?.data));
+      const accessToken = response?.data?.token;
+      setAuth({username, password});
+      setUsername('');
+      setPassword('');
+    }
+    catch(error){
+      if(!error?.response){
+        setErrorMsg('No response');
+      }else if(error.response?.status === 400){
+        setErrorMsg('Missing info');
+      }else if(error.response?.status === 401){
+        setErrorMsg('Unathorized');
+      }else{
+        setErrorMsg('Error');
+      }
+
+      errRef.current.focus();
+    }
   }
 
   return (
     <div className='access-form'>
+      <p ref={errRef} aria-live='assertive'>{errorMsg}</p>
       <div>
         <button 
-          onClick={() => setButton(1)} 
+          onClick={() => setActiveButton(1)} 
           className={activeButton === 1 ? 'login-button-active' : 'login-button'}>
             Login
         </button>
         <button 
-          onClick={() => setButton(2)} 
+          onClick={() => setActiveButton(2)} 
           className={activeButton === 2 ? 'register-button-active' : 'register-button'}>
             Register
         </button>
       </div>
+
       <div className='access-form-input-container'>
-        {activeButton === 2 && <input type="text" placeholder='Username'/>}
-        <input type="email" placeholder='Email'/>
-        <input type="password" placeholder='Password'/>
+        {activeButton === 2 && <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder='Username'/>}
+        <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder='Email'/>
+        <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder='Password'/>
       </div>
-      <button onClick={() => setLoggedIn()} className='confirm-button'>
+
+      <button onClick={() => handleSubmit()} className='confirm-button'>
         {activeButton === 1 ? 'Log In' : 'Sign Up'}
       </button>
+
       Forgot password?
     </div>
   )
