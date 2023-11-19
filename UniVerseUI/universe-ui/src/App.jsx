@@ -9,18 +9,14 @@ import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
-import { useState } from 'react'
+import { useAuth } from './hooks/useAuth'
 
 function App() {
-  const [isLoggedIn, toggleIsLoggedIn] = useState(false);
-
-  function setLoggedIn(){
-    toggleIsLoggedIn(!isLoggedIn); 
-  }
+  const { auth } = useAuth();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={isLoggedIn ? <MainLayout setLoggedIn={setLoggedIn}/> : <Landing setLoggedIn={setLoggedIn}/>}>
+      <Route path="/" element={auth?.password ? <MainLayout/> : <Landing/>}>
         <Route path="/" element={<Home/>}/>
         <Route path="/news" element={<News/>}/>
         <Route path="/courses" element={<Courses/>}/>
