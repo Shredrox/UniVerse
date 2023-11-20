@@ -1,4 +1,5 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { ProtectedRoute } from './routes/ProtectedRoute'
 import { Home } from "./pages/Home"
 import { News } from './pages/News'
 import { Courses } from './pages/Courses'
@@ -16,16 +17,18 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={auth?.password ? <MainLayout/> : <Landing/>}>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/news" element={<News/>}/>
-        <Route path="/courses" element={<Courses/>}/>
-        <Route path="/jobs" element={<Jobs/>}/>
-        <Route path="/events" element={<Events/>}/>
-        <Route path="/groups" element={<Groups/>}/>
-        <Route path="/chats" element={<Chats/>}/>
-        <Route path="/settings" element={<Settings/>}/>
-      </Route>   
+      <Route path="/" element={auth?.user ? <MainLayout/> : <Landing/>}>
+        <Route element={<ProtectedRoute/>}>
+          <Route path="home" element={<Home/>}/>
+          <Route path="courses" element={<Courses/>}/>
+          <Route path="jobs" element={<Jobs/>}/>
+          <Route path="events" element={<Events/>}/>
+          <Route path="groups" element={<Groups/>}/>
+          <Route path="chats" element={<Chats/>}/>
+        </Route>
+        <Route path="news" element={<News/>}/>
+        <Route path="settings" element={<Settings/>}/>
+      </Route>
     )
   );
 
