@@ -29,16 +29,15 @@ body{
     background-size: cover;
     background-position: center top;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
-    gap: 10.1rem;
+    gap: 11rem;
     padding: 2rem;
     font-family: 'Montserrat', sans-serif;
 }
 
 .landing-container img{
-    margin-top: 1rem;
     width: 250px;
     height: 125px;
 }
@@ -46,6 +45,7 @@ body{
 .landing-subtitle{
     font-style: italic;
     font-size: 1.5rem;
+    font-weight: 500;
     margin-top: 1rem;
 }
 
@@ -58,7 +58,7 @@ body{
 }
 
 .access-form{
-    height: 350px;
+    height: 390px;
     position: relative;
     width: 400px;
     background: linear-gradient(45deg, rgb(9, 10, 15) 0%, rgb(0, 20, 71) 100%);
@@ -80,6 +80,13 @@ body{
     border-radius: 1rem;
     padding: 1rem;
     height: 35px;
+    font-family: sans-serif;
+    outline: none;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.access-form input:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
 }
 
 .access-form span{

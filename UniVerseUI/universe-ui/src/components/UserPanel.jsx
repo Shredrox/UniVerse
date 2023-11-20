@@ -1,8 +1,10 @@
 import BellIcon from '../assets/icons/icon-bell.svg'
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 export const UserPanel = () => {
     const { setAuth } = useAuth();
+    const navigate = useNavigate();
 
     return (
       <div className='user-panel'>
@@ -14,7 +16,7 @@ export const UserPanel = () => {
           <div className='profile-container'>
               <div className='profile-picture'></div>
               User
-              <button onClick={()=> setAuth({})} className='confirm-button'>Log Out</button>         
+              <button onClick={()=> {setAuth({}); navigate('/');}} className='confirm-button'>Log Out</button>         
           </div>
           <div className='profile-container'>
               Chats

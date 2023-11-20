@@ -10,24 +10,24 @@ import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
-import { useAuth } from './hooks/useAuth'
 
 function App() {
-  const { auth } = useAuth();
-
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={auth?.user ? <MainLayout/> : <Landing/>}>
-        <Route element={<ProtectedRoute/>}>
-          <Route path="home" element={<Home/>}/>
-          <Route path="courses" element={<Courses/>}/>
-          <Route path="jobs" element={<Jobs/>}/>
-          <Route path="events" element={<Events/>}/>
-          <Route path="groups" element={<Groups/>}/>
-          <Route path="chats" element={<Chats/>}/>
+      <Route>
+        <Route path="/" element={<Landing/>}/>
+        <Route element={<MainLayout/>}>
+          <Route element={<ProtectedRoute/>}>
+            <Route path="/home" element={<Home/>}/>
+            <Route path="/news" element={<News/>}/>
+            <Route path="/courses" element={<Courses/>}/>
+            <Route path="/jobs" element={<Jobs/>}/>
+            <Route path="/events" element={<Events/>}/>
+            <Route path="/groups" element={<Groups/>}/>
+            <Route path="/chats" element={<Chats/>}/>
+            <Route path="/settings" element={<Settings/>}/>
+          </Route>
         </Route>
-        <Route path="news" element={<News/>}/>
-        <Route path="settings" element={<Settings/>}/>
       </Route>
     )
   );

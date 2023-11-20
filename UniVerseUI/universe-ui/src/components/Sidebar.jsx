@@ -18,7 +18,7 @@ export const Sidebar = () => {
   }
 
   const linksData = [
-    { id: 1, to: '/', text: 'Home', icon: HomeIcon },
+    { id: 1, to: '/home', text: 'Home', icon: HomeIcon },
     { id: 2, to: '/news', text: 'News', icon: NewsIcon },
     { id: 3, to: '/courses', text: 'Courses', icon: CourseIcon},
     { id: 4, to: '/jobs', text: 'Jobs', icon: JobsIcon },
