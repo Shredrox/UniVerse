@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 
-import axios from 'axios'
+import axios from '../api/axios';
 
 export const AccessForm = () => {
   const { setAuth } = useAuth();
@@ -9,37 +9,37 @@ export const AccessForm = () => {
 
   const errRef = useRef();
 
-  const [username, setUsername] = useState('');
+  const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() =>{
     setErrorMsg('');
-  }, [username, password])
+  }, [user, password])
 
   const handleSubmit = async () =>{
     try{
       let url;
 
       if(activeButton === 1){
-        url = 'https://localhost:7115/api/User/Login';
+        url = 'User/Login';
       }
       else{
-        url = 'https://localhost:7115/api/User/Register';
+        url = 'User/Register';
       }
 
       const response = await axios.post(url,
-        JSON.stringify({username, email, password}),
+        JSON.stringify({user, email, password}),
         {
           headers: {'Content-Type': 'application/json'}
         }
       );
 
       console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data?.token;
-      setAuth({username, password});
-      setUsername('');
+      const accessToken = response?.data;
+      setAuth({user: "Test", accessToken});
+      setUser('');
       setPassword('');
     }
     catch(error){
@@ -74,7 +74,7 @@ export const AccessForm = () => {
       </div>
 
       <div className='access-form-input-container'>
-        {activeButton === 2 && <input type="text" onChange={(e) => setUsername(e.target.value)} placeholder='Username'/>}
+        {activeButton === 2 && <input type="text" onChange={(e) => setUser(e.target.value)} placeholder='Username'/>}
         <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder='Email'/>
         <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder='Password'/>
       </div>
