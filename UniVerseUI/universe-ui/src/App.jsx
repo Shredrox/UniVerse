@@ -1,4 +1,5 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
+import { ProtectedRoute } from './routes/ProtectedRoute'
 import { Home } from "./pages/Home"
 import { News } from './pages/News'
 import { Courses } from './pages/Courses'
@@ -9,27 +10,25 @@ import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
-import { useState } from 'react'
+import { useAuth } from './hooks/useAuth'
 
 function App() {
-  const [isLoggedIn, toggleIsLoggedIn] = useState(false);
-
-  function setLoggedIn(){
-    toggleIsLoggedIn(!isLoggedIn); 
-  }
+  const { auth } = useAuth();
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={isLoggedIn ? <MainLayout setLoggedIn={setLoggedIn}/> : <Landing setLoggedIn={setLoggedIn}/>}>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/news" element={<News/>}/>
-        <Route path="/courses" element={<Courses/>}/>
-        <Route path="/jobs" element={<Jobs/>}/>
-        <Route path="/events" element={<Events/>}/>
-        <Route path="/groups" element={<Groups/>}/>
-        <Route path="/chats" element={<Chats/>}/>
-        <Route path="/settings" element={<Settings/>}/>
-      </Route>   
+      <Route path="/" element={auth?.user ? <MainLayout/> : <Landing/>}>
+        <Route element={<ProtectedRoute/>}>
+          <Route path="home" element={<Home/>}/>
+          <Route path="courses" element={<Courses/>}/>
+          <Route path="jobs" element={<Jobs/>}/>
+          <Route path="events" element={<Events/>}/>
+          <Route path="groups" element={<Groups/>}/>
+          <Route path="chats" element={<Chats/>}/>
+        </Route>
+        <Route path="news" element={<News/>}/>
+        <Route path="settings" element={<Settings/>}/>
+      </Route>
     )
   );
 
