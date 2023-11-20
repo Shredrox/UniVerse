@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import axios from '../api/axios';
 
@@ -13,6 +14,10 @@ export const AccessForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/home";
 
   useEffect(() =>{
     setErrorMsg('');
@@ -41,6 +46,7 @@ export const AccessForm = () => {
       setAuth({user: "Test", accessToken});
       setUser('');
       setPassword('');
+      navigate(from, { replace: true });
     }
     catch(error){
       if(!error?.response){
