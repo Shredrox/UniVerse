@@ -231,6 +231,7 @@ body{
     height: 100%;
     padding: 0.5rem;
     font-size: 1.5rem;
+    outline: none;
 }
 
 .notifications-container{
@@ -275,7 +276,7 @@ body{
     flex: 0.7;
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 0;
 }
 
 .profile-container{
@@ -425,5 +426,113 @@ body{
 }
 
 .settings-link{
+    width: 100%;
+}
+
+#home-page{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.feed{
+    padding: 0 1rem 0 1rem;
+    height: 700px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.feed-top{
+    width: 85%;
+    height: 6rem;
+    font-size: 2rem;
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0 0 2rem;
+    align-items: center;
+}
+
+.create-post{
+    background-color: #001A33;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 300px;
+    height: 100%;
+    font-size: 1.2rem;
+}
+
+.line{
+    width: 95%;
+    height: 2px;
+    background-color: #8763D2;
+    border-radius: 2rem;
+}
+
+.post-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.post{
+    width: 100%;
+    height: fit-content;
+    background-color: #001A33;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.post-author{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 0.6rem;
+
+}
+
+.author-profile-picture{
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.post-content{
+    background-color: #03254C;
+    border-radius: 1rem;
+    width: 100%;
+    height: fit-content;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-content img{
+    margin-top: 15px;
+    width: 100%;
+}
+
+.interaction-container{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-start;
     width: 100%;
 }
