@@ -1,8 +1,8 @@
 import axios from "./axios";
 
 export const getPosts = async () =>{
-    const respone = await axios.get('/Posts/GetAllPosts');
-    return respone.data;
+    const response = await axios.get('/Posts/GetAllPosts');
+    return response.data;
 }
 
 export const addPost = async (post) =>{
