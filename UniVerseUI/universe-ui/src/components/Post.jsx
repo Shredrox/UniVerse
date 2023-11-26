@@ -6,7 +6,7 @@ export const Post = ({post}) => {
     <div className='post'>
       <div className='post-author'>
         <div className='author-profile-picture'></div>
-        User
+        {post.authorName}
       </div>
       <div className='post-content'>
         <h3>{post.title}</h3>
