@@ -1,16 +1,13 @@
 package com.unidev.universe.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -28,7 +25,4 @@ public class User {
 
     @Column(nullable=false)
     private String password;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    private List<Roles> roles = new ArrayList<>();
 }

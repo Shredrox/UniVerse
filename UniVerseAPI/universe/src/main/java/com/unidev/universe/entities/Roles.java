@@ -1,13 +1,11 @@
 package com.unidev.universe.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import java.util.List;
 
 @Setter
 @Getter
@@ -24,5 +22,5 @@ public class Roles {
     private String name;
 
     @ManyToMany(mappedBy="roles")
-    private List<Users> users;
+    private List<User> users;
 }
