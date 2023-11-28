@@ -5,6 +5,11 @@ export const getNews = async () =>{
     return response.data;
 }
 
+export const getNewsByTitle = async (title) =>{
+    const response = await axios.get(`/News/${title}`);
+    return response.data;
+}
+
 export const addNews = async (news) =>{
     return await axios.post('/News/CreateNews', news);
 }
