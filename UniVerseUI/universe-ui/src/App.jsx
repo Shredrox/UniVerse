@@ -1,7 +1,7 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import { Home } from "./pages/Home"
-import { News } from './pages/News'
+import News from './pages/News'
 import { Courses } from './pages/Courses'
 import { Jobs } from './pages/Jobs'
 import { Events } from './pages/Events'
@@ -10,6 +10,7 @@ import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
+import NewsDetails from './components/NewsDetails'
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +21,7 @@ function App() {
           <Route element={<ProtectedRoute/>}>
             <Route path="/home" element={<Home/>}/>
             <Route path="/news" element={<News/>}/>
+            <Route path="/news/:newsTitle" element={<NewsDetails/>}/>
             <Route path="/courses" element={<Courses/>}/>
             <Route path="/jobs" element={<Jobs/>}/>
             <Route path="/events" element={<Events/>}/>
