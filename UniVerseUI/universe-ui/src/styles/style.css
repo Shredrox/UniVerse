@@ -669,3 +669,137 @@ body{
     justify-content: flex-start;
     width: 100%;
 }
+
+.news-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    overflow-y: scroll;
+    overflow: auto;
+    width: 100%;
+    height: 800px;
+}
+
+.news-container h2{
+    width: 80%;
+    font-size: 2rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 500;
+}
+
+.news-container h3{
+    font-weight: 400;
+    font-family: 'Inter', sans-serif;
+}
+
+.news-list{
+    padding: 1rem;
+    height: 700px;
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.news-card{
+    background-color: #001A33;
+    height: 12rem;
+    width: 100%;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: flex-start;
+    padding: 1rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.news-card:hover{
+    box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.news-card-pinned{
+    border: 1px white solid;
+}
+
+.news-content-container{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.news-text{
+    height: 85%;
+    width: 100%;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.news-text label{
+    text-align: right;
+    width: 100%;
+}
+
+.news-image-container{
+    width: 14rem;
+    background-color: #03254C;
+    border-radius: 0.7rem;
+    position: relative;
+    border: 5px solid transparent;
+}
+
+.news-image-container img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5rem;
+}
+
+.news-details-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    max-width: 100%;
+    height: 780px;
+    gap: 1rem;
+    padding: 0 1rem 1rem 1rem;
+    overflow: auto;
+    overflow-y: scroll;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.news-details-container h4{
+    width: 600px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-align: center;
+    overflow-wrap: break-word;
+}
+
+.news-details-container p{
+    text-align: center;
+    overflow-wrap: break-word;
+    max-width: 600px;
+}
+
+.news-details-image-container{
+    background-color: #001A33;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.news-details-image-container img{
+    border-radius: 0.5rem;
+    width: 100%;
+}
