@@ -15,14 +15,18 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(nullable=false)
-    private String name;
+    @Column(name = "first_name",nullable=false)
+    private String first_name;
 
-    @Column(nullable=false, unique=true)
+    @Column(name = "last_name")
+    private String last_name;
+
+    @Column(name = "email",nullable=false, unique=true)
     private String email;
 
-    @Column(nullable=false)
+    @Column(name = "password",nullable=false)
     private String password;
 }
