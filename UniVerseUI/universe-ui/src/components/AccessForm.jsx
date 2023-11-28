@@ -37,12 +37,14 @@ export const AccessForm = () => {
       const response = await axios.post(url,
         JSON.stringify({user, email, password}),
         {
-          headers: {'Content-Type': 'application/json'}
+          headers: {'Content-Type': 'application/json'},
+          withCredentials: true
         }
       );
 
       console.log(JSON.stringify(response?.data));
-      const accessToken = response?.data;
+      const accessToken = response?.data?.token;
+
       setAuth({user: "Test", accessToken});
       setUser('');
       setPassword('');
