@@ -35,7 +35,14 @@ const Sidebar = () => {
         <img src={UniVerseLogo}/>
         UniVerse
       </div>
-      
+      <div className='profile-container'>
+        <div className='profile-picture'>
+          <img src="https://picsum.photos/100/100" alt="ProfilePicture" />
+        </div>
+        <label className='username' onClick={() => navigate(`/profile/${auth.user}`)}>{auth.user}</label> 
+        <button onClick={()=> {setAuth({}); navigate('/');}} className='confirm-button'>Log Out</button>         
+      </div>
+
       <ul>
         {linksData.map((link) =>
           <li key={link.id}>
