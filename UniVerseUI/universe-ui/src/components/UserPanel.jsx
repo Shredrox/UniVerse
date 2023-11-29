@@ -13,12 +13,7 @@ export const UserPanel = () => {
               Notifications
               <span>0</span>
           </div>
-          <div className='profile-container'>
-              <div className='profile-picture'></div>
-              User
-              <button onClick={()=> {setAuth({}); navigate('/');}} className='confirm-button'>Log Out</button>         
-          </div>
-          <div className='profile-container'>
+          <div className='chats-container'>
               Chats
               <div className='chat-user'>
                   <div className='chat-profile-picture'></div>
