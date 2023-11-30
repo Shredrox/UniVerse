@@ -11,6 +11,7 @@ import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
 import NewsDetails from './components/NewsDetails'
+import Profile from './pages/Profile'
 
 function App() {
   const router = createBrowserRouter(
@@ -20,6 +21,7 @@ function App() {
         <Route element={<MainLayout/>}>
           <Route element={<ProtectedRoute/>}>
             <Route path="/home" element={<Home/>}/>
+            <Route path="/profile/:username" element={<Profile/>}/>
             <Route path="/news" element={<News/>}/>
             <Route path="/news/:newsTitle" element={<NewsDetails/>}/>
             <Route path="/courses" element={<Courses/>}/>
