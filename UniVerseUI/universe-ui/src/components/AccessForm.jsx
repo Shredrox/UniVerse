@@ -44,8 +44,9 @@ export const AccessForm = () => {
 
       console.log(JSON.stringify(response?.data));
       const accessToken = response?.data?.token;
+      const username = response?.data?.username;
 
-      setAuth({user: "Test", accessToken});
+      setAuth({user: username, accessToken});
       setUser('');
       setPassword('');
       navigate(from, { replace: true });
