@@ -2,12 +2,12 @@ import BellIcon from '../assets/icons/icon-bell.svg'
 import { useAuth } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
-export const UserPanel = () => {
+const SocialPanel = () => {
     const { setAuth } = useAuth();
     const navigate = useNavigate();
 
     return (
-      <div className='user-panel'>
+      <div className='social-panel'>
           <div className='notifications-container'>
               <img src={BellIcon} alt="" />
               Notifications
@@ -23,3 +23,5 @@ export const UserPanel = () => {
       </div>
     )
 }
+
+export default SocialPanel
