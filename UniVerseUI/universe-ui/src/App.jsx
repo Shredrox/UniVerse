@@ -3,7 +3,7 @@ import { ProtectedRoute } from './routes/ProtectedRoute'
 import { Home } from "./pages/Home"
 import News from './pages/News'
 import { Courses } from './pages/Courses'
-import { Jobs } from './pages/Jobs'
+import Jobs from './pages/Jobs'
 import { Events } from './pages/Events'
 import { Groups } from './pages/Groups'
 import { Chats } from './pages/Chats'
