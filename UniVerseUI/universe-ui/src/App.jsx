@@ -10,7 +10,7 @@ import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
-import NewsDetails from './components/NewsDetails'
+import NewsDetails from './pages/NewsDetails'
 import Profile from './pages/Profile'
 
 function App() {
