@@ -3,15 +3,16 @@ import { ProtectedRoute } from './routes/ProtectedRoute'
 import { Home } from "./pages/Home"
 import News from './pages/News'
 import { Courses } from './pages/Courses'
-import { Jobs } from './pages/Jobs'
+import Jobs from './pages/Jobs'
 import { Events } from './pages/Events'
 import { Groups } from './pages/Groups'
 import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
-import NewsDetails from './components/NewsDetails'
+import NewsDetails from './pages/NewsDetails'
 import Profile from './pages/Profile'
+import JobDetails from './pages/JobDetails'
 
 function App() {
   const router = createBrowserRouter(
@@ -26,6 +27,7 @@ function App() {
             <Route path="/news/:newsTitle" element={<NewsDetails/>}/>
             <Route path="/courses" element={<Courses/>}/>
             <Route path="/jobs" element={<Jobs/>}/>
+            <Route path="/jobs/:jobId" element={<JobDetails/>}/>
             <Route path="/events" element={<Events/>}/>
             <Route path="/groups" element={<Groups/>}/>
             <Route path="/chats" element={<Chats/>}/>
