@@ -5,6 +5,14 @@ export const getEvents = async () =>{
     return response.data;
 }
 
+export const attendEvent = ({eventId, username}) =>{
+    //TO DO: Connect to API...
+}
+
+export const getIsAttending = ({eventId, username}) => {
+    //TO DO: Connect to API...
+}
+
 export const addEvent = async (event) =>{
     return await axios.post('/Events/CreateEvent', event);
 }
