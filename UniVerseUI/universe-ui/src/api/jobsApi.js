@@ -5,6 +5,14 @@ export const getJobs = async () =>{
     return response.data;
 }
 
+export const getJobById = async (id) =>{
+    return await axios.get(`/Jobs/${id}`, id);
+}
+
+export const applyToJob = ({jobId, username}) =>{
+    //TO DO: Add request and API endpoint
+}
+
 export const addJob = async (job) =>{
     return await axios.post('/Jobs/CreateJobOffer', job);
 }
