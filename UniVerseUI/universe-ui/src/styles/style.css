@@ -1083,7 +1083,7 @@ body{
 .job-offer{
     padding: 1rem;
     background-color: #03254C;
-    height: 5rem;
+    height: 10.5rem;
     width: 100%;
     display: flex;
     gap: 1rem;
@@ -1091,8 +1091,55 @@ body{
     cursor: pointer;
     transition: 0.1s ease-out;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+
 }
 
 .job-offer:hover{
     box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.job-offer-info{
+    display: flex;
+    gap: 0.5rem;
+}
+
+.job-details-container{
+    width: 100%;
+    display: flex;
+    justify-content: center
+}
+
+.job-details{
+    width: 80%;
+    background-color: #001a33;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    height: 760px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.job-description{
+    text-align: center;
+    overflow-wrap: break-word;
+    width: 100%;
+    max-width: 600px;
+}
+
+.job-icon{
+    width: 25px;
+    height: 25px;
+    color: white;
+}
+
+.job-text-field{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
 }
