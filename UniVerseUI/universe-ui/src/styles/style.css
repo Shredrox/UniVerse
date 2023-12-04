@@ -1174,13 +1174,18 @@ body{
 .trending-events-list{
     display: flex;
     width: 100%;
-    height: 11rem;
+    height: 12.5rem;
     overflow-x: scroll;
     overflow: auto;
     scrollbar-color: #8763D2 #001A33;
     scrollbar-width: thin;
     gap: 1rem;
     padding: 5px;
+}
+
+.trending-events-list button{
+    margin-left: 0.6rem;
+    margin-top: 0.2rem;
 }
 
 .trending-event{
@@ -1252,7 +1257,8 @@ body{
     display: flex;
     padding: 1rem;
     height: 100%;
-    width: 100%;
+    width: 50%;
+    flex: 2;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -1268,4 +1274,5 @@ body{
     width: 100%;
     height: 100px;
     text-align: left;
+    overflow-wrap: break-word;
 }
