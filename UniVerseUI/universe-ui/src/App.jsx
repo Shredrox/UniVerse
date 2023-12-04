@@ -4,7 +4,7 @@ import { Home } from "./pages/Home"
 import News from './pages/News'
 import { Courses } from './pages/Courses'
 import Jobs from './pages/Jobs'
-import { Events } from './pages/Events'
+import Events from './pages/Events'
 import { Groups } from './pages/Groups'
 import { Chats } from './pages/Chats'
 import { Settings } from './pages/Settings'

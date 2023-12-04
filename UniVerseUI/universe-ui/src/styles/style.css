@@ -1143,3 +1143,136 @@ body{
     align-items: center;
     gap: 6px;
 }
+
+.events-container{
+    width: 100%;
+    height: 790px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.events-container h2{
+    font-weight: 400;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.trending-events-container{
+    background-color: #001A33;
+    width: 90%;
+    max-width: 1100px;
+    height: 16rem;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.trending-events-list{
+    display: flex;
+    width: 100%;
+    height: 12.5rem;
+    overflow-x: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+    gap: 1rem;
+    padding: 5px;
+}
+
+.trending-events-list button{
+    margin-left: 0.6rem;
+    margin-top: 0.2rem;
+}
+
+.trending-event{
+    height: 100%;
+    background-color: #023a78;
+    flex-basis: 200px;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+}
+
+.trending-event img{
+    width: 100%;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.trending-event h3{
+    width: 100%;
+    text-align: left;
+    padding-left: 0.5rem;
+    font-weight: 500;
+}
+
+.events-list-container{
+    width: 90%;
+    height: 33rem;
+    background-color: #001A33;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+.event-icon{
+    width: 35px;
+    height: 35px;
+}
+
+.events-list{
+    background-color: #001a33;
+    width: 100%;
+    height: 450px;
+    padding: 1rem;
+    border-radius: 1rem;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.event{
+    background-color: #03254C;
+    border-radius: 0.5rem;
+    width: 100%;
+    height: 14rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.event img{
+    border-radius: 0.5rem;
+    height: 100%;
+}
+
+.event-info{
+    display: flex;
+    padding: 1rem;
+    height: 100%;
+    width: 50%;
+    flex: 2;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.6rem;
+}
+
+.event-info h3, h4{
+    width: 100%;
+    text-align: left;
+}
+
+.event-info span {
+    width: 100%;
+    height: 100px;
+    text-align: left;
+    overflow-wrap: break-word;
+}
