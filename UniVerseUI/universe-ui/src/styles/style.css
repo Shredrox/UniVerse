@@ -821,10 +821,24 @@ body{
 
 .interaction-container{
     display: flex;
-    gap: 7px;
+    gap: 1rem;
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+}
+
+.interaction-container span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.interaction-icon{
+    width: 25px;
+    height: 25px;
+    color: white;
+    cursor: pointer;
 }
 
 .news-container{
