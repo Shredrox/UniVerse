@@ -5,6 +5,10 @@ export const getEvents = async () =>{
     return response.data;
 }
 
+export const getTrendingEvents = async () =>{
+    //TO DO: Connect to API...
+}
+
 export const attendEvent = ({eventId, username}) =>{
     //TO DO: Connect to API...
 }
