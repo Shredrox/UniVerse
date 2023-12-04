@@ -1,9 +1,39 @@
 import { useNavigate } from 'react-router-dom'
-import HeartIcon from '../assets/icons/icon-heart.svg'
 import CommentIcon from '../assets/icons/icon-comment.svg'
+import { FaRegHeart, FaHeart  } from "react-icons/fa";
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getIsLiked, getPostLikes, likePost, unlikePost } from '../api/postsApi';
+import { useAuth } from '../hooks/useAuth'
 
-export const Post = ({post}) => {
+const Post = ({post}) => {
   const navigate = useNavigate();
+  const { auth } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  const {data: postLikes} = useQuery({ 
+    queryKey: ["postLikes", post.id],
+    queryFn: () => getPostLikes(post.id),
+  });
+
+  const {data: isLiked, isLoading, isError, error} = useQuery({ 
+    queryKey: ["postLiked", post.id, auth?.user],
+    queryFn: () => getIsLiked(post.id, auth?.user),
+  });
+
+  const {mutateAsync: likePostMutation} = useMutation({
+    mutationFn: likePost,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["postLikes", post.id]);
+    },
+  });
+
+  const {mutateAsync: unlikePostMutation} = useMutation({
+    mutationFn: unlikePost,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["postLikes", post.id]);
+    },
+  });
 
   return (
     <div className='post'>
@@ -17,11 +47,18 @@ export const Post = ({post}) => {
         {post.image && <img src={post.image} alt='postImage'/>} 
       </div>
       <div className='interaction-container'>
-        <img src={HeartIcon}/>
-        Like
-        <img src={CommentIcon}/>
-        Comment
+        <span>
+          {isLiked ? 
+          <FaHeart onClick={() => likePostMutation({postId: post.id, username: auth?.user})} className='interaction-icon'/>
+          :
+          <FaRegHeart onClick={() => unlikePostMutation({postId: post.id, username: auth?.user})} className='interaction-icon'/>
+          }
+          {postLikes}
+        </span>
+        <span><img className='interaction-icon' src={CommentIcon}/>Comment</span>
       </div>
     </div>
   )
 }
+
+export default Post
