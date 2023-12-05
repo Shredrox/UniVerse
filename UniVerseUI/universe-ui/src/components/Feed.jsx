@@ -61,10 +61,7 @@ export const Feed = () => {
       :
       <div className='feed'>
         {posts?.map(post =>
-          <div key={post.id} className='post-container'>
-            <div className='line'>&nbsp;</div>
-            <Post post={post}/>
-          </div>
+          <Post key={post.id} post={post}/>
         )}
       </div>
       }
