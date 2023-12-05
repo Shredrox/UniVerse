@@ -26,11 +26,19 @@ const CommentSection = ({postId}) => {
   return (
     <div className="comment-section">
       <div className="comment-input">
-        <input type="text" value={commentText} onChange={(e) => setCommentText(e.target.value)} placeholder="Comment..." />
+        <textarea 
+          type="text" 
+          className="comment-textarea"
+          value={commentText} 
+          onChange={(e) => setCommentText(e.target.value)} 
+          placeholder='Comment...'
+        />
         <button 
-          onClick={() => addCommentMutation({postId: postId, username: auth?.user, content: commentText})} 
-          className="comment-button">
-            Comment
+          className="comment-button"
+          onClick={() => {
+            addCommentMutation({postId: postId, username: auth?.user, content: commentText}); 
+            setCommentText('');}}>
+              Comment
         </button>
       </div>
       <div className="comments-list">
