@@ -42,9 +42,13 @@ const CommentSection = ({postId}) => {
         </button>
       </div>
       <div className="comments-list">
-      {comments?.map((comment, index) =>
+      {comments?.length > 0 ? 
+      comments?.map((comment, index) =>
         <Comment key={index} comment={comment} isReply={false}/>
-      )}
+      )
+      :
+        <div>No Comments.</div>
+      }
       </div>
     </div>
   )
