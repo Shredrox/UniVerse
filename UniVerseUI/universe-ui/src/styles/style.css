@@ -609,7 +609,7 @@ body{
 
 .feed{
     padding: 0 1rem 0 1rem;
-    height: 700px;
+    height: 760px;
     width: 80%;
     display: flex;
     flex-direction: column;
@@ -623,7 +623,7 @@ body{
 
 .feed-top{
     width: 80%;
-    height: 6rem;
+    height: 3rem;
     font-size: 2rem;
     font-family: 'Raleway', sans-serif;
     display: flex;
@@ -785,6 +785,34 @@ body{
     font-weight: 500;
 }
 
+.arrow-icon-forward{
+    animation-name: arrow-forward-animation;
+    animation-duration: 0.2s;
+}
+
+.arrow-icon-down{
+    animation-name: arrow-down-animation;
+    animation-duration: 0.2s;
+}
+
+@keyframes arrow-forward-animation {
+    from {
+        transform: rotate(90deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes arrow-down-animation {
+    from {
+        transform: rotate(-90deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
 .post-author{
     display: flex;
     align-items: center;
@@ -839,6 +867,193 @@ body{
     height: 25px;
     color: white;
     cursor: pointer;
+}
+
+.comment-section{
+    height: 600px;
+    width: 100%;
+    background-color: #001a33;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.comment-section input{
+    width: 300px;
+    background-color: #7B4DDC82;
+    color: white;
+    border-style: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    height: 35px;
+    font-family: sans-serif;
+    outline: none;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.comment-section input:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
+}
+
+.comment-button{
+    width: fit-content;
+    height: 25px;
+    padding: 0 0.5rem;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.comment-button:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+.comment-cancel-button{
+    width: fit-content;
+    height: 25px;
+    padding: 0 0.5rem;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    background: rgb(173, 0, 0);
+    border-style: none;
+    border-radius: 0.8rem;
+    transition: 0.2s;
+}
+
+.comment-cancel-button:hover{
+    box-shadow: 0 0 15px red;
+}
+
+.comment-input{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding-left: 0.7rem;
+}
+
+.comment-author{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    gap: 0.5rem;
+}
+
+.comment-author span{
+    cursor: pointer;
+}
+
+.comment-profile-picture{
+    background-color: white;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+
+.comment-textarea{
+    background-color: #7B4DDC82;
+    border-style: none;
+    border-radius: 1rem;
+    outline: none;
+    color: white;
+    width: 50%;
+    padding: 1rem;
+    height: 47px;
+    text-align:start;
+    resize:none;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.comment-textarea:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
+}
+
+.comments-list{
+    height: 550px;
+    width: 100%;
+    background-color: #001a33;
+    padding: 0 0.7rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    overflow: auto;
+    overflow-y: scroll;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.comment-container{
+    width: 100%;
+    height: fit-content;
+    background-color: #03254c;
+    border-radius: 0.8rem;
+    flex-shrink: 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.comment{
+    width: 100%;
+    height: fit-content;
+    background-color: #03254c;
+    padding: 0.5rem;
+    border-radius: 0.8rem;
+    flex-shrink: 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+.comment-content{
+    background-color: #001A33;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.vertical-line{
+    background-color: #8763D2;
+    width: 2px;
+    border-radius: 2rem;
+}
+
+.reply-container{
+    display: flex;
+    gap: 1rem;
+}
+
+.reply{
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.6rem;
+}
+
+.comment-text{
+    margin: 0 0 0.6rem 0;
+}
+
+.replies-list{
+    padding: 1rem;
+    background-color: #001A33;
+    border-radius: 0.8rem;
+    width: 100%;
 }
 
 .news-container{
