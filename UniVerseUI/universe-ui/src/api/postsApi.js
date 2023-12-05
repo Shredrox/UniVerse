@@ -15,6 +15,26 @@ export const getPostById = async (id) =>{
     return response.data;
 }
 
+export const getPostComments = async (postId) =>{
+    //TO DO: Connect to API
+}
+
+export const addPostComment = async ({postId, username, content}) =>{
+    console.log(postId + " " + username + " " + content);
+}
+
+export const getCommentReplies = async (commentId) =>{
+    //TO DO: Connect to API
+}
+
+export const addCommentReply = async ({commentId, username, content}) => {
+    //TO DO: Connect to API
+}
+
+export const getPostCommentCount = async (postId) =>{
+    return 420;
+}
+
 export const getPostLikes = async (postId) =>{
     return 69;
 }
