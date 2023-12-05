@@ -35,7 +35,7 @@ const CommentSection = ({postId}) => {
       </div>
       <div className="comments-list">
       {comments?.map((comment, index) =>
-        <Comment key={index} comment={comment}/>
+        <Comment key={index} comment={comment} isReply={false}/>
       )}
       </div>
     </div>
