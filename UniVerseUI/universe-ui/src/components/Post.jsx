@@ -99,7 +99,7 @@ const Post = ({post}) => {
           </span>
         </div>
       </div>
-      {isCommentSectionOn && <CommentSection postId={post.id}/>}
+      {isCommentSectionOn && <CommentSection post={post}/>}
     </div>
   )
 }
