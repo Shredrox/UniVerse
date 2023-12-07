@@ -3,10 +3,12 @@ import { addCommentReply, getCommentReplies } from "../api/postsApi";
 import { useAuth } from '../hooks/useAuth'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from '../hooks/useNotification'
 
 const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
   const [replyOn, setReplyOn] = useState(false);
+  const { sendPrivateNotification } = useNotification();
 
   const navigate = useNavigate();
 
@@ -23,6 +25,19 @@ const Comment = ({comment, isReply}) => {
       queryClient.invalidateQueries(["commentReplies", comment.id]);
     },
   });
+
+  const handleReply = () =>{
+    addReplyMutation({commentId: comment.id, username: auth?.user});
+    sendPrivateNotification(
+      { 
+        message: `${auth?.user} replied to your comment: "${commentText}"`, 
+        type: "Reply", 
+        source: "Feed", 
+        recipientName: comment.author
+      }
+    ); 
+    setCommentText('')
+  }
 
   if(isError){
     return <div>{error.message}</div>
@@ -54,9 +69,7 @@ const Comment = ({comment, isReply}) => {
             />
             <button 
               className="comment-button" 
-              onClick={() => {
-                addReplyMutation({commentId: comment.id, username: auth?.user});
-                setCommentText('')}}>
+              onClick={handleReply}>
                 Reply
             </button>
           </div>
