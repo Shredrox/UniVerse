@@ -15,8 +15,8 @@ export const NotificationProvider = ({ children }) => {
     client.connect({}, (frame) => {
       console.log('Connected: ' + frame);
       setStompClient(client);
-      client.subscribe('/topic/publicNotification', onReceived);
-      client.subscribe(`/user/${username}/queue/notification`, onReceived);
+      client.subscribe('/topic/publicNotification', onReceived, { id: "public"});
+      client.subscribe(`/user/${username}/queue/notification`, onReceived, { id: "private"});
     });
   }
 
