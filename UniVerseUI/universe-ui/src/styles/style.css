@@ -1571,3 +1571,40 @@ body{
     text-align: left;
     overflow-wrap: break-word;
 }
+
+.settings-container{
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.3rem;
+    gap: 1rem;
+}
+
+.notification-settings-select{
+    background-color: #03254C;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: none;
+    transition: 0.1s;
+    cursor: pointer;
+    width: 60px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.notification-settings-select:hover{
+    box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.notification-settings-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.settings-container span{
+    color: red;
+}
