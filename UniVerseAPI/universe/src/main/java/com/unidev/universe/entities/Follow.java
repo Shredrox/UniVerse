@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="follows")
+@Table(name="follow")
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
