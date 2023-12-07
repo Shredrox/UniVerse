@@ -34,15 +34,15 @@ export const NotificationProvider = ({ children }) => {
     ]);
   }
 
-  const sendNotification = (message, type, source, recipientName) => {
+  const sendNotification = (notification) => {
     if (stompClient && stompClient.connected) {
-      stompClient.send('/app/sendNotification', {}, JSON.stringify({ message, type, source, recipientName }));
+      stompClient.send('/app/sendNotification', {}, JSON.stringify(notification));
     }
   };
 
-  const sendPrivateNotification = (message, type, source, recipientName) => {
+  const sendPrivateNotification = (notification) => {
     if (stompClient && stompClient.connected) {
-      stompClient.send('/app/sendUserNotification', {}, JSON.stringify({ message, type, source, recipientName }));
+      stompClient.send('/app/sendUserNotification', {}, JSON.stringify(notification));
     }
   };
 
