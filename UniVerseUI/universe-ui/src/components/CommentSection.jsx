@@ -3,25 +3,40 @@ import { addPostComment, getPostComments } from "../api/postsApi";
 import Comment from "./Comment";
 import { useState } from "react";
 import { useAuth } from '../hooks/useAuth'
+import { useNotification } from '../hooks/useNotification'
 
-const CommentSection = ({postId}) => {
+const CommentSection = ({post}) => {
   const [commentText, setCommentText] = useState('');
+  const { sendPrivateNotification } = useNotification();
 
   const { auth } = useAuth();
 
   const queryClient = useQueryClient();
 
   const {data: comments} = useQuery({ 
-    queryKey: ["postComments", postId],
-    queryFn: () => getPostComments(postId),
+    queryKey: ["postComments", post.id],
+    queryFn: () => getPostComments(post.id),
   });
 
   const {mutateAsync: addCommentMutation} = useMutation({
     mutationFn: addPostComment,
     onSuccess: () =>{
-      queryClient.invalidateQueries(["postComments", postId]);
+      queryClient.invalidateQueries(["postComments", post.id]);
     },
   });
+
+  const handleAddComment = () =>{
+    addCommentMutation({postId: post.id, username: auth?.user, content: commentText});
+    sendPrivateNotification(
+      { 
+        message: `${auth?.user} commented "${commentText}" on your post.`, 
+        type: "Comment", 
+        source: "Feed", 
+        recipientName: post.authorName
+      }
+    ); 
+    setCommentText('');
+  }
 
   return (
     <div className="comment-section">
@@ -35,10 +50,8 @@ const CommentSection = ({postId}) => {
         />
         <button 
           className="comment-button"
-          onClick={() => {
-            addCommentMutation({postId: postId, username: auth?.user, content: commentText}); 
-            setCommentText('');}}>
-              Comment
+          onClick={handleAddComment}>
+            Comment
         </button>
       </div>
       <div className="comments-list">
