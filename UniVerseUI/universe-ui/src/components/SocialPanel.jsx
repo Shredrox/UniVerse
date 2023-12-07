@@ -37,11 +37,13 @@ const SocialPanel = () => {
         <FaUserFriends className="friend-request-icon"/>
       </div>
       {isNotificationTabOn &&
-      <div className="notification-list">
+      <div className="notification-list-container">
         <h3>Notifications</h3>
-      {notifications?.map((notification, index) => 
-        <div key={index}>{notification.message}</div>
-      )}
+        <div className="notification-list">
+          {notifications?.map((notification, index) => 
+          <div key={index}>{notification.message}</div>
+          )}
+        </div>
       </div>
       }
       
