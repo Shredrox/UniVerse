@@ -29,7 +29,7 @@ const CommentSection = ({post}) => {
     addCommentMutation({postId: post.id, username: auth?.user, content: commentText});
     sendPrivateNotification(
       { 
-        message: `${auth?.user} commented "${commentText}" on your post.`, 
+        message: `${auth?.user} commented on your post: "${commentText}"`, 
         type: "Comment", 
         source: "Feed", 
         recipientName: post.authorName
