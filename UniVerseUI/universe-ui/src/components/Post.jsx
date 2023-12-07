@@ -4,6 +4,7 @@ import { FaRegHeart, FaHeart  } from "react-icons/fa";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getIsLiked, getPostCommentCount, getPostLikes, likePost, unlikePost } from '../api/postsApi';
 import { useAuth } from '../hooks/useAuth'
+import { useNotification } from '../hooks/useNotification'
 import CommentSection from './CommentSection';
 import { useState } from 'react';
 import { IoIosArrowDown } from "react-icons/io";
@@ -14,6 +15,7 @@ const Post = ({post}) => {
 
   const navigate = useNavigate();
   const { auth } = useAuth();
+  const { sendPrivateNotification } = useNotification();
 
   const queryClient = useQueryClient();
 
@@ -46,6 +48,22 @@ const Post = ({post}) => {
     },
   });
 
+  const handleLike = () => {
+    likePostMutation({postId: post.id, username: auth?.user});
+    sendPrivateNotification(
+      { 
+        message: `${auth?.user} liked your post!`, 
+        type: "Like", 
+        source: "Feed", 
+        recipientName: post.authorName 
+      }
+    );
+  }
+
+  const handleUnike = () => {
+    unlikePostMutation({postId: post.id, username: auth?.user});
+  }
+
   const toggleComment = () =>{
     setIsCommentSectionOn(!isCommentSectionOn);
   }
@@ -66,9 +84,9 @@ const Post = ({post}) => {
         <div className='interaction-container'>
           <span>
             {isLiked ? 
-            <FaHeart onClick={() => likePostMutation({postId: post.id, username: auth?.user})} className='interaction-icon'/>
+            <FaHeart onClick={handleUnike} className='interaction-icon'/>
             :
-            <FaRegHeart onClick={() => unlikePostMutation({postId: post.id, username: auth?.user})} className='interaction-icon'/>
+            <FaRegHeart onClick={handleLike} className='interaction-icon'/>
             }
             {postLikes}
           </span>
@@ -81,7 +99,7 @@ const Post = ({post}) => {
           </span>
         </div>
       </div>
-      {isCommentSectionOn && <CommentSection postId={post.id}/>}
+      {isCommentSectionOn && <CommentSection post={post}/>}
     </div>
   )
 }

@@ -381,6 +381,72 @@ body{
     padding: 1rem 1rem 1rem 0;
 }
 
+.notification-container{
+    position: relative;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-count{
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: red;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-icon{
+    cursor: pointer;
+}
+
+.notification-list-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+    width: 300px;
+    max-height: 300px;
+    
+    background-color: #03254C;
+    padding: 1rem;
+    border: 5px solid transparent;
+    border-radius: 1rem;
+}
+
+.notification-list-container::before{
+    position: absolute;
+    top: 0; 
+    right: 0; 
+    bottom: 0; 
+    left: 0;
+    margin: -7px;
+    border-radius: inherit;
+    background: linear-gradient(#023a78, #FA00FF00);
+    content: '';
+    z-index: -1;
+}
+
+.notification-list{
+    width: 100%;
+    overflow: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
 .profile-container{
     position: relative;
     display: flex;
@@ -1504,4 +1570,41 @@ body{
     height: 100px;
     text-align: left;
     overflow-wrap: break-word;
+}
+
+.settings-container{
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.3rem;
+    gap: 1rem;
+}
+
+.notification-settings-select{
+    background-color: #03254C;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border: none;
+    transition: 0.1s;
+    cursor: pointer;
+    width: 60px;
+    height: 40px;
+    font-size: 1rem;
+}
+
+.notification-settings-select:hover{
+    box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.notification-settings-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.settings-container span{
+    color: red;
 }

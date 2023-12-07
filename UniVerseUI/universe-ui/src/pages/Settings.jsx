@@ -1,7 +1,37 @@
-import React from 'react'
+import { useState } from 'react';
+import { useNotification } from '../hooks/useNotification'
 
-export const Settings = () => {
+const Settings = () => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [pendingChanges, setPendingChanges] = useState(false);
+  const { unsubscribeFromGeneralNotifications, subscribeToGeneralNotifications } = useNotification();
+
+  const handleSave = () =>{
+    switch(selectedOption){
+      case 'Off': 
+        unsubscribeFromGeneralNotifications();
+        break;
+      case 'On': 
+        subscribeToGeneralNotifications();
+        break;
+    }
+    setPendingChanges(false);
+  }
+
   return (
-    <div>Settings</div>
+    <div className='settings-container'>
+      <h2>Settings</h2>
+      <div className='notification-settings-container'>
+        General Notifications: 
+        <select value={selectedOption} onChange={(e) => {setPendingChanges(true); setSelectedOption(e.target.value)}} name="notificationOptions" className='notification-settings-select'>
+          <option value="On">On</option>
+          <option value="Off">Off</option>
+        </select>
+      </div>
+      {pendingChanges && <span>You have unsaved changes</span>}
+      <button onClick={handleSave} className='confirm-button'>Save</button>
+    </div>
   )
 }
+
+export default Settings
