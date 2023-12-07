@@ -12,24 +12,24 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
-public class Comment {
+@Table(name = "message")
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "message_id")
     private int id;
 
     @NotNull
-    @Column(name = "comment_desc")
-    private String description;
-
-    @NotNull
     @ManyToOne
-    @JoinColumn(name = "post_id")
-    Post post;
+    @JoinColumn(name = "chat_id")
+    Chat chat;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+
+    @NotNull
+    @Column(name = "content")
+    private String content;
 }
