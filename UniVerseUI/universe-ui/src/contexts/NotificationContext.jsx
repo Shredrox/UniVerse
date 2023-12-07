@@ -27,6 +27,14 @@ export const NotificationProvider = ({ children }) => {
     }
   }
 
+  const unsubscribeFromGeneralNotifications = () =>{
+    stompClient.unsubscribe('public');
+  }
+
+  const subscribeToGeneralNotifications = () =>{
+    stompClient.subscribe('/topic/publicNotification', onReceived, { id: "public"});
+  }
+
   const onReceived = (notification) => {
     console.log('Received: ' + notification);
     setNotifications(prevNotifications => [
@@ -52,6 +60,8 @@ export const NotificationProvider = ({ children }) => {
     sendPrivateNotification,
     connectNotifications,
     disconnectNotifications,
+    unsubscribeFromGeneralNotifications,
+    subscribeToGeneralNotifications
   };
 
   return (
