@@ -20,6 +20,13 @@ export const NotificationProvider = ({ children }) => {
     });
   }
 
+  const disconnectNotifications = () =>{
+    if(stompClient){
+      stompClient.disconnect();
+      setStompClient(null);
+    }
+  }
+
   const onReceived = (notification) => {
     console.log('Received: ' + notification);
     setNotifications(prevNotifications => [
@@ -43,7 +50,8 @@ export const NotificationProvider = ({ children }) => {
     notifications, 
     sendNotification,
     sendPrivateNotification,
-    connectNotifications
+    connectNotifications,
+    disconnectNotifications,
   };
 
   return (
