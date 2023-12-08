@@ -24,11 +24,9 @@ const Sidebar = () => {
   const linksData = [
     { id: 1, to: '/home', text: 'Home', icon: HomeIcon },
     { id: 2, to: '/news', text: 'News', icon: NewsIcon },
-    { id: 3, to: '/courses', text: 'Courses', icon: CoursesIcon},
-    { id: 4, to: '/jobs', text: 'Jobs', icon: JobsIcon },
-    { id: 5, to: '/events', text: 'Events', icon: EventsIcon},
-    { id: 6, to: '/groups', text: 'Groups', icon: GroupsIcon },
-    { id: 7, to: '/chats', text: 'Chats', icon: ChatsIcon }
+    { id: 3, to: '/jobs', text: 'Jobs', icon: JobsIcon },
+    { id: 4, to: '/events', text: 'Events', icon: EventsIcon},
+    { id: 5, to: '/chats', text: 'Chats', icon: ChatsIcon }
   ];
 
   return (
