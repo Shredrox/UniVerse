@@ -51,12 +51,14 @@ const Chat = () => {
       <h4>{username}</h4>
       <div className='chat-messages-container'>
         {messages?.map((message, index) =>
-          <div key={index} className='chat-message'>
-            <div className='message-user'>
-              {message.sender} 
-              <span>{message.timestamp}</span>
+          <div key={index} className={message.sender === auth?.user ? 'your-chat-message-container' : 'chat-message-container'}>
+            <div  className={message.sender === auth?.user ? 'your-chat-message' : 'chat-message'}>
+              <div className='message-user'>
+                {message.sender} 
+                <span className='chat-message-span'>{message.timestamp}</span>
+              </div>
+              <p>{message.content}</p>
             </div>
-            <p>{message.content}</p>
           </div>
         )}
       </div>
