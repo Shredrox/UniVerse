@@ -3,7 +3,7 @@ import { useNotification } from '../hooks/useNotification'
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getChat } from '../api/usersApi';
+import { getChat } from '../api/chatsApi';
 
 const Chat = () => {
   const { username } = useParams();
