@@ -4,10 +4,8 @@ import { useNotification } from '../hooks/useNotification'
 import UniVerseLogo from '../assets/images/logo-universe.png'
 import HomeIcon from '../assets/icons/icon-home.svg'
 import NewsIcon from '../assets/icons/icon-newspaper.svg'
-import CoursesIcon from '../assets/icons/icon-courses.svg'
 import JobsIcon from '../assets/icons/icon-job.svg'
 import EventsIcon from '../assets/icons/icon-calendar.svg'
-import GroupsIcon from '../assets/icons/icon-users.svg'
 import ChatsIcon from '../assets/icons/icon-chat.svg'
 import SettingsIcon from '../assets/icons/icon-cog.svg'
 
@@ -18,7 +16,7 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   function isActive(path){
-    return location.pathname === path ? 'link-btn' : 'link-btn-off'
+    return location.pathname.includes(path) ? 'link-btn' : 'link-btn-off'
   }
 
   const linksData = [
