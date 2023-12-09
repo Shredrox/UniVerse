@@ -1,15 +1,68 @@
 import { useParams } from 'react-router-dom'
+import { useNotification } from '../hooks/useNotification'
+import { useState } from 'react';
+import { useAuth } from '../hooks/useAuth'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getChat } from '../api/usersApi';
 
 const Chat = () => {
   const { username } = useParams();
+  const { sendMessage } = useNotification();
+  const { auth } = useAuth();
+
+  const queryClient = useQueryClient();
+
+  const {data: messages, isLoading, isError, error} = useQuery({ 
+    queryKey: ["chat", auth?.user, username],
+    queryFn: () => getChat(auth?.user, username),
+  });
+
+  const {mutateAsync: sendMessageMutation} = useMutation({
+    mutationFn: sendMessage,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["chat", auth?.user, username]);
+    },
+  });
+
+  const [message, setMessage] = useState('');
+
+  const handleMessageSent = () =>{
+    sendMessageMutation({message: message, sender: auth?.user, receiver: username});
+    setMessage('');
+  }
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); 
+      handleMessageSent();
+    }
+  };
+
+  if(isError){
+    return <div>{error.message}</div>
+  }
+
+  if(isLoading){
+    return <div>Loading...</div>
+  }
 
   return (
     <div className='chat'>
       <h4>{username}</h4>
-      <div className='chat-messages-container'>messages</div>
+      <div className='chat-messages-container'>
+        {messages?.map((message, index) =>
+          <div key={index} className='chat-message'>
+            <div className='message-user'>
+              {message.sender} 
+              <span>{message.timestamp}</span>
+            </div>
+            <p>{message.content}</p>
+          </div>
+        )}
+      </div>
       <div className='chat-input-container'>
-        <textarea className='chat-textarea' placeholder='Type a message...'></textarea>
-        <button className='chat-send-button'>Send</button>
+        <textarea value={message} onKeyDown={handleKeyPress} onChange={(e) => setMessage(e.target.value)} className='chat-textarea' placeholder='Type a message...'></textarea>
+        <button onClick={handleMessageSent} className='chat-send-button'>Send</button>
       </div>
     </div>
   )
