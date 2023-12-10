@@ -7,12 +7,12 @@ import { getChat } from '../api/chatsApi';
 
 const Chat = () => {
   const { username } = useParams();
-  const { sendMessage } = useSocket();
+  const { sendMessage, setChatMessages, messages } = useSocket();
   const { auth } = useAuth();
 
   const queryClient = useQueryClient();
 
-  const {data: messages, isLoading, isError, error} = useQuery({ 
+  const {data: messagesData, isLoading, isError, error} = useQuery({ 
     queryKey: ["chat", auth?.user, username],
     queryFn: () => getChat(auth?.user, username),
   });
@@ -23,6 +23,12 @@ const Chat = () => {
       queryClient.invalidateQueries(["chat", auth?.user, username]);
     },
   });
+
+  useEffect(() => {
+    if (messagesData) {
+      setChatMessages(messagesData);
+    }
+  }, [messagesData]);
 
   const [message, setMessage] = useState('');
   const chatRef = useRef(null);
