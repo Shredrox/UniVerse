@@ -29,7 +29,10 @@ const Chat = () => {
 
   const scrollToBottom = () => {
     if (chatRef.current) {
-      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+      chatRef.current.scrollTo({
+        top: chatRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   };
 
