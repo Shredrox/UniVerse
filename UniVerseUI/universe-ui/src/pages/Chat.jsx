@@ -70,7 +70,8 @@ const Chat = () => {
     <div className='chat'>
       <h4>{username}</h4>
       <div className='chat-messages-container' ref={chatRef}>
-        {messages?.map((message, index) =>
+        {messages.length > 0 ?
+        messages?.map((message, index) =>
           <div key={index} className={message.sender === auth?.user ? 'your-chat-message-container' : 'chat-message-container'}>
             <div  className={message.sender === auth?.user ? 'your-chat-message' : 'chat-message'}>
               <div className='message-user'>
@@ -80,7 +81,10 @@ const Chat = () => {
               <p>{message.content}</p>
             </div>
           </div>
-        )}
+        )
+        :
+        <div>No messages with this user.</div>
+        }
       </div>
       <div className='chat-input-container'>
         <textarea value={message} onKeyDown={handleKeyPress} onChange={(e) => setMessage(e.target.value)} className='chat-textarea' placeholder='Type a message...'></textarea>
