@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 
 import axios from '../api/axios';
 
 export const AccessForm = () => {
   const { setAuth } = useAuth();
-  const { connectNotifications } = useNotification();
+  const { connectNotifications } = useSocket();
   const [activeButton, setActiveButton] = useState(1);
 
   const errRef = useRef();

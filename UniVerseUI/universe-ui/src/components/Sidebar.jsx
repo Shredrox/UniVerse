@@ -1,6 +1,6 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth';
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 import UniVerseLogo from '../assets/images/logo-universe.png'
 import HomeIcon from '../assets/icons/icon-home.svg'
 import NewsIcon from '../assets/icons/icon-newspaper.svg'
@@ -12,7 +12,7 @@ import SettingsIcon from '../assets/icons/icon-cog.svg'
 const Sidebar = () => {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
-  const { disconnectNotifications } = useNotification();
+  const { disconnectNotifications } = useSocket();
   const navigate = useNavigate();
 
   function isActive(path){

@@ -3,11 +3,11 @@ import { addPostComment, getPostComments } from "../api/postsApi";
 import Comment from "./Comment";
 import { useState } from "react";
 import { useAuth } from '../hooks/useAuth'
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 
 const CommentSection = ({post}) => {
   const [commentText, setCommentText] = useState('');
-  const { sendPrivateNotification } = useNotification();
+  const { sendPrivateNotification } = useSocket();
 
   const { auth } = useAuth();
 

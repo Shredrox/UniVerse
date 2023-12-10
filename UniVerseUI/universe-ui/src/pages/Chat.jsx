@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 import { useState } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -7,7 +7,7 @@ import { getChat } from '../api/chatsApi';
 
 const Chat = () => {
   const { username } = useParams();
-  const { sendMessage } = useNotification();
+  const { sendMessage } = useSocket();
   const { auth } = useAuth();
 
   const queryClient = useQueryClient();

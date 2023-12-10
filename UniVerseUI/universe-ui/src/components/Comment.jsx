@@ -3,12 +3,12 @@ import { addCommentReply, getCommentReplies } from "../api/postsApi";
 import { useAuth } from '../hooks/useAuth'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 
 const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
   const [replyOn, setReplyOn] = useState(false);
-  const { sendPrivateNotification } = useNotification();
+  const { sendPrivateNotification } = useSocket();
 
   const navigate = useNavigate();
 

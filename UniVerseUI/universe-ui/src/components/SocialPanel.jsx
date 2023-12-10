@@ -3,12 +3,12 @@ import BellIcon from '../assets/icons/icon-bell.svg'
 import { useAuth } from '../hooks/useAuth';
 import { useQuery } from "@tanstack/react-query";
 import { getUserOnlineFriends } from "../api/usersApi";
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 import { useState } from "react";
 
 const SocialPanel = () => {
   const { auth } = useAuth();
-  const { notifications } = useNotification();
+  const { notifications } = useSocket();
 
   const [isNotificationTabOn, setIsNotificationTabOn] = useState(false);
 
