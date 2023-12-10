@@ -18,7 +18,6 @@ export const SocketProvider = ({ children }) => {
       setStompClient(client);
       client.subscribe('/topic/publicNotification', onReceived, { id: "public"});
       client.subscribe(`/user/${username}/queue/notification`, onReceived, { id: "private"});
-      client.subscribe('/topic/messages', onMessageReceived, { id: "messages"});
       client.subscribe(`/user/${username}/queue/message`, onMessageReceived, { id: "privateMessages"});
     });
   }
