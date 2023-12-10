@@ -2,11 +2,12 @@ import { createContext, useState } from "react"
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
-export const NotificationContext = createContext();
+export const SocketContext = createContext();
 
-export const NotificationProvider = ({ children }) => {
+export const SocketProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [stompClient, setStompClient] = useState(null);
+  const [messages, setMessages] = useState([]);
 
   const connectNotifications = (username) =>{
     const socket = new SockJS('http://localhost:8080/ws');
@@ -17,6 +18,8 @@ export const NotificationProvider = ({ children }) => {
       setStompClient(client);
       client.subscribe('/topic/publicNotification', onReceived, { id: "public"});
       client.subscribe(`/user/${username}/queue/notification`, onReceived, { id: "private"});
+      client.subscribe('/topic/messages', onMessageReceived, { id: "messages"});
+      client.subscribe(`/user/${username}/queue/message`, onMessageReceived, { id: "privateMessages"});
     });
   }
 
@@ -54,6 +57,33 @@ export const NotificationProvider = ({ children }) => {
     }
   };
 
+  const onMessageReceived = (message) => {
+    const receivedMessage = JSON.parse(message.body);
+    setMessages((prevMessages) => [...prevMessages, receivedMessage]);
+  }
+
+  const sendMessage = ({message, sender, receiver}) =>{
+    if(message.trim() && stompClient && stompClient.connected){
+      const chatMessage = {
+        sender: sender,
+        content: message,
+        receiver: receiver,
+        timestamp: new Date().toLocaleString('en-US', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false 
+        })
+      };
+
+      setMessages(prevMessages => [...prevMessages, chatMessage]);
+
+      stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
+    }
+  }
+
   const contextValue = {
     notifications, 
     sendNotification,
@@ -61,12 +91,14 @@ export const NotificationProvider = ({ children }) => {
     connectNotifications,
     disconnectNotifications,
     unsubscribeFromGeneralNotifications,
-    subscribeToGeneralNotifications
+    subscribeToGeneralNotifications,
+    messages,
+    sendMessage
   };
 
   return (
-    <NotificationContext.Provider value={contextValue}>
+    <SocketContext.Provider value={contextValue}>
       {children}
-    </NotificationContext.Provider>
-  );
-};
+    </SocketContext.Provider>
+  )
+}
