@@ -12,7 +12,7 @@ import SettingsIcon from '../assets/icons/icon-cog.svg'
 const Sidebar = () => {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
-  const { disconnectNotifications } = useSocket();
+  const { disconnectSocketClient } = useSocket();
   const navigate = useNavigate();
 
   function isActive(path){
@@ -38,7 +38,7 @@ const Sidebar = () => {
           <img src="https://picsum.photos/100/100" alt="ProfilePicture" />
         </div>
         <label className='username' onClick={() => navigate(`/profile/${auth.user}`)}>{auth.user}</label> 
-        <button onClick={()=> {setAuth({}); disconnectNotifications(); navigate('/');}} className='confirm-button'>Log Out</button>         
+        <button onClick={()=> {setAuth({}); disconnectSocketClient(); navigate('/');}} className='confirm-button'>Log Out</button>         
       </div>
 
       <ul>

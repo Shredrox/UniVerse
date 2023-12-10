@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
   const [stompClient, setStompClient] = useState(null);
   const [messages, setMessages] = useState([]);
 
-  const connectNotifications = (username) =>{
+  const connectSocketClient = (username) =>{
     const socket = new SockJS('http://localhost:8080/ws');
     const client = Stomp.over(socket);
 
@@ -23,7 +23,7 @@ export const SocketProvider = ({ children }) => {
     });
   }
 
-  const disconnectNotifications = () =>{
+  const disconnectSocketClient = () =>{
     if(stompClient){
       stompClient.disconnect();
       setStompClient(null);
@@ -88,8 +88,8 @@ export const SocketProvider = ({ children }) => {
     notifications, 
     sendNotification,
     sendPrivateNotification,
-    connectNotifications,
-    disconnectNotifications,
+    connectSocketClient,
+    disconnectSocketClient,
     unsubscribeFromGeneralNotifications,
     subscribeToGeneralNotifications,
     messages,
