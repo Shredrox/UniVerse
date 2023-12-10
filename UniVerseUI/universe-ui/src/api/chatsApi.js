@@ -1,67 +1,33 @@
-import axios from "./axios";
+import axios from "axios";
 
 export const getChats = (username) => {
     const chats = [
         { 
-            user: "Tester"
+            user: "LoginTest",
+            you: "Tester"
         },
         {
-            user: "Goddamn"
+            user: "Goddamn",
+            you: "Tester"
+        },
+        {
+            user: "Tester",
+            you: "LoginTest"
         }
     ]
+
+    const result = chats.filter(u => u.you === username);
     
-    return chats
+    return result
 }
 
-export const getChat = (user, chatUser) => {
-    const result = [
-        {
-            sender: "Goddamn",
-            content: "Pls work",
-            receiver: "Tester",
-            timestamp: "09/12/2023 21:50"
-        },
-        {
-            sender: "Goddamn",
-            content: "Pls work 2",
-            receiver: "Tester",
-            timestamp: "09/12/2023 21:40"
-        },
-        ,
-        {
-            sender: "Goddamn",
-            content: "Pls work 3",
-            receiver: "Tester",
-            timestamp: "09/12/2023 21:55"
-        },
-        {
-            sender: "haerjaer",
-            content: "Pls work 2",
-            receiver: "Testaerjaerjer",
-            timestamp: "alabaetjkarsteksrtala"
-        },
-        {
-            sender: "Tester",
-            content: "Pls work 4",
-            receiver: "Goddamn",
-            timestamp: "09/12/2023 21:55"
-        },
-        {
-            sender: "Tester",
-            content: "Pls work 5",
-            receiver: "Goddamn",
-            timestamp: "09/12/2023 21:45"
-        }
-    ]
-
-    const filteredResult = result.filter(chat => 
-        (chat.receiver === user && chat.sender === chatUser) 
-        || (chat.receiver === chatUser && chat.sender === user));
-
-    const sortedResult = filteredResult.sort((a, b) => {
-        return a.timestamp.localeCompare(b.timestamp);
+export const getChat = async (user, chatUser) => {
+    const response = await axios.get('http://localhost:8080/api/getMessages', {
+     params: {
+       user: user,
+       chatUser: chatUser
+     }
     });
 
-    
-    return sortedResult;
+    return response.data;
 }
