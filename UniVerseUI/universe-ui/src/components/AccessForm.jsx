@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 
 import axios from '../api/axios';
 
 export const AccessForm = () => {
   const { setAuth } = useAuth();
-  const { connectNotifications } = useNotification();
+  const { connectSocketClient } = useSocket();
   const [activeButton, setActiveButton] = useState(1);
 
   const errRef = useRef();
@@ -51,7 +51,7 @@ export const AccessForm = () => {
       setAuth({user: username, accessToken});
       setUser('');
       setPassword('');
-      connectNotifications(username);
+      connectSocketClient(username);
       navigate(from, { replace: true });
     }
     catch(error){

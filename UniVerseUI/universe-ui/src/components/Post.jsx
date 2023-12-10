@@ -4,7 +4,7 @@ import { FaRegHeart, FaHeart  } from "react-icons/fa";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getIsLiked, getPostCommentCount, getPostLikes, likePost, unlikePost } from '../api/postsApi';
 import { useAuth } from '../hooks/useAuth'
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 import CommentSection from './CommentSection';
 import { useState } from 'react';
 import { IoIosArrowDown } from "react-icons/io";
@@ -15,7 +15,7 @@ const Post = ({post}) => {
 
   const navigate = useNavigate();
   const { auth } = useAuth();
-  const { sendPrivateNotification } = useNotification();
+  const { sendPrivateNotification } = useSocket();
 
   const queryClient = useQueryClient();
 

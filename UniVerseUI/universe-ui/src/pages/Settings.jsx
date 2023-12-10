@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useNotification } from '../hooks/useNotification'
+import { useSocket } from '../hooks/useSocket'
 
 const Settings = () => {
   const [selectedOption, setSelectedOption] = useState('');
   const [pendingChanges, setPendingChanges] = useState(false);
-  const { unsubscribeFromGeneralNotifications, subscribeToGeneralNotifications } = useNotification();
+  const { unsubscribeFromGeneralNotifications, subscribeToGeneralNotifications } = useSocket();
 
   const handleSave = () =>{
     switch(selectedOption){

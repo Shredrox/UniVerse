@@ -6,13 +6,15 @@ import { Courses } from './pages/Courses'
 import Jobs from './pages/Jobs'
 import Events from './pages/Events'
 import { Groups } from './pages/Groups'
-import { Chats } from './pages/Chats'
+import Chats from './pages/Chats'
 import  Settings from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
 import NewsDetails from './pages/NewsDetails'
 import Profile from './pages/Profile'
 import JobDetails from './pages/JobDetails'
+import Chat from './pages/Chat'
+import ChatsLayout from './layouts/ChatsLayout'
 
 function App() {
   const router = createBrowserRouter(
@@ -30,7 +32,10 @@ function App() {
             <Route path="/jobs/:jobId" element={<JobDetails/>}/>
             <Route path="/events" element={<Events/>}/>
             <Route path="/groups" element={<Groups/>}/>
-            <Route path="/chats" element={<Chats/>}/>
+            <Route path="/chats" element={<ChatsLayout/>}>
+              <Route path="/chats" element={<div className='chat-not-selected'>Select chat</div>}/>
+              <Route path="/chats/:username" element={<Chat/>}/>
+            </Route>
             <Route path="/settings" element={<Settings/>}/>
           </Route>
         </Route>
