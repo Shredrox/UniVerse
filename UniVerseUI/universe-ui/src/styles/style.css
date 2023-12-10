@@ -1724,6 +1724,11 @@ body{
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
+    overflow: auto;
+    padding: 0 1rem;
+    overflow-y: scroll;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
 }
 
 .chat-message-container{
