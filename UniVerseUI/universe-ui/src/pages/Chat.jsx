@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useSocket } from '../hooks/useSocket'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getChat } from '../api/chatsApi';
@@ -25,6 +25,17 @@ const Chat = () => {
   });
 
   const [message, setMessage] = useState('');
+  const chatRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleMessageSent = () =>{
     sendMessageMutation({message: message, sender: auth?.user, receiver: username});
@@ -49,7 +60,7 @@ const Chat = () => {
   return (
     <div className='chat'>
       <h4>{username}</h4>
-      <div className='chat-messages-container'>
+      <div className='chat-messages-container' ref={chatRef}>
         {messages?.map((message, index) =>
           <div key={index} className={message.sender === auth?.user ? 'your-chat-message-container' : 'chat-message-container'}>
             <div  className={message.sender === auth?.user ? 'your-chat-message' : 'chat-message'}>
