@@ -1640,15 +1640,27 @@ body{
     justify-content: center;
 }
 
-.chats-list{
+.chat-list-container{
     width: 30%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     min-width: 170px;
+    gap: 1rem;
+}
+
+.chats-list{
+    height: 535px;
+    width: 100%;
     padding: 0 0 0 0;
     display: flex;
     align-items: center;
     flex-direction: column;
     border-radius: 1rem;
     gap: 0.5rem;
+    overflow-y: scroll;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
 }
 
 .chat-card-container{
@@ -1816,4 +1828,30 @@ body{
 
 .chat-send-button:hover{
     box-shadow: 0 0 15px #8763D2;
+}
+
+.add-chat-input{
+    width: 200px;
+    background-color: #7B4DDC82;
+    color: white;
+    border-style: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-left: 0.5rem;
+    height: 35px;
+    font-family: sans-serif;
+    outline: none;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.add-chat-input-container{
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-direction: column;
+    padding-left: 0.7rem;
+}
+
+.add-chat-input-container span{
+    font-size: 1rem;
 }
