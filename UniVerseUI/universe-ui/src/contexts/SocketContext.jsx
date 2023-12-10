@@ -66,21 +66,17 @@ export const SocketProvider = ({ children }) => {
       const chatMessage = {
         sender: sender,
         content: message,
-        receiver: receiver,
-        timestamp: new Date().toLocaleString('en-US', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false 
-        })
+        receiver: receiver
       };
 
       setMessages(prevMessages => [...prevMessages, chatMessage]);
 
       stompClient.send('/app/sendPrivateMessage', {}, JSON.stringify(chatMessage));
     }
+  }
+
+  const setChatMessages = (newMessages) =>{
+    setMessages(newMessages);
   }
 
   const contextValue = {
@@ -92,7 +88,8 @@ export const SocketProvider = ({ children }) => {
     unsubscribeFromGeneralNotifications,
     subscribeToGeneralNotifications,
     messages,
-    sendMessage
+    sendMessage,
+    setChatMessages
   };
 
   return (
