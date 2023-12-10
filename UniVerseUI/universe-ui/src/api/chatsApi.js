@@ -1,24 +1,13 @@
 import axios from "axios";
 
-export const getChats = (username) => {
-    const chats = [
-        { 
-            user: "LoginTest",
-            you: "Tester"
-        },
-        {
-            user: "Goddamn",
-            you: "Tester"
-        },
-        {
-            user: "Tester",
-            you: "LoginTest"
+export const getChats = async (username) => {
+    const response = await axios.get('http://localhost:8080/api/getUserChats', {
+        params: {
+          user: username
         }
-    ]
+    });
 
-    const result = chats.filter(u => u.you === username);
-    
-    return result
+    return response.data;
 }
 
 export const getChat = async (user, chatUser) => {
@@ -30,4 +19,13 @@ export const getChat = async (user, chatUser) => {
     });
 
     return response.data;
+}
+
+export const addChat = async ({user1, user2}) => {
+    const request = { 
+        user1: user1,
+        user2: user2
+    }
+
+    await axios.post('http://localhost:8080/api/addChat', request);
 }
