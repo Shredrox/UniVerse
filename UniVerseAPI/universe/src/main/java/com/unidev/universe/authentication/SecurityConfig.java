@@ -19,12 +19,15 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
-    private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-    public SecurityConfig(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+    private final UserService userService;
+
+    public SecurityConfig(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setPasswordEncoder(passwordEncoder);
+        provider.setPasswordEncoder(bCryptPasswordEncoder());
         provider.setUserDetailsService(userService);
         return provider;
     }

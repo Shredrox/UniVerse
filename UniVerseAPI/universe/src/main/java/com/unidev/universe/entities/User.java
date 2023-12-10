@@ -19,7 +19,7 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,6 +39,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "roles")
     private UserRole userRole;
 
     private Boolean isLocked;
@@ -46,15 +47,12 @@ public class User implements UserDetails {
     private Boolean isEnabled;
 
     public User(String name, String username, String email,
-                String password, UserRole userRole,
-                Boolean isLocked, Boolean isEnabled) {
+                String password, UserRole userRole) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
         this.userRole = userRole;
-        this.isLocked = isLocked;
-        this.isEnabled = isEnabled;
     }
 
     @Override
@@ -87,4 +85,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
+
 }
