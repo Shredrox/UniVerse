@@ -3,6 +3,8 @@ package com.unidev.universe.controllers;
 import com.unidev.universe.authentication.JwtUtil;
 import com.unidev.universe.entities.User;
 import com.unidev.universe.repository.UserRepository;
+import com.unidev.universe.requests.LoginRequest;
+import com.unidev.universe.requests.RegisterRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
