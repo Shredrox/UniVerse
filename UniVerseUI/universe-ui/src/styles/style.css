@@ -1911,8 +1911,53 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.2rem;
+    flex-direction: column;
+    gap: 0.5rem;
     border-radius: 1.5rem;
+    border: 1px red solid;
     font-size: 1.5rem;
     color: red;
+}
+
+.error-card span{
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.error-fallback{
+    background-color: #03254C;
+    padding: 1rem;
+    width: 30%;
+    border-radius: 1rem;
+    border: 1px red solid;
+}
+
+.not-found-page{
+    background: url('../assets/images/background-not-found-page.png'), 
+    radial-gradient(circle at bottom, rgb(26, 26, 77) 0, black 100%);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.not-found-page-text-container{
+    font-size: 2.4rem;
+    font-family: 'Raleway', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.not-found-page-text-container h1{
+    text-align: center;
+    font-size: 7rem;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
 }
