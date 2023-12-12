@@ -12,24 +12,31 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
-public class Comment {
+@Table(name = "job_offer")
+public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "offer_id")
     private int id;
 
     @NotNull
-    @Column(name = "comment_desc")
+    @Column(name = "title")
+    private String title;
+
+    @NotNull
+    @Column(name = "description")
     private String description;
 
     @NotNull
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    Post post;
+    @Column(name = "requirements")
+    private String requirements;
+
+    @NotNull
+    @Column(name = "salary")
+    private Integer salary;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    User employer;
 }

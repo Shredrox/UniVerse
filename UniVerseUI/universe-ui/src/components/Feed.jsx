@@ -1,15 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Post } from './Post'
-import { getPosts, addPost } from '../api/postsApi';
+import Post from './Post'
+import { addPost, getFriendsPosts } from '../api/postsApi';
 import { useState } from 'react';
 import CreatePostForm from './CreatePostForm';
+import { useAuth } from '../hooks/useAuth'
 
 export const Feed = () => {
+  const { auth } = useAuth();
   const queryClient = useQueryClient();
 
   const {data: posts, isLoading, isError, error} = useQuery({ 
-    queryKey: ["posts"],
-    queryFn: () => getPosts(),
+    queryKey: ["posts", auth?.user],
+    queryFn: () => getFriendsPosts(auth?.user),
   });
 
   const {mutateAsync: addPostMutation} = useMutation({
@@ -59,10 +61,7 @@ export const Feed = () => {
       :
       <div className='feed'>
         {posts?.map(post =>
-          <div key={post.id} className='post-container'>
-            <div className='line'>&nbsp;</div>
-            <Post post={post}/>
-          </div>
+          <Post key={post.id} post={post}/>
         )}
       </div>
       }

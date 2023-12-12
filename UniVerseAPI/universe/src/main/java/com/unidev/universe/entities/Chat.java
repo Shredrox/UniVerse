@@ -7,29 +7,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
-public class Comment {
+@Table(name = "chat")
+public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_id")
+    @Column(name = "chat_id")
     private int id;
-
-    @NotNull
-    @Column(name = "comment_desc")
-    private String description;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "post_id")
-    Post post;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    User user;
+    User user1;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user2;
+
+    @NotNull
+    @Column(name = "created_at")
+    Date createdAt;
 }

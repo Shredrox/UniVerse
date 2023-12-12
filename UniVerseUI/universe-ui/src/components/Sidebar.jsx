@@ -1,32 +1,30 @@
 import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth';
+import { useSocket } from '../hooks/useSocket'
 import UniVerseLogo from '../assets/images/logo-universe.png'
 import HomeIcon from '../assets/icons/icon-home.svg'
 import NewsIcon from '../assets/icons/icon-newspaper.svg'
-import CoursesIcon from '../assets/icons/icon-courses.svg'
 import JobsIcon from '../assets/icons/icon-job.svg'
 import EventsIcon from '../assets/icons/icon-calendar.svg'
-import GroupsIcon from '../assets/icons/icon-users.svg'
 import ChatsIcon from '../assets/icons/icon-chat.svg'
 import SettingsIcon from '../assets/icons/icon-cog.svg'
 
 const Sidebar = () => {
   const location = useLocation();
   const { auth, setAuth } = useAuth();
+  const { disconnectSocketClient } = useSocket();
   const navigate = useNavigate();
 
   function isActive(path){
-    return location.pathname === path ? 'link-btn' : 'link-btn-off'
+    return location.pathname.includes(path) ? 'link-btn' : 'link-btn-off'
   }
 
   const linksData = [
     { id: 1, to: '/home', text: 'Home', icon: HomeIcon },
     { id: 2, to: '/news', text: 'News', icon: NewsIcon },
-    { id: 3, to: '/courses', text: 'Courses', icon: CoursesIcon},
-    { id: 4, to: '/jobs', text: 'Jobs', icon: JobsIcon },
-    { id: 5, to: '/events', text: 'Events', icon: EventsIcon},
-    { id: 6, to: '/groups', text: 'Groups', icon: GroupsIcon },
-    { id: 7, to: '/chats', text: 'Chats', icon: ChatsIcon }
+    { id: 3, to: '/jobs', text: 'Jobs', icon: JobsIcon },
+    { id: 4, to: '/events', text: 'Events', icon: EventsIcon},
+    { id: 5, to: '/chats', text: 'Chats', icon: ChatsIcon }
   ];
 
   return (
@@ -40,7 +38,7 @@ const Sidebar = () => {
           <img src="https://picsum.photos/100/100" alt="ProfilePicture" />
         </div>
         <label className='username' onClick={() => navigate(`/profile/${auth.user}`)}>{auth.user}</label> 
-        <button onClick={()=> {setAuth({}); navigate('/');}} className='confirm-button'>Log Out</button>         
+        <button onClick={()=> {setAuth({}); disconnectSocketClient(); navigate('/');}} className='confirm-button'>Log Out</button>         
       </div>
 
       <ul>

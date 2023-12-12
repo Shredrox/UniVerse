@@ -5,6 +5,11 @@ export const getUsers = async () =>{
     return response.data;
 }
 
+export const userExists = (username) =>{
+    //TO DO: Connect to API
+    return true;
+}
+
 export const getUserById = async (userId) =>{
     const response = await axios.get(`/User/${userId}`);
     return response.data;
