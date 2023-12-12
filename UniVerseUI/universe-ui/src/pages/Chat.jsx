@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getChat } from '../api/chatsApi';
+import Loading from '../components/fallbacks/Loading'
 
 const Chat = () => {
   const { username } = useParams();
@@ -63,7 +64,7 @@ const Chat = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

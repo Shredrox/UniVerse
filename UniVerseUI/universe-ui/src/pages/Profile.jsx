@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
 import { addFriend, checkFriendship, getUserByName, removeFriend } from "../api/usersApi";
 import { useAuth } from "../hooks/useAuth";
+import Loading from '../components/fallbacks/Loading'
 
 const Profile = () => {
   const { auth } = useAuth();
@@ -41,7 +42,7 @@ const Profile = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

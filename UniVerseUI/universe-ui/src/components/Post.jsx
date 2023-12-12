@@ -9,6 +9,7 @@ import CommentSection from './CommentSection';
 import { useState } from 'react';
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
+import Loading from '../components/fallbacks/Loading'
 
 const Post = ({post}) => {
   const [isCommentSectionOn, setIsCommentSectionOn] = useState(false);
@@ -19,17 +20,17 @@ const Post = ({post}) => {
 
   const queryClient = useQueryClient();
 
-  const {data: postLikes} = useQuery({ 
+  const {data: postLikes, isLoading: likesLoading} = useQuery({ 
     queryKey: ["postLikes", post.id],
     queryFn: () => getPostLikes(post.id),
   });
 
-  const {data: postCommentCount} = useQuery({ 
+  const {data: postCommentCount, isLoading: commentCountLoading} = useQuery({ 
     queryKey: ["postCommentCount", post.id],
     queryFn: () => getPostCommentCount(post.id),
   });
 
-  const {data: isLiked, isLoading, isError, error} = useQuery({ 
+  const {data: isLiked, isLoading: postLikedLoading} = useQuery({ 
     queryKey: ["postLiked", post.id, auth?.user],
     queryFn: () => getIsLiked(post.id, auth?.user),
   });
@@ -66,6 +67,10 @@ const Post = ({post}) => {
 
   const toggleComment = () =>{
     setIsCommentSectionOn(!isCommentSectionOn);
+  }
+
+  if(likesLoading || commentCountLoading || postLikedLoading){
+    return <Loading/>
   }
 
   return (

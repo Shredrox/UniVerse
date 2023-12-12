@@ -4,6 +4,7 @@ import Comment from "./Comment";
 import { useState } from "react";
 import { useAuth } from '../hooks/useAuth'
 import { useSocket } from '../hooks/useSocket'
+import Loading from '../components/fallbacks/Loading'
 
 const CommentSection = ({post}) => {
   const [commentText, setCommentText] = useState('');
@@ -13,7 +14,7 @@ const CommentSection = ({post}) => {
 
   const queryClient = useQueryClient();
 
-  const {data: comments} = useQuery({ 
+  const {data: comments, isLoading} = useQuery({ 
     queryKey: ["postComments", post.id],
     queryFn: () => getPostComments(post.id),
   });
@@ -36,6 +37,10 @@ const CommentSection = ({post}) => {
       }
     ); 
     setCommentText('');
+  }
+
+  if(isLoading){
+    return <Loading/>
   }
 
   return (

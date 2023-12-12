@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from '../hooks/useSocket'
+import Loading from '../components/fallbacks/Loading'
 
 const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
@@ -43,10 +44,6 @@ const Comment = ({comment, isReply}) => {
     return <div>{error.message}</div>
   }
 
-  if(isLoading){
-    return <div>Loading...</div>
-  }
-
   return (
     <div className={isReply ? "reply-container" : "comment-container"}>
       {isReply && <div className="vertical-line"/>}
@@ -77,7 +74,8 @@ const Comment = ({comment, isReply}) => {
           <button onClick={() => setReplyOn(!replyOn)} className="comment-button">Reply</button>
           }
         </div>
-        {replies?.length > 0 &&
+        {isLoading ? <Loading/> :
+        replies?.length > 0 &&
         <div className="replies-list">
         {replies?.map((reply, index) => 
          <Comment key={index} comment={reply} isReply={true}/>

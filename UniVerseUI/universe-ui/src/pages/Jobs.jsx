@@ -5,6 +5,7 @@ import JobsIcon from '../assets/icons/icon-job.svg';
 import SearchIcon from '../assets/icons/icon-search-outline.svg'
 import JobOffer from '../components/JobOffer';
 import JobFilter from '../components/JobFilter';
+import Loading from '../components/fallbacks/Loading'
 
 const Jobs = () => {
   const {data: jobOffers, isLoading, isError, error} = useQuery({ 
@@ -58,7 +59,7 @@ const Jobs = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

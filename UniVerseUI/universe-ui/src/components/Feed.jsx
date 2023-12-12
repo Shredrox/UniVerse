@@ -4,6 +4,7 @@ import { addPost, getFriendsPosts } from '../api/postsApi';
 import { useState } from 'react';
 import CreatePostForm from './CreatePostForm';
 import { useAuth } from '../hooks/useAuth'
+import Loading from '../components/fallbacks/Loading'
 
 export const Feed = () => {
   const { auth } = useAuth();
@@ -44,7 +45,7 @@ export const Feed = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

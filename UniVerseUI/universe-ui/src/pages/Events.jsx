@@ -5,12 +5,13 @@ import { MdEventAvailable } from "react-icons/md";
 import { IoTrendingUp } from "react-icons/io5";
 import TrendingEvent from '../components/TrendingEvent';
 import { useAuth } from "../hooks/useAuth";
+import Loading from '../components/fallbacks/Loading'
 
 const Events = () => {
   const { auth } = useAuth();
   const queryClient = useQueryClient();
 
-  const {data: events, isLoading, isError, error} = useQuery({ 
+  const {data: events, isLoading: eventsLoading, isError, error} = useQuery({ 
     queryKey: ["events"],
     queryFn: () => getEvents(),
   });
@@ -35,8 +36,8 @@ const Events = () => {
     return <div>{error?.message}{trendingEventsError?.message}</div>
   }
 
-  if(isLoading || trendingEventsIsLoading){
-    return <div>Loading...</div>
+  if(eventsLoading || trendingEventsIsLoading){
+    return <Loading/>
   }
 
   return (

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getNews } from '../api/newsApi';
 import NewsCard from '../components/NewsCard'
+import Loading from '../components/fallbacks/Loading'
 
 const News = () => {
   const {data: news, isLoading, isError, error} = useQuery({ 
@@ -22,17 +23,15 @@ const News = () => {
     return <div>{error.message}</div>
   }
 
-  if(isLoading){
-    return <div>Loading...</div>
-  }
-
   return (
     <div className='news-container'>
       <h2>Latest News</h2>
       <div className='news-list'>
-        {sortedNews?.map((news, index) => (
+        {isLoading ? <Loading/> :
+        sortedNews?.map((news, index) => (
           <NewsCard key={index} news={news}/>
-        ))}
+        ))
+        }
       </div>
     </div>
   )

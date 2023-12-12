@@ -5,6 +5,7 @@ import { getChats } from '../api/chatsApi';
 import { useEffect, useState } from 'react';
 import { userExists } from '../api/usersApi';
 import { useSocket } from '../hooks/useSocket';
+import Loading from '../components/fallbacks/Loading'
 
 const Chats = () => {
   const { auth } = useAuth();
@@ -56,7 +57,7 @@ const Chats = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (
