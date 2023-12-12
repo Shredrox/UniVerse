@@ -3,6 +3,7 @@ server:
     include-message: always
     include-binding-errors: always
 
+
 spring:
   datasource:
     password: admin
