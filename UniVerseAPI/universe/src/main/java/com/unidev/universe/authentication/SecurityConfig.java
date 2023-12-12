@@ -31,20 +31,28 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
     }
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable());
-        http.authorizeHttpRequests(auth -> {
-            try {
-                auth.
-                        requestMatchers("/api/v1/registration/**").permitAll()
-                        .anyRequest()
-                        .authenticated()
-                        .and().formLogin();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-    }
+        public void configure(HttpSecurity http) throws Exception {
+            http.csrf(csrf -> csrf.disable());
+            http.authorizeHttpRequests(auth -> {
+                try {
+                    auth.
+                            requestMatchers("/api/v1/registration").permitAll()
+                            .anyRequest()
+                            .authenticated()
+                            .and().formLogin()
+                            .disable()
+                            .httpBasic();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+//        http
+//                .csrf().disable()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/api/v1/registration").permitAll()
+//                .anyRequest().authenticated();
+        }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider(){

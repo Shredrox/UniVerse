@@ -42,9 +42,9 @@ public class User implements UserDetails {
     @Column(name = "roles")
     private UserRole userRole;
 
-    private Boolean isLocked;
+    private Boolean isLocked = false;
 
-    private Boolean isEnabled;
+    private Boolean enabled = false;
 
     public User(String name, String username, String email,
                 String password, UserRole userRole) {
@@ -83,7 +83,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return enabled;
     }
 
 }

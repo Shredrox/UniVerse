@@ -2,7 +2,7 @@ package com.unidev.universe.requests;
 
 import lombok.*;
 
-/*
+/* *
 * RegistrationRequest class represents a single
 * request to the registration service.
 * */
