@@ -15,6 +15,7 @@ import JobDetails from './pages/JobDetails'
 import Chat from './pages/Chat'
 import ChatsLayout from './layouts/ChatsLayout'
 import ErrorPage from './pages/ErrorPage'
+import NotFound from './pages/NotFound'
 
 function App() {
   const router = createBrowserRouter(
@@ -39,6 +40,7 @@ function App() {
             <Route path="/settings" element={<Settings/>}/>
           </Route>
         </Route>
+        <Route path="*" element={<NotFound/>} />
       </Route>
     )
   );
