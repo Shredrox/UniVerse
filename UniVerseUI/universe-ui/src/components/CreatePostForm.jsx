@@ -1,10 +1,49 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import ErrorFallback from "./fallbacks/ErrorFallback";
 
 const CreatePostForm = ({setCreatingPost, createPost}) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState('');
+
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
+  const [isTitleError, setIsTitleError] = useState(false);
+  const [isContentError, setIsContentError] = useState(false);
+
+  useEffect(() => {
+    setIsTitleError(false);
+  }, [title])
+
+  useEffect(() => {
+    setIsContentError(false);
+  }, [content])
+
+  useEffect(() => {
+    if(!isTitleError && !isContentError) {
+      setIsError(false);
+      setError('');
+    }
+  }, [isTitleError, isContentError])
+
+  const handleSubmit = () => {
+    if(title === ''){
+      setIsTitleError(true);
+    }
+    if(content === ''){
+      setIsContentError(true);
+    }
+
+    if(title === '' || content === ''){
+      setIsError(true);
+      setError('Fields cannot be empty');
+      return;
+    }
+
+    setCreatingPost(false); 
+    createPost(title, content, image);
+  }
   
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -15,12 +54,14 @@ const CreatePostForm = ({setCreatingPost, createPost}) => {
   return (
     <div className='create-post'>
       <input 
+        className={`create-post-input ${isTitleError ? 'create-post-input-error' : ''}`}
         type="text"
         value={title} 
         onChange={(e) => setTitle(e.target.value)} 
         placeholder='Title'
       />
       <textarea 
+        className={`create-post-textarea ${isContentError ? 'create-post-input-error' : ''}`}
         type="text" 
         value={content} 
         onChange={(e) => setContent(e.target.value)} 
@@ -50,9 +91,10 @@ const CreatePostForm = ({setCreatingPost, createPost}) => {
       }
       <button 
         className="confirm-button"
-        onClick={() => {setCreatingPost(false); createPost(title, content, image);}}>
+        onClick={handleSubmit}>
           Confirm
       </button>
+      {isError && <ErrorFallback error={error}/>}
     </div>
   )
 }
