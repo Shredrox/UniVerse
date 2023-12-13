@@ -15,7 +15,7 @@ export const AccessForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [errorMsg, setErrorMsg] = useState('');
+  const [error, setError] = useState('');
   const [isError, setIsError] = useState(false);
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isEmailError, setIsEmailError] = useState(false);
@@ -25,13 +25,24 @@ export const AccessForm = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
 
-  useEffect(() =>{
-    setErrorMsg('');
-    setIsError(false);
+  useEffect(() => {
     setIsUsernameError(false);
+  }, [username])
+
+  useEffect(() => {
     setIsEmailError(false);
+  }, [email])
+
+  useEffect(() => {
     setIsPasswordError(false);
-  }, [username, email, password])
+  }, [password])
+
+  useEffect(() => {
+    if(!isUsernameError && !isEmailError && !isPasswordError) {
+      setIsError(false);
+      setError('');
+    }
+  }, [isUsernameError, isEmailError, isPasswordError])
 
   const checkInput = () => {
     if(username === '' && activeButton === 'register'){
@@ -45,11 +56,11 @@ export const AccessForm = () => {
     }
 
     if((email === '' || password === '') && activeButton === 'login'){
-      setErrorMsg('Fields cannot be empty');
+      setError('Fields cannot be empty');
       setIsError(true);
       return false;
     }else if((username === '' || email === '' || password === '') && activeButton === 'register'){
-      setErrorMsg('Fields cannot be empty');
+      setError('Fields cannot be empty');
       setIsError(true);
       return false;
     }
@@ -91,16 +102,16 @@ export const AccessForm = () => {
     }
     catch(error){
       if(!error?.response){
-        setErrorMsg('No response');
+        setError('No response');
         setIsError(true);
       }else if(error.response?.status === 400){
-        setErrorMsg('An error occurred');
+        setError('An error occurred');
         setIsError(true);
       }else if(error.response?.status === 404){
-        setErrorMsg('Incorrect email or password');
+        setError('Incorrect email or password');
         setIsError(true);
       }else{
-        setErrorMsg('Error');
+        setError('Error');
         setIsError(true);
       }
     }
@@ -108,7 +119,7 @@ export const AccessForm = () => {
 
   const handleButtonChange = (btn) => {
     setActiveButton(btn);
-    setErrorMsg('');
+    setError('');
     setIsError(false);
     setIsUsernameError(false);
     setIsEmailError(false);
@@ -166,7 +177,7 @@ export const AccessForm = () => {
       </button>
 
       Forgot password?
-      {isError && <ErrorFallback error={errorMsg}/>}
+      {isError && <ErrorFallback error={error}/>}
     </div>
   )
 }
