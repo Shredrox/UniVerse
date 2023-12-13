@@ -62,7 +62,7 @@ body{
     position: relative;
     width: 400px;
     background: linear-gradient(45deg, rgb(9, 10, 15) 0%, rgb(0, 20, 71) 100%);
-    padding: 1.3rem;
+    padding: 2.2em 1.3rem 1.3rem 1.3rem;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -72,7 +72,7 @@ body{
     border-radius: 1rem;
 }
 
-.access-form input{
+.access-form-input{
     width: 85%;
     background-color: #7B4DDC82;
     color: white;
@@ -85,14 +85,12 @@ body{
     transition: box-shadow 0.1s ease-in-out;
 }
 
-.access-form input:focus{
+.access-form-input:focus{
     box-shadow: 0 0 10px 2px #b89cf7;
 }
 
-.access-form span{
-    font-family: 'Jost', sans-serif;
-    font-size: 2rem;
-    font-weight: 300;
+.access-form-input-error{
+    border: 1px red solid;
 }
 
 .login-button{
@@ -1936,8 +1934,8 @@ body{
 
 .error-fallback{
     background-color: #03254C;
-    padding: 1rem;
-    width: 30%;
+    padding: 0.4rem 0.4rem;
+    width: fit-content;
     min-width: 170px;
     border-radius: 1rem;
     border: 1px red solid;
@@ -1952,14 +1950,14 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     gap: 0.2rem;
     color: red;
+    font-size: 1.2rem;
 }
 
 .error-icon{
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 
 .not-found-page{
