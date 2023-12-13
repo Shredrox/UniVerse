@@ -709,7 +709,7 @@ body{
     gap: 1rem;
 }
 
-.create-post textarea{
+.create-post-textarea{
     background-color: #7B4DDC82;
     border-style: none;
     border-radius: 1rem;
@@ -726,11 +726,11 @@ body{
     scrollbar-width: thin;
 }
 
-.create-post textarea:focus{
+.create-post-textarea:focus{
     box-shadow: 0 0 10px 2px #b89cf7;
 }
 
-.create-post input{
+.create-post-input{
     width: 100%;
     background-color: #7B4DDC82;
     color: white;
@@ -743,25 +743,12 @@ body{
     transition: box-shadow 0.1s ease-in-out;
 }
 
-.create-post input:focus{
+.create-post-input:focus{
     box-shadow: 0 0 10px 2px #b89cf7;
 }
 
-.create-post input::file-selector-button{
-    width: 100px;
-    height: 40px;
-    color: white;
-    cursor: pointer;
-    font-size: 1.2rem;
-    font-family: 'Raleway', sans-serif;
-    background: linear-gradient(#8763D2, rgb(122, 77, 220));
-    border-style: none;
-    border-radius: 1rem;
-    transition: 0.2s;
-}
-
-.create-post input::file-selector-button:hover{
-    box-shadow: 0 0 15px #8763D2;
+.create-post-input-error{
+    border: 1px red solid;
 }
 
 .create-post-image-container{
@@ -771,7 +758,6 @@ body{
     justify-content: center;
     align-items: center;
     position: relative;
-
 }
 
 .create-post-image-container button{
