@@ -49,6 +49,10 @@ const Chat = () => {
   }, [messages]);
 
   const handleMessageSent = () =>{
+    if(message === ''){
+      return;
+    }
+
     sendMessageMutation({message: message, sender: auth?.user, receiver: username});
     setMessage('');
   }
