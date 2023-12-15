@@ -19,7 +19,7 @@ const Comment = ({comment, isReply}) => {
   const [isError, setIsError] = useState(false);
   const [error, setError] = useState('');
 
-  const {data: replies, isLoading} = useQuery({ 
+  const {data: replies, isLoading, isError: isQueryError, error: queryError} = useQuery({ 
     queryKey: ["commentReplies", comment.id],
     queryFn: () => getCommentReplies(comment.id),
   });
@@ -60,7 +60,7 @@ const Comment = ({comment, isReply}) => {
     setError('');
     setIsError(false);
   }
-  
+
   return (
     <div className={isReply ? "reply-container" : "comment-container"}>
       {isReply && <div className="vertical-line"/>}
@@ -94,6 +94,7 @@ const Comment = ({comment, isReply}) => {
           <button onClick={() => setReplyOn(!replyOn)} className="comment-button">Reply</button>
           }
         </div>
+        {isQueryError && <ErrorFallback error={queryError.message}/>}
         {isLoading ? <Loading/> :
         replies?.length > 0 &&
         <div className="replies-list">

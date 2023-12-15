@@ -18,7 +18,7 @@ const CommentSection = ({post}) => {
 
   const queryClient = useQueryClient();
 
-  const {data: comments, isLoading} = useQuery({ 
+  const {data: comments, isLoading, isError: isQueryError, error: queryError} = useQuery({ 
     queryKey: ["postComments", post.id],
     queryFn: () => getPostComments(post.id),
   });
@@ -56,6 +56,10 @@ const CommentSection = ({post}) => {
 
   if(isLoading){
     return <Loading/>
+  }
+
+  if(isQueryError){
+    return <ErrorFallback error={queryError.message}/>
   }
 
   return (
