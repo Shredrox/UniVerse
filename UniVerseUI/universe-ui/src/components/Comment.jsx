@@ -1,10 +1,11 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { addCommentReply, getCommentReplies } from "../api/postsApi";
 import { useAuth } from '../hooks/useAuth'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSocket } from '../hooks/useSocket'
 import Loading from '../components/fallbacks/Loading'
+import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
@@ -15,7 +16,10 @@ const Comment = ({comment, isReply}) => {
 
   const { auth } = useAuth();
 
-  const {data: replies, isLoading, isError, error} = useQuery({ 
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
+
+  const {data: replies, isLoading} = useQuery({ 
     queryKey: ["commentReplies", comment.id],
     queryFn: () => getCommentReplies(comment.id),
   });
@@ -27,7 +31,18 @@ const Comment = ({comment, isReply}) => {
     },
   });
 
+  useEffect(() => {
+    setIsError(false);
+    setError('');
+  }, [commentText])
+
   const handleReply = () =>{
+    if(commentText === ''){
+      setIsError(true);
+      setError('Comment cannot be empty');
+      return;
+    }
+
     addReplyMutation({commentId: comment.id, username: auth?.user});
     sendPrivateNotification(
       { 
@@ -40,10 +55,12 @@ const Comment = ({comment, isReply}) => {
     setCommentText('')
   }
 
-  if(isError){
-    return <div>{error.message}</div>
+  const handleCancel = () =>{
+    setReplyOn(!replyOn);
+    setError('');
+    setIsError(false);
   }
-
+  
   return (
     <div className={isReply ? "reply-container" : "comment-container"}>
       {isReply && <div className="vertical-line"/>}
@@ -54,12 +71,15 @@ const Comment = ({comment, isReply}) => {
             <span onClick={() => navigate(`/profile/${comment.author}`)}>{comment.author}</span>
           </div>
           <p className="comment-text">{comment.content}</p>
+          <div className="reply-error">
+            {isError && <ErrorFallback error={error}/>}
+          </div>
           {replyOn ?
           <div className="comment-input"> 
-            <button className="comment-cancel-button" onClick={() => setReplyOn(!replyOn)}>X</button>
+            <button className="comment-cancel-button" onClick={handleCancel}>X</button>
             <textarea 
               type="text" 
-              className="comment-textarea"
+              className={`comment-textarea ${isError ? 'input-error' : ''}`}
               value={commentText} 
               onChange={(e) => setCommentText(e.target.value)} 
               placeholder='...'
