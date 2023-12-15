@@ -147,7 +147,7 @@ export const AccessForm = () => {
       <div className='access-form-input-container'>
         {activeButton === 'register' && 
         <input 
-          className={`access-form-input ${isUsernameError ? 'access-form-input-error' : ''}`}
+          className={`access-form-input ${isUsernameError ? 'input-error' : ''}`}
           value={username}
           type="text" 
           onChange={(e) => setUsername(e.target.value)} 
@@ -155,14 +155,14 @@ export const AccessForm = () => {
         />
         }
         <input 
-          className={`access-form-input ${isEmailError ? 'access-form-input-error' : ''}`}
+          className={`access-form-input ${isEmailError ? 'input-error' : ''}`}
           value={email}
           type="email" 
           onChange={(e) => setEmail(e.target.value)} 
           placeholder='Email'
         />
         <input 
-          className={`access-form-input ${isPasswordError ? 'access-form-input-error' : ''}`}
+          className={`access-form-input ${isPasswordError ? 'input-error' : ''}`}
           value={password}
           type="password" 
           onChange={(e) => setPassword(e.target.value)} 

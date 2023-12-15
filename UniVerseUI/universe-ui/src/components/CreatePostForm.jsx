@@ -54,14 +54,14 @@ const CreatePostForm = ({setCreatingPost, createPost}) => {
   return (
     <div className='create-post'>
       <input 
-        className={`create-post-input ${isTitleError ? 'create-post-input-error' : ''}`}
+        className={`create-post-input ${isTitleError ? 'input-error' : ''}`}
         type="text"
         value={title} 
         onChange={(e) => setTitle(e.target.value)} 
         placeholder='Title'
       />
       <textarea 
-        className={`create-post-textarea ${isContentError ? 'create-post-input-error' : ''}`}
+        className={`create-post-textarea ${isContentError ? 'input-error' : ''}`}
         type="text" 
         value={content} 
         onChange={(e) => setContent(e.target.value)} 
