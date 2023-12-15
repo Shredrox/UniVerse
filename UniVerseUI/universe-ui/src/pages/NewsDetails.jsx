@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
 import { getNewsByTitle } from "../api/newsApi";
+import Loading from '../components/fallbacks/Loading'
 
 const NewsDetails = () => {
   const {data: news, isLoading, isError, error} = useQuery({ 
@@ -15,7 +16,7 @@ const NewsDetails = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

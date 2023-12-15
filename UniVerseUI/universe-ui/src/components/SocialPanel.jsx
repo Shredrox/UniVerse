@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserOnlineFriends } from "../api/usersApi";
 import { useSocket } from '../hooks/useSocket'
 import { useState } from "react";
+import Loading from '../components/fallbacks/Loading'
 
 const SocialPanel = () => {
   const { auth } = useAuth();
@@ -23,7 +24,7 @@ const SocialPanel = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

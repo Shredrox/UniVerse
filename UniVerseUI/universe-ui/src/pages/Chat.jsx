@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { getChat } from '../api/chatsApi';
+import Loading from '../components/fallbacks/Loading'
+import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 const Chat = () => {
   const { username } = useParams();
@@ -47,6 +49,10 @@ const Chat = () => {
   }, [messages]);
 
   const handleMessageSent = () =>{
+    if(message === ''){
+      return;
+    }
+
     sendMessageMutation({message: message, sender: auth?.user, receiver: username});
     setMessage('');
   }
@@ -59,11 +65,11 @@ const Chat = () => {
   };
 
   if(isError){
-    return <div>{error.message}</div>
+    return <ErrorFallback error={error.message}/>
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addPostComment, getPostComments } from "../api/postsApi";
 import Comment from "./Comment";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from '../hooks/useAuth'
 import { useSocket } from '../hooks/useSocket'
+import Loading from '../components/fallbacks/Loading'
+import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 const CommentSection = ({post}) => {
   const [commentText, setCommentText] = useState('');
@@ -11,9 +13,12 @@ const CommentSection = ({post}) => {
 
   const { auth } = useAuth();
 
+  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState('');
+
   const queryClient = useQueryClient();
 
-  const {data: comments} = useQuery({ 
+  const {data: comments, isLoading, isError: isQueryError, error: queryError} = useQuery({ 
     queryKey: ["postComments", post.id],
     queryFn: () => getPostComments(post.id),
   });
@@ -25,7 +30,18 @@ const CommentSection = ({post}) => {
     },
   });
 
+  useEffect(() => {
+    setIsError(false);
+    setError('');
+  }, [commentText])
+
   const handleAddComment = () =>{
+    if(commentText === ''){
+      setIsError(true);
+      setError('Comment cannot be empty');
+      return;
+    }
+
     addCommentMutation({postId: post.id, username: auth?.user, content: commentText});
     sendPrivateNotification(
       { 
@@ -38,12 +54,21 @@ const CommentSection = ({post}) => {
     setCommentText('');
   }
 
+  if(isLoading){
+    return <Loading/>
+  }
+
+  if(isQueryError){
+    return <ErrorFallback error={queryError.message}/>
+  }
+
   return (
     <div className="comment-section">
+      {isError && <ErrorFallback error={error}/>}
       <div className="comment-input">
         <textarea 
           type="text" 
-          className="comment-textarea"
+          className={`comment-textarea ${isError ? 'input-error' : ''}`}
           value={commentText} 
           onChange={(e) => setCommentText(e.target.value)} 
           placeholder='Comment...'

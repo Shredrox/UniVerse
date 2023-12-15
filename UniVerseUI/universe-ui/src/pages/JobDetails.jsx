@@ -5,6 +5,7 @@ import { applyToJob, getJobById } from "../api/jobsApi";
 import { IoBriefcase } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiBuildingOffice2 } from "react-icons/hi2";
+import Loading from '../components/fallbacks/Loading'
 
 const JobDetails = () => {
   const { jobId } = useParams();
@@ -24,7 +25,7 @@ const JobDetails = () => {
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

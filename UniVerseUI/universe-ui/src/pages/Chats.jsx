@@ -5,10 +5,14 @@ import { getChats } from '../api/chatsApi';
 import { useEffect, useState } from 'react';
 import { userExists } from '../api/usersApi';
 import { useSocket } from '../hooks/useSocket';
+import Loading from '../components/fallbacks/Loading'
+import { useErrorBoundary } from 'react-error-boundary';
 
 const Chats = () => {
   const { auth } = useAuth();
   const { createChat, setUserChats, chats } = useSocket();
+
+  const { showBoundary } = useErrorBoundary();
 
   const queryClient = useQueryClient();
 
@@ -52,11 +56,11 @@ const Chats = () => {
   }
 
   if(isError){
-    return <div>{error.message}</div>
+    showBoundary(error.message);
   }
 
   if(isLoading){
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   return (

@@ -6,7 +6,6 @@ import { Courses } from './pages/Courses'
 import Jobs from './pages/Jobs'
 import Events from './pages/Events'
 import { Groups } from './pages/Groups'
-import Chats from './pages/Chats'
 import  Settings from './pages/Settings'
 import { Landing } from './pages/Landing'
 import { MainLayout } from './layouts/MainLayout'
@@ -15,11 +14,13 @@ import Profile from './pages/Profile'
 import JobDetails from './pages/JobDetails'
 import Chat from './pages/Chat'
 import ChatsLayout from './layouts/ChatsLayout'
+import ErrorPage from './pages/ErrorPage'
+import NotFound from './pages/NotFound'
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route>
+      <Route errorElement={<ErrorPage/>}>
         <Route path="/" element={<Landing/>}/>
         <Route element={<MainLayout/>}>
           <Route element={<ProtectedRoute/>}>
@@ -39,6 +40,7 @@ function App() {
             <Route path="/settings" element={<Settings/>}/>
           </Route>
         </Route>
+        <Route path="*" element={<NotFound/>} />
       </Route>
     )
   );
