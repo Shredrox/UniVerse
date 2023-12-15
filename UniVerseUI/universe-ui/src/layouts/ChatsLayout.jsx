@@ -10,8 +10,12 @@ const ChatsLayout = () => {
         <h2>Chats</h2>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <div className="chats-outlet-container">
-            <Chats/>
-            <Outlet />
+            <div className="chats-outlet-chats-container">
+              <Chats/>
+            </div>
+            <div className="chats-outlet">
+              <Outlet />
+            </div>
           </div>
         </ErrorBoundary>
       </div>
