@@ -1626,7 +1626,7 @@ body{
 }
 
 .chat-list-container{
-    width: 30%;
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -1702,8 +1702,16 @@ body{
     font-size: 1.4rem;
 }
 
-.chat{
+.chats-outlet-chats-container{
+    width: 30%;
+}
+
+.chats-outlet{
     width: 70%;
+}
+
+.chat{
+    width: 100%;
     border-left: 1px solid rgb(72, 36, 150);
     height: 660px;
     padding: 1rem;
