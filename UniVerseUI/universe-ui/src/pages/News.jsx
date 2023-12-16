@@ -20,7 +20,7 @@ const News = () => {
   });
 
   if(isError){
-    return <div>{error.message}</div>
+    throw Error(error);
   }
 
   return (

@@ -21,7 +21,7 @@ const JobDetails = () => {
   });
 
   if(isError){
-    return <div>{error.message}</div>
+    throw Error(error);
   }
 
   if(isLoading){
