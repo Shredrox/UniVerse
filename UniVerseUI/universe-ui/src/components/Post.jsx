@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import Loading from '../components/fallbacks/Loading'
+import ErrorFallback from './fallbacks/ErrorFallback';
 
 const Post = ({post}) => {
   const [isCommentSectionOn, setIsCommentSectionOn] = useState(false);
@@ -20,17 +21,17 @@ const Post = ({post}) => {
 
   const queryClient = useQueryClient();
 
-  const {data: postLikes, isLoading: likesLoading} = useQuery({ 
+  const {data: postLikes, isLoading: likesLoading, isError: isLikesError, error: likesError} = useQuery({ 
     queryKey: ["postLikes", post.id],
     queryFn: () => getPostLikes(post.id),
   });
 
-  const {data: postCommentCount, isLoading: commentCountLoading} = useQuery({ 
+  const {data: postCommentCount, isLoading: commentCountLoading, isError: isCommentsError, error: commentsError} = useQuery({ 
     queryKey: ["postCommentCount", post.id],
     queryFn: () => getPostCommentCount(post.id),
   });
 
-  const {data: isLiked, isLoading: postLikedLoading} = useQuery({ 
+  const {data: isLiked, isLoading: postLikedLoading, isError: isLikedError, error: likedError} = useQuery({ 
     queryKey: ["postLiked", post.id, auth?.user],
     queryFn: () => getIsLiked(post.id, auth?.user),
   });
@@ -67,6 +68,20 @@ const Post = ({post}) => {
 
   const toggleComment = () =>{
     setIsCommentSectionOn(!isCommentSectionOn);
+  }
+
+  if(isLikedError || isLikesError || isCommentsError){
+    let error;
+
+    if(isLikedError){
+      error = likedError.message;
+    }else if(isLikesError){
+      error = likesError.message;
+    }else{
+      error = commentsError.message;
+    }
+
+    return <ErrorFallback error={error}/>
   }
 
   if(likesLoading || commentCountLoading || postLikedLoading){
