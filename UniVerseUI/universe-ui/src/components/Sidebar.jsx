@@ -8,14 +8,22 @@ import JobsIcon from '../assets/icons/icon-job.svg'
 import EventsIcon from '../assets/icons/icon-calendar.svg'
 import ChatsIcon from '../assets/icons/icon-chat.svg'
 import SettingsIcon from '../assets/icons/icon-cog.svg'
+import useLogout from '../hooks/useLogout';
 
 const Sidebar = () => {
   const location = useLocation();
-  const { auth, setAuth } = useAuth();
+  const { auth } = useAuth();
+  const logout = useLogout();
   const { disconnectSocketClient } = useSocket();
   const navigate = useNavigate();
 
-  function isActive(path){
+  const handleLogout = async () => {
+    await logout();
+    disconnectSocketClient(); 
+    navigate('/');
+  }
+
+  const isActive = (path) =>{
     return location.pathname.includes(path) ? 'link-btn' : 'link-btn-off'
   }
 
@@ -38,7 +46,7 @@ const Sidebar = () => {
           <img src="https://picsum.photos/100/100" alt="ProfilePicture" />
         </div>
         <label className='username' onClick={() => navigate(`/profile/${auth.user}`)}>{auth.user}</label> 
-        <button onClick={()=> {setAuth({}); disconnectSocketClient(); navigate('/');}} className='confirm-button'>Log Out</button>         
+        <button onClick={handleLogout} className='confirm-button'>Log Out</button>         
       </div>
 
       <ul>
