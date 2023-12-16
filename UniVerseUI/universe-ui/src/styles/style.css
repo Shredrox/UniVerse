@@ -1955,6 +1955,37 @@ body{
     height: 30px;
 }
 
+.router-error-fallback-container{
+    width: 100%;
+    height: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.router-error-fallback{
+    background-color: #03254C;
+    padding: 0.4rem 0.4rem;
+    width: fit-content;
+    min-width: 170px;
+    border-radius: 1rem;
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.router-error-fallback span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: red;
+    font-size: 1.2rem;
+}
+
 .not-found-page{
     background: url('../assets/images/background-not-found-page.png'), 
     radial-gradient(circle at bottom, rgb(26, 26, 77) 0, black 100%);
@@ -1981,3 +2012,17 @@ body{
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
 }
+
+@media (max-width: 1500px){
+    .feed{
+        width: 100%;
+    }
+}
+
+@media (max-width: 1080px){
+    .landing-container{
+        flex-direction: column;
+        gap: 3rem;
+    }
+}
+
