@@ -17,6 +17,7 @@ import ChatsLayout from './layouts/ChatsLayout'
 import ErrorPage from './pages/ErrorPage'
 import NotFound from './pages/NotFound'
 import PersistLogin from './routes/PersistLogin'
+import RouterErrorFallback from './components/fallbacks/RouterErrorFallback'
 
 function App() {
   const router = createBrowserRouter(
@@ -25,7 +26,7 @@ function App() {
         <Route path="/" element={<Landing/>}/>
         <Route element={<MainLayout/>}>
           <Route element={<PersistLogin/>}>
-            <Route element={<ProtectedRoute/>}>
+            <Route element={<ProtectedRoute/>} errorElement={<RouterErrorFallback/>}>
               <Route path="/home" element={<Home/>}/>
               <Route path="/profile/:username" element={<Profile/>}/>
               <Route path="/news" element={<News/>}/>
