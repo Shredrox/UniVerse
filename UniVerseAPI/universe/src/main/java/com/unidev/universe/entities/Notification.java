@@ -1,22 +1,48 @@
 package com.unidev.universe.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.util.Date;
 
+@Entity
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@ToString
+@Table(name = "notification")
 public class Notification {
-    private String message;
-    private String type;
-    private String source;
-    private String recipientName;
-    private boolean isRead;
-    private Date timestamp;
-}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message")
+    private Long id;
 
+    @NotNull
+    @Column(name = "message")
+    private String message;
+
+    @NotNull
+    @Column(name = "type")
+    private String type;
+
+    @NotNull
+    @Column(name = "source")
+    private String source;
+
+    @NotNull
+    @Column(name = "recipient_name")
+    private String recipientName;
+
+    @NotNull
+    @Column(name = "time_stamp")
+    private Date timeStamp;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    User user;
+
+    @Column(name = "is_read")
+    private boolean isRead;
+}
