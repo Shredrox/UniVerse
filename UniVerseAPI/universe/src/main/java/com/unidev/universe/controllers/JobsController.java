@@ -30,4 +30,15 @@ public class JobsController {
     public ResponseEntity<JobOffer> createJob(@RequestBody JobOffer job){
         return ResponseEntity.ok(jobService.createJob(job));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<JobOffer> updateJob(@PathVariable Long id, @RequestBody JobOffer updatedJob){
+        JobOffer resultJob = jobService.updateJob(id, updatedJob);
+        return resultJob != null ? ResponseEntity.ok(resultJob) : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteJob(@PathVariable Long id){
+        return jobService.deleteJob(id)?ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
 }
