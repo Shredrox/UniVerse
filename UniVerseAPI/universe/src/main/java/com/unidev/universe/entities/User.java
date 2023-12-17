@@ -19,7 +19,7 @@ import java.util.Collections;
 @EqualsAndHashCode
 @NoArgsConstructor
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -28,9 +28,6 @@ public class User implements UserDetails {
 
     @Column(name = "name",nullable=false)
     private String name;
-
-    @Column(name = "username", nullable = false)
-    private String username;
 
     @Column(name = "username",nullable=false, unique=true)
     private String username;
