@@ -19,7 +19,7 @@ public class GroupMembership {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "membership_id")
-    private int id;
+    private Long id;
 
     @NotNull
     @ManyToOne

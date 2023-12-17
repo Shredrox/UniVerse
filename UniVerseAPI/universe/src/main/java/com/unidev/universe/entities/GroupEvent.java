@@ -19,7 +19,7 @@ public class GroupEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_id")
-    private int id;
+    private Long id;
 
     @NotNull
     @Column(name = "title")
