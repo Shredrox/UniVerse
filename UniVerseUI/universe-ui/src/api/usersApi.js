@@ -71,3 +71,22 @@ export const addFriend = async ({ loggedInUser, profileUser }) =>{
 export const removeFriend = async ({ loggedInUser, profileUser }) =>{
     console.log(loggedInUser + " " + profileUser + " remove");
 }
+
+export const confirmPassword = async ({ username, password }) =>{
+    const details = { username: username, email: "", password: password };
+
+    const response = await axios.post('/User/ConfirmPassword', details);
+    return response.data;
+}
+
+export const updateUserProfile = async ({username, newUsername, email, password}) =>{
+    const details = { 
+        username: username, 
+        newUsername: newUsername, 
+        newEmail: email, 
+        newPassword: password 
+    };
+
+    const response = await axios.post('/User/UpdateProfile', details);
+    return response.data;
+}
