@@ -24,11 +24,11 @@ public class EventService {
     }
 
     //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-
     public GroupEvent createEvent(GroupEvent event) {
         return eventRepository.save(event);
     }
 
+    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
     public GroupEvent updateEvent(Long eventId, GroupEvent updatedEvent) {
         Optional<GroupEvent> optionalEvent = eventRepository.findById(eventId);
 
@@ -43,6 +43,7 @@ public class EventService {
         }
     }
 
+    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
     public void deleteEvent(Long eventId) {
         eventRepository.deleteById(eventId);
     }
