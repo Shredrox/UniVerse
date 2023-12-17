@@ -32,19 +32,19 @@ const Topbar = () => {
       <div className="search-container">
         <div className='search-bar'>
           <img src={SearchIcon}/>
-          <input onChange={(e) => setSearch(e.target.value)} className='search-bar-input' type="text" placeholder="Search.."/>
+          <input value={search} onChange={(e) => setSearch(e.target.value)} className='search-bar-input' type="text" placeholder="Search.."/>
         </div>
         {search !== '' &&
         <div className="search-results">
           {searchUsers?.length > 0 ?
           searchUsers?.map((user, index) =>
-            <div onClick={() => navigate(`/profile/${user?.username}`)} 
+            <div onClick={() => {navigate(`/profile/${user?.username}`); setSearch('');}} 
             className='search-result' key={index}>
               <div className='chat-profile-picture'></div>
               {user?.username}
             </div>
           )
-          : searchUsers?.length === 0 ? "Not Found" 
+          : searchUsers?.length === 0 ? "User Not Found" 
           : isError ? <ErrorFallback error={error.message}/>
           : <Loading/>
           }
