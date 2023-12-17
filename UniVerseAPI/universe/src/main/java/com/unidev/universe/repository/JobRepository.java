@@ -11,4 +11,6 @@ public interface JobRepository extends JpaRepository<JobOffer, Long> {
     List<JobOffer> findByDescriptionContaining(String keyword);
 
     List<JobOffer> findByTitleAndDescription(String title, String keyword);
+
+    List<JobOffer> findByTitleIgnoreCase(String title);
 }
