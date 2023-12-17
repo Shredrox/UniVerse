@@ -24,4 +24,20 @@ public class JobService {
     public JobOffer createJob(JobOffer jobOffer){
         return jobRepository.save(jobOffer);
     }
+
+    public JobOffer updateJob(Long id, JobOffer updatedJob){
+        if(jobRepository.existsById(id)){
+            updatedJob.setId(id);
+            return jobRepository.save(updatedJob);
+        }
+        return null;
+    }
+
+    public Boolean deleteJob(Long id){
+        if(jobRepository.existsById(id)){
+            jobRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }
