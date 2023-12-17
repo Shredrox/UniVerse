@@ -5,6 +5,11 @@ export const getUsers = async () =>{
     return response.data;
 }
 
+export const getUsersByFilter = async (filter) =>{
+    const response = await axios.get(`/User/Search/${filter}`);
+    return response.data;
+}
+
 export const userExists = (username) =>{
     //TO DO: Connect to API
     return true;
