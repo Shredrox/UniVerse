@@ -1,6 +1,6 @@
 package com.unidev.universe.controllers;
 
-import com.unidev.universe.authentication.UserDetailsServiceImpl;
+import com.unidev.universe.services.UserService;
 import com.unidev.universe.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserDetailsServiceImpl userService;
+    private UserService userService;
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> getUsers() {
@@ -49,12 +49,12 @@ public class UserController {
     @PostMapping("/{userId}/add-friend/{friendId}")
     public ResponseEntity<String> addFriend(@PathVariable String loggedInUser, @PathVariable String profileUser) {
         userService.addFriend(loggedInUser, profileUser);
-        return ResponseEntity.ok("Friend added successfully");
+        return ResponseEntity.ok("Friend added successfully.");
     }
 
     @DeleteMapping("/{userId}/remove-friend/{friendId}")
     public ResponseEntity<String> removeFriend(@PathVariable String loggedInUser, @PathVariable String profileUser) {
         userService.removeFriend(loggedInUser, profileUser);
-        return ResponseEntity.ok("Friend removed successfully");
+        return ResponseEntity.ok("Friend removed successfully.");
     }
 }
