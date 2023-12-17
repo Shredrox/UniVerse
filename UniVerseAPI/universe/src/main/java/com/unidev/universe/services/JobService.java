@@ -20,4 +20,8 @@ public class JobService {
     public Optional<JobOffer> getJobById(Long id){
         return jobRepository.findById(id);
     }
+
+    public JobOffer createJob(JobOffer jobOffer){
+        return jobRepository.save(jobOffer);
+    }
 }
