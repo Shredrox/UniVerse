@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
-export const Topbar = () => {
+const Topbar = () => {
   const navigate = useNavigate();
 
   const [search, setSearch] = useState('');
@@ -54,3 +54,5 @@ export const Topbar = () => {
     </div>
   )
 }
+
+export default Topbar
