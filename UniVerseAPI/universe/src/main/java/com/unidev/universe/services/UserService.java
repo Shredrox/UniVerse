@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +22,8 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
-    public Optional<User> getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        return Optional.ofNullable(user);
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public boolean existsByUsername(String username) {
