@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -12,8 +14,8 @@ import lombok.Setter;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "post_id")
-    private Long postId;
+    @Column(name = "id")
+    private Long id;
 
     @NotNull
     @Column(name = "description")
