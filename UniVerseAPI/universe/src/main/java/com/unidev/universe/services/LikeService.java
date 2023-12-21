@@ -2,34 +2,39 @@ package com.unidev.universe.services;
 
 import com.unidev.universe.entities.Like;
 import com.unidev.universe.repository.LikeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unidev.universe.repository.PostRepository;
+import com.unidev.universe.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
+import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
     private final LikeRepository likeRepository;
-
-    @Autowired
-    public LikeService(LikeRepository likeRepository) {
-        this.likeRepository = likeRepository;
-    }
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public int getPostLikes(int postId) {
-        return likeRepository.countByPostId(postId);
+        return likeRepository.findByPostId(postId).size();
     }
 
     public boolean isPostLiked(int postId, String username) {
-        return likeRepository.existsByPostIdAndUsername(postId, username);
+        return likeRepository.existsByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
     }
 
     public void likePost(int postId, String username) {
-        if (!likeRepository.existsByPostIdAndUsername(postId, username)) {
-            likeRepository.saveLike(postId, username);
+        List<Like> existingLike = likeRepository.findByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
+        if (existingLike.isEmpty()) {
+            Like newLike = new Like();
+            newLike.setPost(postRepository.findById(postId));
+            newLike.setUser(userRepository.findByUsername(username));
+            likeRepository.save(newLike);
         }
     }
 
     public void unlikePost(long postId, String username) {
-        likeRepository.deleteByPostIdAndUsername(postId, username);
+        likeRepository.deleteByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
     }
 }

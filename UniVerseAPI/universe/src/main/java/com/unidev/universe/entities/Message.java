@@ -6,17 +6,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "message")
+@Table(name = "messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -26,10 +29,20 @@ public class Message {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    User user;
+    @JoinColumn(name = "sender_id")
+    User sender;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "receiver_id")
+    User receiver;
 
     @NotNull
     @Column(name = "content")
     private String content;
+
+    @NotNull
+    @Column(name = "timestamp")
+    @DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
+    private Date timestamp;
 }

@@ -12,11 +12,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "job_offer")
+@Table(name = "job_offers")
 public class JobOffer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "offer_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -37,6 +37,6 @@ public class JobOffer {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "employer_id")
     User employer;
 }

@@ -14,11 +14,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "friendship")
+@Table(name = "friendships")
 public class Friendship {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "friendship_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
