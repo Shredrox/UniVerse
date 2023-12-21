@@ -20,14 +20,14 @@ public class NotificationController {
     @SendTo("/topic/publicNotification")
     public Notification sendNotification(@Payload Notification notification){
         notification.setRead(false);
-        notification.setTimeStamp(new Date());
+        notification.setTimestamp(new Date());
         return notification;
     }
 
     @MessageMapping("/sendUserNotification")
     public void sendUserNotification(@Payload Notification notification){
         notification.setRead(false);
-        notification.setTimeStamp(new Date());
+        notification.setTimestamp(new Date());
 
         simpMessagingTemplate.convertAndSendToUser(notification.getRecipientName(), "/queue/notification", notification);
     }
