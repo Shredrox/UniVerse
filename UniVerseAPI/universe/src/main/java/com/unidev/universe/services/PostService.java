@@ -32,7 +32,7 @@ public class PostService {
 
         if (optionalPost.isPresent()) {
             Post existingPost = optionalPost.get();
-            existingPost.setDescription(updatedPost.getDescription());
+            existingPost.setContent(updatedPost.getContent());
             return postRepository.save(existingPost);
         } else {
             return null;

@@ -41,7 +41,7 @@ public class CommentService {
 
         if (optionalComment.isPresent()) {
             Comment existingComment = optionalComment.get();
-            existingComment.setDescription(updatedComment.getDescription());
+            existingComment.setContent(updatedComment.getContent());
             return commentRepository.save(existingComment);
         } else {
             return null;
