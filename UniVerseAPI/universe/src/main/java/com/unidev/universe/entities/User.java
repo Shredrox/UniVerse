@@ -19,6 +19,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -26,9 +27,6 @@ public class User implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @Column(name = "name",nullable=false)
-    private String name;
 
     @Column(name = "username",nullable=false, unique=true)
     private String username;
@@ -45,16 +43,7 @@ public class User implements UserDetails {
 
     private Boolean isLocked = false;
 
-    private Boolean enabled = false;
-
-    public User(String name, String username, String email,
-                String password, UserRole userRole) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.userRole = userRole;
-    }
+    private Boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,11 +54,11 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
