@@ -6,8 +6,8 @@ server:
 
 spring:
   datasource:
-    password: admin
-    url: jdbc:postgresql://localhost:5432/registration
+    password: postgrejava
+    url: jdbc:postgresql://localhost:5432/UniVerse
     username: postgres
   jpa:
     hibernate:
