@@ -3,6 +3,7 @@ package com.unidev.universe.controllers;
 import com.unidev.universe.services.UserService;
 import com.unidev.universe.entities.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +30,12 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<User> getUserByName(@PathVariable String username) {
-        Optional<User> user = userService.getUserByUsername(username);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        User user = userService.getUserByUsername(username);
+
+        if(user == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 }
