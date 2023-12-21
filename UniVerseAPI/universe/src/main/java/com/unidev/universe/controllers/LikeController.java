@@ -1,20 +1,17 @@
 package com.unidev.universe.controllers;
 
 import com.unidev.universe.services.LikeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/likes")
 public class LikeController {
 
     private final LikeService likeService;
-
-    @Autowired
-    public LikeController(LikeService likeService) {
-        this.likeService = likeService;
-    }
 
     @GetMapping("/posts/{postId}")
     public ResponseEntity<Integer> getPostLikes(@PathVariable int postId) {
