@@ -14,11 +14,11 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "group_event")
+@Table(name = "group_events")
 public class GroupEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -35,6 +35,6 @@ public class GroupEvent {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "organiser_id")
     User organiser;
 }

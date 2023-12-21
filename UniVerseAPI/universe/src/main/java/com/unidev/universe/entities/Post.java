@@ -2,15 +2,17 @@ package com.unidev.universe.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "post")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "posts")
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +20,16 @@ public class Post {
     private Long id;
 
     @NotNull
-    @Column(name = "description")
-    private String description;
+    @Column(name = "title")
+    private String title;
+
+    @NotNull
+    @Column(name = "content")
+    private String content;
+
+    @NotNull
+    @Column(name = "authorName")
+    private String authorName;
 
     @NotNull
     @ManyToOne

@@ -11,7 +11,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "notification")
+@Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class Notification {
 
     @NotNull
     @Column(name = "time_stamp")
-    private Date timeStamp;
+    private Date timestamp;
 
     @NotNull
     @ManyToOne
