@@ -2,13 +2,14 @@ package com.unidev.universe.repository;
 
 import com.unidev.universe.entities.Like;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Repository
 public interface LikeRepository extends JpaRepository<Like, Long> {
-    int countByPostId(long postId);
-
-    boolean existsByPostIdAndUsername(long postId, String username);
-
-    boolean deleteByPostIdAndUsername(long postId, String username);
-
-    void saveLike(int postId, String username);
+    List<Like> findByPostId(long postId);
+    List<Like> findByPostIdAndUserId(long postId, long userId);
+    boolean existsByPostIdAndUserId(long postId, long userId);
+    void deleteByPostIdAndUserId(long postId, long userId);
 }
