@@ -1,12 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useParams } from "react-router-dom"
-import { addFriend, checkFriendship, getUserByName, removeFriend } from "../api/usersApi";
+import { useNavigate, useParams } from "react-router-dom"
+import { addFriend, checkFriendship, confirmPassword, getUserByName, removeFriend, updateUserProfile } from "../api/usersApi";
 import { useAuth } from "../hooks/useAuth";
 import Loading from '../components/fallbacks/Loading'
+import { useEffect, useState } from "react";
+import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 const Profile = () => {
   const { auth } = useAuth();
   const { username } = useParams();
+
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
 
@@ -14,6 +18,13 @@ const Profile = () => {
     queryKey: ["userDetails", username],
     queryFn: () => getUserByName(username),
   });
+
+  const [isEditOn, setIsEditOn] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [isValidPassword, setIsValidPassword] = useState(true);
 
   const loggedInUserProfile = auth?.user === user?.username;
 
@@ -37,8 +48,44 @@ const Profile = () => {
     },
   });
 
+  const {mutateAsync: updateUserProfileMutation} = useMutation({
+    mutationFn: updateUserProfile,
+    onSuccess: () =>{
+      navigate(`/profile/${name}`)
+      window.location.reload(); 
+    },
+  });
+
+  useEffect(() =>{
+    if(user !== null){
+      setName(user?.username);
+      setEmail(user?.email);
+    }
+  }, [user])
+
+  useEffect(() =>{
+    setIsValidPassword(true);
+  }, [password])
+
+  const handleProfileEdit = async () =>{
+    const validPasswrd = await confirmPassword({username: user?.username, password: password});
+
+    if(!validPasswrd){
+      setIsValidPassword(false);
+      return;
+    }
+
+    updateUserProfileMutation({username: user?.username, newUsername: name, email: email, password: newPassword});
+  }
+
+  const handleCancel = () =>{
+    setIsEditOn(false);
+    setIsValidPassword(true);
+    setPassword('');
+  }
+
   if(isError){
-    return <div>{error.message}</div>
+    throw Error(error);
   }
 
   if(isLoading){
@@ -69,7 +116,21 @@ const Profile = () => {
         {loggedInUserProfile && 
         <div className="user-details">
           {user?.email}
-          <button className="confirm-button">Edit</button>
+          {isEditOn ? 
+          <div className="profile-edit-container">
+            <input value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Username"/>
+            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
+            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Old Password"/>
+            {!isValidPassword && <ErrorFallback error={"Wrong password!"}/>}
+            <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type="password" placeholder="New Password"/>
+            <div className="profile-edit-button-container">
+              <button onClick={handleCancel} className="confirm-button">Cancel</button>
+              <button onClick={handleProfileEdit} className="confirm-button">Save</button>
+            </div>
+          </div>
+          :
+          <button onClick={() => setIsEditOn(true)} className="confirm-button">Edit</button>
+          }
         </div>
         }
       </div>

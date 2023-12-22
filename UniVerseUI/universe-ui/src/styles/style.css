@@ -18,7 +18,7 @@ body{
 
 .wrapper{
     flex: 2;
-    padding: 1rem;
+    padding-top: 1rem;
     font-family: 'Inter' , sans-serif;
 }
 
@@ -202,25 +202,36 @@ body{
 
 .search-container{
     display: flex;
-    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     position: relative;
+    width: 60%;
+}
+
+.topbar-logo{
+    display: none;
+}
+
+.search-bar{
+    display: flex;
+    align-items: center;
     background-clip: padding-box;
     border-radius: 1rem;
     border: 5px solid transparent;
     background: #270D47;
     color: white;
     height: 2.7rem;
-    width: 60%;
+    width: 100%;
     padding: 5px;
 }
 
-.search-container::before{
+.search-bar::before{
     position: absolute;
     top: 0; 
     right: 0; 
     bottom: 0; 
     left: 0;
-    margin: -6px;
+    margin: -2px;
     border-radius: inherit;
     background: linear-gradient(#023a78, #FA00FF00);
     content: '';
@@ -232,7 +243,7 @@ body{
     height: 40px;
 }
 
-.search-bar{
+.search-bar-input{
     background: transparent;
     color: white;
     border: none;
@@ -242,6 +253,41 @@ body{
     padding: 0.5rem;
     font-size: 1.5rem;
     outline: none;
+}
+
+.search-results{
+    position: absolute;
+    background: rgb(2,0,36);
+    background: linear-gradient(31deg, rgba(2,0,36,1) 0%, rgba(4,12,33,1) 0%, rgba(32,12,70,1) 100%);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.75rem;
+    top: 47px;
+    max-height: 500px;
+    border-radius: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+    z-index: 1;
+    overflow-y: scroll;
+    overflow: auto;
+}
+
+.search-result{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: #050e1d;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition-duration: .25s;
+}
+
+.search-result:hover{
+    background-color: #0c2247;
+    transition-duration: .25s;
 }
 
 .notifications-container{
@@ -283,6 +329,36 @@ body{
     justify-content: center;
 }
 
+.profile-edit-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-edit-container input{
+    width: 100%;
+    background-color: #7B4DDC82;
+    color: white;
+    border-style: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    height: fit-content;
+    font-family: sans-serif;
+    outline: none;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.profile-edit-container input:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
+}
+
+.profile-edit-button-container{
+    display: flex;
+    gap: 0.5rem;
+}
+
 .profile-page-tab{
     background: url('../assets/images/background-profile.jpg');
     background-position: center;
@@ -290,7 +366,7 @@ body{
     background-repeat: no-repeat;
     position: relative;
     width: 70%;
-    height: 650px;
+    height: 85vh;
     border: 1px solid transparent;
     border-radius: 1rem;
     padding: 2rem;
@@ -1107,6 +1183,7 @@ body{
     width: 100%;
 }
 
+/* NEWS PAGE */
 .news-container{
     display: flex;
     justify-content: center;
@@ -1134,7 +1211,7 @@ body{
 .news-list{
     padding: 1rem;
     height: 700px;
-    width: 85%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1169,7 +1246,7 @@ body{
 .news-content-container{
     display: flex;
     flex-direction: column;
-    width: 500px;
+    width: 100px;
     flex: 1;
     margin-left: 1rem;
 }
@@ -1245,6 +1322,7 @@ body{
     width: 100%;
     height: 700px;
     display: flex;
+    overflow: hidden;
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
@@ -1955,6 +2033,37 @@ body{
     height: 30px;
 }
 
+.router-error-fallback-container{
+    width: 100%;
+    height: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.router-error-fallback{
+    background-color: #03254C;
+    padding: 0.4rem 0.4rem;
+    width: fit-content;
+    min-width: 170px;
+    border-radius: 1rem;
+    border: 1px red solid;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.router-error-fallback span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: red;
+    font-size: 1.2rem;
+}
+
 .not-found-page{
     background: url('../assets/images/background-not-found-page.png'), 
     radial-gradient(circle at bottom, rgb(26, 26, 77) 0, black 100%);
@@ -1980,4 +2089,135 @@ body{
     font-size: 7rem;
     font-weight: 500;
     font-family: 'Montserrat', sans-serif;
+}
+
+.bottom-nav{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    height: 70px;
+    background-color: #001a33;
+    display: none;
+}
+
+.bottom-nav-links{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
+}
+
+.bottom-nav-button{
+    width: 50px;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: 'Raleway', sans-serif;
+    background: none;
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.bottom-nav-button:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+.bottom-nav-button-active{
+    width: 50px;
+    height: 50px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.bottom-nav-button-active:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+@media (max-width: 1500px){
+    .feed{
+        width: 100%;
+    }
+}
+
+@media (max-width: 1080px){
+    .landing-container{
+        flex-direction: column;
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 1000px){
+    .job-filters-container{
+        width: 100%;
+    }
+
+    .job-list-container{
+        width: 100%;
+    }
+
+    .job-list{
+        padding: 0;
+    }
+
+    .news-list{
+        width: 100%;
+    }
+
+    .news-image-container{
+        width: 9rem;
+    }
+
+    .bottom-nav{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .sidebar{
+        display: none;
+    }
+
+    .search-container{
+        width: 80%;
+    }
+
+    .topbar-logo{
+        display: inline-block;
+    }
+
+    .topbar{
+        gap: 1.7rem;
+        flex-direction: column;
+        height: fit-content;
+        align-items: center;
+    }
+
+    .feed{
+        height: 650px;
+    }
+
+    .social-panel{
+        display: none;
+    }
+
+    .job-list{
+        height: 460px;
+    }
+}
+
+@media (max-width: 750px){
+    .job-filters-container{
+        height: fit-content;
+    }
 }

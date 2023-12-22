@@ -11,7 +11,7 @@ const Events = () => {
   const { auth } = useAuth();
   const queryClient = useQueryClient();
 
-  const {data: events, isLoading: eventsLoading, isError, error} = useQuery({ 
+  const {data: events, isLoading: eventsLoading, isError: eventsIsError, error: eventsError} = useQuery({ 
     queryKey: ["events"],
     queryFn: () => getEvents(),
   });
@@ -32,8 +32,12 @@ const Events = () => {
     attendEventMutation({eventId: eventId, username: auth?.user})
   }
 
-  if(isError || trendingEventsIsError){
-    return <div>{error?.message}{trendingEventsError?.message}</div>
+  if(eventsIsError || trendingEventsIsError){
+    if(eventsIsError){
+      throw Error(eventsError);
+    }else{
+      throw Error(trendingEventsError);
+    }
   }
 
   if(eventsLoading || trendingEventsIsLoading){

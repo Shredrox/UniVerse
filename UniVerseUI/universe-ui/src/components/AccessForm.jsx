@@ -94,7 +94,7 @@ export const AccessForm = () => {
       const accessToken = response?.data?.token;
       const user = response?.data?.username;
 
-      setAuth({user: user, accessToken});
+      setAuth({user: user, accessToken: accessToken});
       setUsername('');
       setPassword('');
       connectSocketClient(user);
