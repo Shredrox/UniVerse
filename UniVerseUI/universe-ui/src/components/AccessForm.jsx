@@ -77,10 +77,10 @@ export const AccessForm = () => {
       let url;
 
       if(activeButton === 'login'){
-        url = 'User/Login';
+        url = 'auth/login';
       }
       else{
-        url = 'User/Register';
+        url = 'auth/register';
       }
 
       const response = await axios.post(url,
@@ -91,7 +91,7 @@ export const AccessForm = () => {
         }
       );
 
-      const accessToken = response?.data?.token;
+      const accessToken = response?.data?.accessToken;
       const user = response?.data?.username;
 
       setAuth({user: user, accessToken: accessToken});
