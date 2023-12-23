@@ -30,6 +30,10 @@ public class News {
     private String content;
 
     @NotNull
+    @Column(name = "pinned")
+    boolean pinned;
+
+    @NotNull
     @Column(name = "date")
     Date date;
 }
