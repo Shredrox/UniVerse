@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CommentDTO {
     @NotBlank(message = "Comment description field cannot be blank!")
-    private String description;
+    private String content;
 
     @NotBlank(message = "Post field cannot be blank!")
-    private Post post;
+    private long postId;
 
-    private User user;
+    private String username;
 }
