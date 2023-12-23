@@ -23,6 +23,10 @@ public class Comment {
     @Column(name = "content")
     private String content;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_comment_id")
+    private Comment parentComment;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "post_id")
