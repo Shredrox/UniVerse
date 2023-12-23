@@ -25,6 +25,10 @@ public class JobService {
         return jobRepository.save(jobOffer);
     }
 
+    public void applyToJob( Long jobId, String username){
+        //TODO
+    }
+
     public JobOffer updateJob(Long id, JobOffer updatedJob){
         if(jobRepository.existsById(id)){
             updatedJob.setId(id);
