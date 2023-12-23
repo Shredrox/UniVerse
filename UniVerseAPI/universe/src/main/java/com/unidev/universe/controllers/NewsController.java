@@ -12,7 +12,7 @@ import com.unidev.universe.services.NewsService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/news")
+@RequestMapping("/api/v1/news")
 public class NewsController {
 
     @Autowired
@@ -23,12 +23,12 @@ public class NewsController {
         return newsService.getAllNews();
     }
 
-    @GetMapping("/{newsId}")
-    public News getNewsById(@PathVariable Long newsId) {
-        return newsService.getNewsById(newsId);
+    @GetMapping("/{newsTitle}")
+    public News getNewsById(@PathVariable String newsTitle) {
+        return newsService.getNewsByTitle(newsTitle);
     }
 
-    @PostMapping
+    @PostMapping("/createNews")
     public ResponseEntity<News> createNews(@RequestBody News news) {
         News createdNews = newsService.createNews(news);
         return new ResponseEntity<>(createdNews, HttpStatus.CREATED);

@@ -13,26 +13,26 @@ public class LikeController {
 
     private final LikeService likeService;
 
-    @GetMapping("/posts/{postId}")
-    public ResponseEntity<Integer> getPostLikes(@PathVariable int postId) {
+    @GetMapping("/post/{postId}/getLikes")
+    public ResponseEntity<Integer> getPostLikes(@PathVariable long postId) {
         int likesCount = likeService.getPostLikes(postId);
         return ResponseEntity.ok(likesCount);
     }
 
-    @GetMapping("/posts/{postId}/likedBy/{username}")
-    public ResponseEntity<Boolean> getIsLiked(@PathVariable int postId, @PathVariable String username) {
+    @GetMapping("/post/{postId}/likedBy/{username}")
+    public ResponseEntity<Boolean> getIsLiked(@PathVariable long postId, @PathVariable String username) {
         boolean isLiked = likeService.isPostLiked(postId, username);
         return ResponseEntity.ok(isLiked);
     }
 
-    @PostMapping("/posts/{postId}/like/{username}")
-    public ResponseEntity<String> likePost(@PathVariable int postId, @PathVariable String username) {
+    @PostMapping("/post/{postId}/like")
+    public ResponseEntity<String> likePost(@PathVariable long postId, @RequestParam String username) {
         likeService.likePost(postId, username);
         return ResponseEntity.ok("Post liked successfully.");
     }
 
-    @PostMapping("/posts/{postId}/unlike/{username}")
-    public ResponseEntity<String> unlikePost(@PathVariable int postId, @PathVariable String username) {
+    @PostMapping("/post/{postId}/unlike")
+    public ResponseEntity<String> unlikePost(@PathVariable long postId, @RequestParam String username) {
         likeService.unlikePost(postId, username);
         return ResponseEntity.ok("Post unliked successfully.");
     }

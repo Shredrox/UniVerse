@@ -1,65 +1,93 @@
 import axios from "./axios";
 
-export const getPosts = async () =>{
-    const response = await axios.get('/Posts/GetAllPosts');
-    return response.data;
-}
-
+//posts--------------------------
 export const getFriendsPosts = async (username) =>{
-    const response = await axios.get('/Posts/GetAllPosts');
+    const response = await axios.get(`/posts/getFriendsPosts/${username}`);
     return response.data;
 }
 
-export const getPostById = async (id) =>{
-    const response = await axios.patch(`/Posts/${post.id}`, id);
+export const getPostById = async (postId) =>{
+    const response = await axios.get(`/posts/${postId}`);
     return response.data;
-}
-
-export const getPostComments = async (postId) =>{
-    //TO DO: Connect to API
-}
-
-export const addPostComment = async ({postId, username, content}) =>{
-    console.log(postId + " " + username + " " + content);
-}
-
-export const getCommentReplies = async (commentId) =>{
-    //TO DO: Connect to API
-}
-
-export const addCommentReply = async ({commentId, username, content}) => {
-    //TO DO: Connect to API
-}
-
-export const getPostCommentCount = async (postId) =>{
-    return 420;
-}
-
-export const getPostLikes = async (postId) =>{
-    return 69;
-}
-
-export const getIsLiked = async (postId, username) =>{
-    console.log(postId + " " + username);
-    return false;
-}
-
-export const likePost = async ({postId, username}) =>{
-    console.log(postId + " " + username + " like");
-}
-
-export const unlikePost = async ({postId, username}) =>{
-    console.log(postId + " " + username + " unlike");
 }
 
 export const addPost = async (post) =>{
-    return await axios.post('/Posts/CreatePost', post);
+    return await axios.post('/posts/createPost', post);
 }
 
 export const updatePost = async (post) =>{
-    return await axios.patch(`/Posts/${post.id}`, post);
+    return await axios.put(`/posts/${post.id}`, post);
 }
 
-export const deletePost = async ({id}) =>{
-    return await axios.delete(`/Posts/${id}`, id);
+export const deletePost = async (postId) =>{
+    return await axios.delete(`/posts/${postId}`);
+}
+
+//comments-----------------------
+export const getPostComments = async (postId) =>{
+    const response = await axios.get(`/comments/${postId}/getComments`);
+    return response.data;
+}
+
+export const getCommentReplies = async (commentId) =>{
+    const response = await axios.get(`/comments/${commentId}/replies`);
+    return response.data;
+}
+
+export const getPostCommentCount = async (postId) =>{
+    const response = await axios.get(`/comments/${postId}/getCommentsCount`);
+    return response.data;
+}
+
+export const addPostComment = async ({postId, username, content}) =>{
+    const commentRequest = {
+        postId: postId,
+        username: username,
+        content: content
+    }
+
+    const response = await axios.post(`/comments/addComment`, commentRequest);
+    return response.data;
+}
+
+export const addCommentReply = async ({commentId, username, content}) => {
+    const commentRequest = {
+        postId: "",
+        username: username,
+        content: content
+    }
+
+    const response = await axios.post(`/comments/${commentId}/addReply`, commentRequest);
+    return response.data;
+}
+
+//likes--------------------------
+export const getPostLikes = async (postId) =>{
+    const response = await axios.get(`/likes/post/${postId}/getLikes`);
+    return response.data;
+}
+
+export const getIsLiked = async (postId, username) =>{
+    const response = await axios.get(`/likes/post/${postId}/likedBy/${username}`);
+    return response.data;
+}
+
+export const likePost = async ({postId, username}) =>{
+    const response = await axios.post(`/likes/post/${postId}/like`, {
+        params: {
+          username: username
+        }
+    });
+    
+    return response.data;
+}
+
+export const unlikePost = async ({postId, username}) =>{
+    const response = await axios.post(`/likes/post/${postId}/unlike`, {
+        params: {
+          username: username
+        }
+    });
+    
+    return response.data;
 }

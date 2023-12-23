@@ -16,15 +16,15 @@ public class LikeService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public int getPostLikes(int postId) {
+    public int getPostLikes(long postId) {
         return likeRepository.findByPostId(postId).size();
     }
 
-    public boolean isPostLiked(int postId, String username) {
+    public boolean isPostLiked(long postId, String username) {
         return likeRepository.existsByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
     }
 
-    public void likePost(int postId, String username) {
+    public void likePost(long postId, String username) {
         List<Like> existingLike = likeRepository.findByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
         if (existingLike.isEmpty()) {
             Like newLike = new Like();

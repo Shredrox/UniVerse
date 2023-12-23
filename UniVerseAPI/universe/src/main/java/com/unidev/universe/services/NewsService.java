@@ -19,8 +19,8 @@ public class NewsService {
         return newsRepository.findAll();
     }
 
-    public News getNewsById(Long newsId) {
-        Optional<News> optionalNews = newsRepository.findById(newsId);
+    public News getNewsByTitle(String newsTitle) {
+        Optional<News> optionalNews = newsRepository.findByTitle(newsTitle);
         return optionalNews.orElse(null);
     }
 

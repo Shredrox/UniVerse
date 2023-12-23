@@ -1,61 +1,48 @@
 import axios from "./axios"
 
-// export const getEvents = async () =>{
-//     const response = await axios.get('/Events/GetAllEvents');
-//     return response.data;
-// }
+export const getEvents = async () =>{
+    const response = await axios.get('/events');
+    return response.data;
+}
 
-// export const getTrendingEvents = async () =>{
-//     //TO DO: Connect to API...
-// }
+export const getTrendingEvents = async () =>{
+    const response = await axios.get('/events/trending');
+    return response.data;
+}
 
-export const getEvents = () =>{
-    const events = [
-        {
-            id: 1,
-            title: "Concert",
-            description: " akjhgaeljkrhnlkjaernhkjaernhlkjaernhkjaenrlhkjn",
-            date: "12-12-2023",
-            attending: true
-        },
-        {
-            id: 2,
-            title: "Concert",
-            date: "12-12-2023"
-        },
-        {
-            id: 3,
-            title: "Concert",
-            date: "12-12-2023"
+export const getIsAttending = async ({eventId, username}) => {
+    const response = await axios.get(`/events/${eventId}/attending/${username}`);
+    return response.data;
+}
+
+export const attendEvent = async ({eventId, username}) =>{
+    const response = await axios.post(`/events/${eventId}/attend`, {
+        params: {
+          username: username
         }
-    ]
+    });
 
-    return events;
-    //const response = await axios.get('/Events/GetAllEvents');
-    //return response.data;
+    return response.data;
 }
 
-export const getTrendingEvents = () =>{
-    //TO DO: Connect to API...
-    return getEvents();
-}
+export const removeAttending = async ({eventId, username}) =>{
+    const response = await axios.post(`/events/${eventId}/remove-attending`, {
+        params: {
+          username: username
+        }
+    });
 
-export const attendEvent = ({eventId, username}) =>{
-    //TO DO: Connect to API...
-}
-
-export const getIsAttending = ({eventId, username}) => {
-    //TO DO: Connect to API...
+    return response.data;
 }
 
 export const addEvent = async (event) =>{
-    return await axios.post('/Events/CreateEvent', event);
+    return await axios.post('/events/create-event', event);
 }
 
 export const updateEvent = async (event) =>{
-    return await axios.patch(`/Events/${event.id}`, event);
+    return await axios.patch(`/events/${event.id}`, event);
 }
 
-export const deleteEvent = async ({id}) =>{
-    return await axios.delete(`/Events/${id}`, id);
+export const deleteEvent = async (id) =>{
+    return await axios.delete(`/events/${id}`, id);
 }

@@ -1,8 +1,9 @@
 package com.unidev.universe.controllers;
 
 import com.unidev.universe.entities.Post;
+import com.unidev.universe.services.FriendshipService;
 import com.unidev.universe.services.PostService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,15 +11,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/posts")
 public class PostController {
-
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
+    private final FriendshipService friendshipService;
 
     @GetMapping
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
+    }
+
+    @GetMapping("/getFriendsPosts/{username}")
+    public List<Post> getFriendsPosts(@PathVariable String username) {
+        List<String> friends = friendshipService.getFriendUsernames(username);
+        return postService.getPostsByAuthorNames(friends);
     }
 
     @GetMapping("/{postId}")
@@ -26,7 +33,7 @@ public class PostController {
         return postService.getPostById(postId);
     }
 
-    @PostMapping
+    @PostMapping("/createPost")
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
         Post createdPost = postService.createPost(post);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
