@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
-import { getNewsByTitle } from "../api/newsApi";
+import { getNewsByTitle } from "../services/newsService";
 import Loading from '../components/fallbacks/Loading'
 
 const NewsDetails = () => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getJobs } from '../api/jobsApi';
+import { getJobs } from '../services/jobsService';
 import JobsIcon from '../assets/icons/icon-job.svg';
 import SearchIcon from '../assets/icons/icon-search-outline.svg'
 import JobOffer from '../components/JobOffer';

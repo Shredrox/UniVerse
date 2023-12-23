@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth";
-import { applyToJob, getJobById } from "../api/jobsApi";
+import { applyToJob, getJobById } from "../services/jobsService";
 import { IoBriefcase } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import { HiBuildingOffice2 } from "react-icons/hi2";

@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { addCommentReply, getCommentReplies } from "../api/postsApi";
+import { addCommentReply, getCommentReplies } from "../services/postsService";
 import { useAuth } from '../hooks/useAuth'
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
