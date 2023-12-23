@@ -1,86 +1,55 @@
 import axios from "./axios";
 
 export const getUsers = async () =>{
-    const response = await axios.get('/User/GetAllUsers');
+    const response = await axios.get('/users');
     return response.data;
 }
 
 export const getUsersByFilter = async (filter) =>{
-    const response = await axios.get(`/User/Search/${filter}`);
+    const response = await axios.get(`/users/search/${filter}`);
     return response.data;
 }
 
-export const userExists = (username) =>{
-    //TO DO: Connect to API
-    return true;
-}
-
-export const getUserById = async (userId) =>{
-    const response = await axios.get(`/User/${userId}`);
+export const userExists = async (username) =>{
+    const response = await axios.get(`/users/exists/${username}`);
     return response.data;
 }
 
 export const getUserByName = async (username) =>{
-    const response = await axios.get(`/User/${username}`);
+    const response = await axios.get(`/users/${username}`);
     return response.data;
 }
 
 export const getUserOnlineFriends = async (username) =>{
-
-    const users = [
-        {
-            username: "Test 1",
-            isOnline: true,
-        },
-        {
-            username: "Test 2",
-            isOnline: false,
-        },
-        {
-            username: "Test 3",
-            isOnline: true,
-        },
-        {
-            username: "Test 4",
-            isOnline: true,
-        }     
-    ]
-
-    return users.filter(user => user.isOnline); 
-
-    // const response = await axios.get(`/User/${username}/GetOnlineFriends`);
-    // return response.data;
+    const response = await axios.get(`/users/${username}/online-friends`);
+    return response.data;
 }
 
-export const checkFriendship = async (user1Username, user2Username) => {
-    //   const response = await axios.get('/api/areFriends', {
-    //     params: {
-    //       user1Username,
-    //       user2Username,
-    //     },
-    //   });
-    console.log("friend checking");
+export const checkFriendship = async (usernameUser1, usernameUser2) => {
+    const response = await axios.get('/users/check-friendship', {
+      params: {
+        usernameUser1,
+        usernameUser2,
+      },
+    });
 
-    const friends = [
-        "IAmDriving",
-        "Admin"
-    ]
-
-    return friends.includes(user2Username); 
+    return response.data;
 };
 
 export const addFriend = async ({ loggedInUser, profileUser }) =>{
-    console.log(loggedInUser + " " + profileUser + " add");
+    const response = await axios.post(`/users/${loggedInUser}/add-friend/${profileUser}`);
+    return response.data;
 }
 
 export const removeFriend = async ({ loggedInUser, profileUser }) =>{
-    console.log(loggedInUser + " " + profileUser + " remove");
+    const response = await axios.post(`/users/${loggedInUser}/remove-friend/${profileUser}`);
+    return response.data;
 }
 
 export const confirmPassword = async ({ username, password }) =>{
     const details = { username: username, email: "", password: password };
 
-    const response = await axios.post('/User/ConfirmPassword', details);
+    const response = await axios.post('/users/confirm-password', details);
     return response.data;
 }
 
@@ -92,6 +61,6 @@ export const updateUserProfile = async ({username, newUsername, email, password}
         newPassword: password 
     };
 
-    const response = await axios.post('/User/UpdateProfile', details);
+    const response = await axios.post('/users/update-profile', details);
     return response.data;
 }
