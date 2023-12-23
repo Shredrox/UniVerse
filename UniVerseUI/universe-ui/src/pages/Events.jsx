@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { attendEvent, getEvents, getTrendingEvents } from '../api/eventsApi';
+import { attendEvent, getEvents, getTrendingEvents } from '../services/eventsService';
 import Event from '../components/Event';
 import { MdEventAvailable } from "react-icons/md";
 import { IoTrendingUp } from "react-icons/io5";

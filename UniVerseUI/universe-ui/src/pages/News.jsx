@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getNews } from '../api/newsApi';
+import { getNews } from '../services/newsService';
 import NewsCard from '../components/NewsCard'
 import Loading from '../components/fallbacks/Loading'
 

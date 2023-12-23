@@ -4,7 +4,7 @@ import Topbar from '../components/Topbar'
 import SocialPanel from '../components/SocialPanel'
 import BottomNav from '../components/BottomNav'
 
-export const MainLayout = () => {
+const MainLayout = () => {
   return(
     <>
       <Sidebar/>
@@ -17,5 +17,7 @@ export const MainLayout = () => {
       </div>
       <SocialPanel/>
     </>
-  );
+  )
 }   
+
+export default MainLayout

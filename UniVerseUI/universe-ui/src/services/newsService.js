@@ -1,4 +1,4 @@
-import axios from "./axios";
+import axios from "../api/axios";
 
 export const getNews = async () =>{
     const response = await axios.get('/news');

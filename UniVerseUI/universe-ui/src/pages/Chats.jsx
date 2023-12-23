@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth'
 import ChatCard from '../components/ChatCard';
-import { getChats } from '../api/chatsApi';
+import { getChats } from '../services/chatsService';
+import { userExists } from '../services/usersService';
 import { useEffect, useState } from 'react';
-import { userExists } from '../api/usersApi';
 import { useSocket } from '../hooks/useSocket';
 import Loading from '../components/fallbacks/Loading'
 import { useErrorBoundary } from 'react-error-boundary';

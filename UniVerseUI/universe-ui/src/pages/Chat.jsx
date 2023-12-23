@@ -3,7 +3,7 @@ import { useSocket } from '../hooks/useSocket'
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getChat } from '../api/chatsApi';
+import { getChat } from '../services/chatsService';
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
 

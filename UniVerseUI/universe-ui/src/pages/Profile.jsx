@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom"
-import { addFriend, checkFriendship, confirmPassword, getUserByName, removeFriend, updateUserProfile } from "../api/usersApi";
+import { addFriend, checkFriendship, confirmPassword, getUserByName, removeFriend, updateUserProfile } from "../services/usersService";
 import { useAuth } from "../hooks/useAuth";
 import Loading from '../components/fallbacks/Loading'
 import { useEffect, useState } from "react";

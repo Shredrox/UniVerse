@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import SearchIcon from '../assets/icons/icon-search-outline.svg'
 import { useQuery } from '@tanstack/react-query';
-import { getUsersByFilter } from '../api/usersApi';
+import { getUsersByFilter } from '../services/usersService';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from '../components/fallbacks/ErrorFallback'

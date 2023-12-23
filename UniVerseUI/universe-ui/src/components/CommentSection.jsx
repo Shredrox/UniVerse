@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { addPostComment, getPostComments } from "../api/postsApi";
+import { addPostComment, getPostComments } from "../services/postsService";
 import Comment from "./Comment";
 import { useEffect, useState } from "react";
 import { useAuth } from '../hooks/useAuth'

@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import CommentIcon from '../assets/icons/icon-comment.svg'
 import { FaRegHeart, FaHeart  } from "react-icons/fa";
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getIsLiked, getPostCommentCount, getPostLikes, likePost, unlikePost } from '../api/postsApi';
+import { getIsLiked, getPostCommentCount, getPostLikes, likePost, unlikePost } from '../services/postsService';
 import { useAuth } from '../hooks/useAuth'
 import { useSocket } from '../hooks/useSocket'
 import CommentSection from './CommentSection';

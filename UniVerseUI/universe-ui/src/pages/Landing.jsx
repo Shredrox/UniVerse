@@ -1,8 +1,7 @@
-import React from 'react'
 import UniVerseLogo from '../assets/images/logo-universe.png'
-import { AccessForm } from '../components/AccessForm'
+import AccessForm from '../components/AccessForm'
 
-export const Landing = () => {
+const Landing = () => {
   return (
     <div className='landing-container'>
       <div className='landing-logo-container'>
@@ -14,3 +13,5 @@ export const Landing = () => {
     </div>
   )
 }
+
+export default Landing

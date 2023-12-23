@@ -2,7 +2,7 @@ import { FaUserFriends } from "react-icons/fa";
 import BellIcon from '../assets/icons/icon-bell.svg'
 import { useAuth } from '../hooks/useAuth';
 import { useQuery } from "@tanstack/react-query";
-import { getUserOnlineFriends } from "../api/usersApi";
+import { getUserOnlineFriends } from "../services/usersService";
 import { useSocket } from '../hooks/useSocket'
 import { useState } from "react";
 import Loading from '../components/fallbacks/Loading'

@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Post from './Post'
-import { addPost, getFriendsPosts } from '../api/postsApi';
+import { addPost, getFriendsPosts } from '../services/postsService';
 import { useState } from 'react';
 import CreatePostForm from './CreatePostForm';
 import { useAuth } from '../hooks/useAuth'
 import Loading from '../components/fallbacks/Loading'
 
-export const Feed = () => {
+const Feed = () => {
   const { auth } = useAuth();
   const queryClient = useQueryClient();
 
@@ -69,3 +69,5 @@ export const Feed = () => {
     </div>
   )
 }
+
+export default Feed

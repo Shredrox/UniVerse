@@ -1,10 +1,11 @@
-import React from 'react'
-import { Feed } from '../components/Feed'
+import Feed from '../components/Feed'
 
-export const Home = () => {
+const Home = () => {
   return (
     <div>
       <Feed/>
     </div>
   )
 }
+
+export default Home
