@@ -6,7 +6,7 @@ import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 import axios from '../api/axios';
 
-export const AccessForm = () => {
+const AccessForm = () => {
   const { setAuth } = useAuth();
   const { connectSocketClient } = useSocket();
   const [activeButton, setActiveButton] = useState('login');
@@ -181,3 +181,5 @@ export const AccessForm = () => {
     </div>
   )
 }
+
+export default AccessForm

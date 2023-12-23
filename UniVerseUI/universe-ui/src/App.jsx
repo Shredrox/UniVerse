@@ -1,12 +1,12 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
-import { ProtectedRoute } from './routes/ProtectedRoute'
-import { Home } from "./pages/Home"
+import ProtectedRoute from './routes/ProtectedRoute'
+import Home from "./pages/Home"
 import News from './pages/News'
 import Jobs from './pages/Jobs'
 import Events from './pages/Events'
 import Settings from './pages/Settings'
-import { Landing } from './pages/Landing'
-import { MainLayout } from './layouts/MainLayout'
+import Landing from './pages/Landing'
+import MainLayout from './layouts/MainLayout'
 import NewsDetails from './pages/NewsDetails'
 import Profile from './pages/Profile'
 import JobDetails from './pages/JobDetails'
