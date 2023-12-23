@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/universe/jobs")
+@RequestMapping("/api/v1/jobs")
 public class JobsController {
     @Autowired
     private JobService jobService;
@@ -26,9 +26,14 @@ public class JobsController {
         return job.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/createJob")
     public ResponseEntity<JobOffer> createJob(@RequestBody JobOffer job){
         return ResponseEntity.ok(jobService.createJob(job));
+    }
+
+    @PostMapping("/{jobId}/apply")
+    public void createJob(@PathVariable Long jobId, @RequestParam String username){
+        jobService.applyToJob(jobId, username);
     }
 
     @PutMapping("/{id}")
