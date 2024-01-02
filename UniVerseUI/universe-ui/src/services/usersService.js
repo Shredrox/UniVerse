@@ -21,12 +21,12 @@ export const getUserByName = async (username) =>{
 }
 
 export const getUserOnlineFriends = async (username) =>{
-    const response = await axios.get(`/users/${username}/online-friends`);
+    const response = await axios.get(`/friendships/${username}/online-friends`);
     return response.data;
 }
 
 export const checkFriendship = async (usernameUser1, usernameUser2) => {
-    const response = await axios.get('/users/check-friendship', {
+    const response = await axios.get('/friendships/check-friendship', {
       params: {
         usernameUser1,
         usernameUser2,
@@ -37,12 +37,12 @@ export const checkFriendship = async (usernameUser1, usernameUser2) => {
 };
 
 export const addFriend = async ({ loggedInUser, profileUser }) =>{
-    const response = await axios.post(`/users/${loggedInUser}/add-friend/${profileUser}`);
+    const response = await axios.post(`/friendships/${loggedInUser}/add-friend/${profileUser}`);
     return response.data;
 }
 
 export const removeFriend = async ({ loggedInUser, profileUser }) =>{
-    const response = await axios.post(`/users/${loggedInUser}/remove-friend/${profileUser}`);
+    const response = await axios.post(`/friendships/${loggedInUser}/remove-friend/${profileUser}`);
     return response.data;
 }
 
