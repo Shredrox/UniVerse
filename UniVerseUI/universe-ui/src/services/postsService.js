@@ -11,8 +11,13 @@ export const getPostById = async (postId) =>{
     return response.data;
 }
 
+export const getPostImage = async (id) =>{
+    const response = await axios.get(`/posts/${id}/image`, { responseType: 'blob'});
+    return response.data;
+}
+
 export const addPost = async (post) =>{
-    return await axios.post('/posts/createPost', post);
+    return await axios.post('/posts/createPost', post, { responseType: 'blob'});
 }
 
 export const updatePost = async (post) =>{
@@ -72,20 +77,15 @@ export const getIsLiked = async (postId, username) =>{
     return response.data;
 }
 
-export const likePost = async ({postId, username}) =>{
-    const response = await axios.post(`/likes/post/${postId}/like`, {
-        params: {
-          username: username
-        }
-    });
-    
+export const likePost = async (like) =>{
+    const response = await axios.post(`/likes/post/like`, like);
     return response.data;
 }
 
 export const unlikePost = async ({postId, username}) =>{
-    const response = await axios.post(`/likes/post/${postId}/unlike`, {
+    const response = await axios.delete(`/likes/post/${postId}/unlike`, {
         params: {
-          username: username
+          username
         }
     });
     
