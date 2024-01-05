@@ -4,22 +4,38 @@ import { getIsLiked, getPostCommentCount, getPostImage, getPostLikes, likePost, 
 const usePostData = (postId, user) =>{
   const queryClient = useQueryClient();
 
-  const {data: postLikes, isLoading: likesLoading, isError: isLikesError, error: likesError} = useQuery({ 
+  const {data: postLikes, 
+    isLoading: likesLoading, 
+    isError: isLikesError, 
+    error: likesError
+  } = useQuery({ 
     queryKey: ["postLikes", postId],
     queryFn: () => getPostLikes(postId),
   });
   
-  const {data: postImage, isLoading: postImageLoading, isError: isPostImageError, error: postImageError} = useQuery({ 
+  const {data: postImage, 
+    isLoading: postImageLoading, 
+    isError: isPostImageError, 
+    error: postImageError
+  } = useQuery({ 
     queryKey: ["postImage", postId],
     queryFn: () => getPostImage(postId),
   });
   
-  const {data: postCommentCount, isLoading: commentCountLoading, isError: isCommentsError, error: commentsError} = useQuery({ 
+  const {data: postCommentCount, 
+    isLoading: commentCountLoading, 
+    isError: isCommentsError, 
+    error: commentsError
+  } = useQuery({ 
     queryKey: ["postCommentCount", postId],
     queryFn: () => getPostCommentCount(postId),
   });
   
-  const {data: isLiked, isLoading: postLikedLoading, isError: isLikedError, error: likedError} = useQuery({ 
+  const {data: isLiked, 
+    isLoading: postLikedLoading, 
+    isError: isLikedError, 
+    error: likedError
+  } = useQuery({ 
     queryKey: ["postLiked", postId, user],
     queryFn: () => getIsLiked(postId, user),
   });
