@@ -35,7 +35,6 @@ const useProfileData = (profileUser, loggedUser) =>{
 	} = useQuery({
     queryKey: ["friendsCount", user?.username],
     queryFn: () => getUserFriendsCount(user?.username),
-    enabled: !loggedInUserProfile,
   });
 
   const {data: postsCount, 
@@ -45,7 +44,6 @@ const useProfileData = (profileUser, loggedUser) =>{
 	} = useQuery({
     queryKey: ["postsCount", user?.username],
     queryFn: () => getUserPostsCount(user?.username),
-    enabled: !loggedInUserProfile,
   });
 
   const {mutateAsync: addFriendMutation} = useMutation({
