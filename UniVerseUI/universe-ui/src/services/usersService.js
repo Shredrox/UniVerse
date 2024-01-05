@@ -25,6 +25,16 @@ export const getUserOnlineFriends = async (username) =>{
     return response.data;
 }
 
+export const getUserFriendsCount = async (username) =>{
+    const response = await axios.get(`/friendships/${username}/count`);
+    return response.data;
+}
+
+export const getUserFriendRequests = async (username) =>{
+    const response = await axios.get(`/friendships/${username}/friend-requests`);
+    return response.data;
+}
+
 export const checkFriendship = async (usernameUser1, usernameUser2) => {
     const response = await axios.get('/friendships/check-friendship', {
       params: {
@@ -41,8 +51,18 @@ export const addFriend = async ({ loggedInUser, profileUser }) =>{
     return response.data;
 }
 
+export const acceptFriendRequest = async (friendshipId) =>{
+    const response = await axios.post(`/friendships/accept-friend-request/${friendshipId}`);
+    return response.data;
+}
+
 export const removeFriend = async ({ loggedInUser, profileUser }) =>{
-    const response = await axios.post(`/friendships/${loggedInUser}/remove-friend/${profileUser}`);
+    const response = await axios.delete(`/friendships/${loggedInUser}/remove-friend/${profileUser}`);
+    return response.data;
+}
+
+export const rejectFriendRequest = async (friendshipId) =>{
+    const response = await axios.delete(`/friendships/reject-friend-request/${friendshipId}`);
     return response.data;
 }
 
