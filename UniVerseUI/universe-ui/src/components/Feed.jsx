@@ -24,17 +24,15 @@ const Feed = () => {
 
   const [creatingPost, setCreatingPost] = useState(false);
 
-  const createPost = async (title, content, image) =>{
+  const createPost = async (data) =>{
     try{
-      const data = new FormData();
-      data.append('title', title);
-      data.append('content', content);
-      data.append('image', image);
-      data.append('authorId', 2);
-      console.log(data);
+      const requestData = new FormData();
+      requestData.append('title', data.title);
+      requestData.append('content', data.content);
+      requestData.append('image', data.image[0]);
+      requestData.append('authorName', auth?.user);
 
-      const response = await addPostMutation(data);
-      console.log(response);
+      await addPostMutation(requestData);
     }catch(e){
       console.error(e.response);
     }
@@ -61,9 +59,13 @@ const Feed = () => {
       {creatingPost ? <CreatePostForm setCreatingPost={setCreatingPost} createPost={createPost}/> 
       :
       <div className='feed'>
-        {posts?.map(post =>
-          <Post key={post.id} post={post}/>
-        )}
+      {posts.length > 0 ?
+      posts?.map(post =>
+        <Post key={post.id} post={post}/>
+      )
+      : 
+      <div>No posts yet.</div>
+      }
       </div>
       }
     </div>
