@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSocket } from '../hooks/useSocket'
+import { useForm } from 'react-hook-form';
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
 import axios from '../api/axios';
@@ -9,70 +10,33 @@ import axios from '../api/axios';
 const AccessForm = () => {
   const { setAuth } = useAuth();
   const { connectSocketClient } = useSocket();
+
+  const {register, handleSubmit, formState: {errors}, watch, clearErrors, reset} = useForm({
+    defaultValues:{
+      username: '',
+      email: '',
+      password: '',
+    }
+  });
+
   const [activeButton, setActiveButton] = useState('login');
-
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const [error, setError] = useState('');
   const [isError, setIsError] = useState(false);
-  const [isUsernameError, setIsUsernameError] = useState(false);
-  const [isEmailError, setIsEmailError] = useState(false);
-  const [isPasswordError, setIsPasswordError] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/home";
 
-  useEffect(() => {
-    setIsUsernameError(false);
-  }, [username])
+  const watchUsername = watch("username");
+  const watchEmail = watch("email");
+  const watchPassword = watch("password");
 
-  useEffect(() => {
-    setIsEmailError(false);
-  }, [email])
+  useEffect(() =>{
+    setError('');
+    setIsError(false);
+  },[watchUsername, watchEmail, watchPassword])
 
-  useEffect(() => {
-    setIsPasswordError(false);
-  }, [password])
-
-  useEffect(() => {
-    if(!isUsernameError && !isEmailError && !isPasswordError) {
-      setIsError(false);
-      setError('');
-    }
-  }, [isUsernameError, isEmailError, isPasswordError])
-
-  const checkInput = () => {
-    if(username === '' && activeButton === 'register'){
-      setIsUsernameError(true);
-    }
-    if(email === ''){
-      setIsEmailError(true);
-    }
-    if(password == ''){
-      setIsPasswordError(true);
-    }
-
-    if((email === '' || password === '') && activeButton === 'login'){
-      setError('Fields cannot be empty');
-      setIsError(true);
-      return false;
-    }else if((username === '' || email === '' || password === '') && activeButton === 'register'){
-      setError('Fields cannot be empty');
-      setIsError(true);
-      return false;
-    }
-
-    return true;
-  }
-
-  const handleSubmit = async () =>{
-    if(!checkInput()){
-      return;
-    }
-
+  const onSubmit = async (data) =>{
     try{
       let url;
 
@@ -84,7 +48,7 @@ const AccessForm = () => {
       }
 
       const response = await axios.post(url,
-        JSON.stringify({username, email, password}),
+        JSON.stringify(data),
         {
           headers: {'Content-Type': 'application/json'},
           withCredentials: true
@@ -95,8 +59,6 @@ const AccessForm = () => {
       const user = response?.data?.username;
 
       setAuth({user: user, accessToken: accessToken});
-      setUsername('');
-      setPassword('');
       connectSocketClient(user);
       navigate(from, { replace: true });
     }
@@ -118,26 +80,24 @@ const AccessForm = () => {
   }
 
   const handleButtonChange = (btn) => {
+    reset();
+    clearErrors();
     setActiveButton(btn);
     setError('');
     setIsError(false);
-    setIsUsernameError(false);
-    setIsEmailError(false);
-    setIsPasswordError(false);
-    setUsername('');
-    setEmail('');
-    setPassword('');
   }
 
   return (
-    <div className='access-form'>
+    <form onSubmit={handleSubmit(onSubmit)} className='access-form'>
       <div>
         <button 
+          type='button'
           onClick={() => handleButtonChange('login')} 
           className={activeButton === 'login' ? 'login-button-active' : 'login-button'}>
             Login
         </button>
         <button 
+          type='button'
           onClick={() => handleButtonChange('register')} 
           className={activeButton === 'register' ? 'register-button-active' : 'register-button'}>
             Register
@@ -146,39 +106,41 @@ const AccessForm = () => {
 
       <div className='access-form-input-container'>
         {activeButton === 'register' && 
-        <input 
-          className={`access-form-input ${isUsernameError ? 'input-error' : ''}`}
-          value={username}
-          type="text" 
-          onChange={(e) => setUsername(e.target.value)} 
-          placeholder='Username'
-        />
+        <>
+          <input 
+            className={`access-form-input ${errors.username ? 'input-error' : ''}`}
+            type="text" 
+            placeholder='Username'
+            {...register("username", {required: "Username is required"})}
+          />
+          {errors.username && <span style={{color: "red"}}>{errors.username?.message}</span>}
+        </>
         }
+        
         <input 
-          className={`access-form-input ${isEmailError ? 'input-error' : ''}`}
-          value={email}
+          className={`access-form-input ${errors.email ? 'input-error' : ''}`}
           type="email" 
-          onChange={(e) => setEmail(e.target.value)} 
           placeholder='Email'
+          {...register("email", {required: "Email is required"})}
         />
+        {errors.email && <span style={{color: "red"}}>{errors.email?.message}</span>}
         <input 
-          className={`access-form-input ${isPasswordError ? 'input-error' : ''}`}
-          value={password}
+          className={`access-form-input ${errors.password ? 'input-error' : ''}`}
           type="password" 
-          onChange={(e) => setPassword(e.target.value)} 
           placeholder='Password'
+          {...register("password", {required: "Password is required"})}
         />
+        {errors.password && <span style={{color: "red"}}>{errors.password?.message}</span>}
       </div>
 
       <button 
-        onClick={() => handleSubmit()} 
+        type='submit'
         className='confirm-button'>
         {activeButton === 'login' ? 'Log In' : 'Sign Up'}
       </button>
 
-      Forgot password?
       {isError && <ErrorFallback error={error}/>}
-    </div>
+    </form>
   )
 }
 
