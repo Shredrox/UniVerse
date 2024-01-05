@@ -42,7 +42,7 @@ const Profile = () => {
         {!profileData.loggedInUserProfile && 
         <button 
           className="profile-friend-button" 
-          onClick={() => friendshipStatus === "ACCEPTED" ? 
+          onClick={() => profileData.friendshipStatus === "ACCEPTED" ? 
             removeFriendMutation({ loggedInUser: auth?.user, profileUser: profileData.user?.username }) 
             : 
             addFriendMutation({ sender: auth?.user, receiver: profileData.user?.username })}>
