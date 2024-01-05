@@ -49,14 +49,14 @@ const useProfileData = (profileUser, loggedUser) =>{
   const {mutateAsync: addFriendMutation} = useMutation({
     mutationFn: sendFriendRequest,
     onSuccess: () =>{
-      queryClient.invalidateQueries(["friendshipStatus"]);
+      queryClient.invalidateQueries(["friendshipStatus", loggedUser, user?.username]);
     },
   });
 
   const {mutateAsync: removeFriendMutation} = useMutation({
     mutationFn: removeFriend,
     onSuccess: () =>{
-      queryClient.invalidateQueries(["friendshipStatus"]);
+      queryClient.invalidateQueries(["friendshipStatus", loggedUser, user?.username]);
     },
   });
 
