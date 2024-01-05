@@ -6,6 +6,11 @@ export const getFriendsPosts = async (username) =>{
     return response.data;
 }
 
+export const getUserPostsCount = async (username) =>{
+    const response = await axios.get(`/posts/user/${username}/count`);
+    return response.data;
+}
+
 export const getPostById = async (postId) =>{
     const response = await axios.get(`/posts/${postId}`);
     return response.data;
