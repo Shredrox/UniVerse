@@ -92,7 +92,7 @@ const SocialPanel = () => {
           alertData.onlineFriends?.map((friend, index) => 
           <div key={index} className="friend">
             <div className='chat-profile-picture'></div>
-            {friend.username}
+            {friend}
           </div>
           ) 
           :
