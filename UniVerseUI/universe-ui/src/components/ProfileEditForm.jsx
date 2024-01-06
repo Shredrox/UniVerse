@@ -10,6 +10,9 @@ const ProfileEditForm = ({profileUser, updateUserProfileMutation, setIsEditOn}) 
   const [newPassword, setNewPassword] = useState('');
   const [isValidPassword, setIsValidPassword] = useState(true);
 
+  const [image, setImage] = useState(null);
+  const [imageName, setImageName] = useState('');
+
   const navigate = useNavigate();
 
   useEffect(() =>{
@@ -31,11 +34,24 @@ const ProfileEditForm = ({profileUser, updateUserProfileMutation, setIsEditOn}) 
       return;
     }
 
-    await updateUserProfileMutation({username: profileUser.username, newUsername: name, email: email, password: newPassword});
+    const requestData = new FormData();
+    requestData.append('username', profileUser.username);
+    requestData.append('newUsername', name);
+    requestData.append('newEmail', email);
+    requestData.append('newPassword', newPassword);
+    requestData.append('profilePicture', image);
+
+    await updateUserProfileMutation(requestData);
 
     navigate(`/profile/${name}`)
     window.location.reload(); 
   }
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setImageName(file.name);
+  };
 
   const handleCancel = () =>{
     setIsEditOn(false);
@@ -45,6 +61,19 @@ const ProfileEditForm = ({profileUser, updateUserProfileMutation, setIsEditOn}) 
 
   return (
     <div className="profile-edit-container">
+      <label 
+        htmlFor="file"
+        className="profile-page-add-image">
+        {image ? "Change Image" : "Update Profile Picture"}
+      </label>
+      {image && <label>{imageName}</label>}
+      <input 
+      	type="file"
+        id="file"
+        accept="image/*"
+        style={{display: "none"}}
+        onChange={handleImageChange}
+      />
       <input value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Username"/>
       <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
       <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Old Password"/>
