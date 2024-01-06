@@ -359,6 +359,29 @@ body{
     gap: 0.5rem;
 }
 
+.profile-page-add-image{
+    width: 215px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.1rem;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    cursor: pointer;
+    border-radius: 1rem;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.profile-page-add-image:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+.profile-page-profile-picture{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .profile-page-tab{
     background: url('../assets/images/background-profile.jpg');
     background-position: center;
@@ -592,13 +615,18 @@ body{
 }
 
 .profile-picture{
-    background-color: #00ABFF;
+    background-color: #011731;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.profile-picture-placeholer-icon{
+    width: 60px;
+    height: 60px;
 }
 
 .profile-picture img{
@@ -608,9 +636,14 @@ body{
     height: 100%;
 }
 
-.profile-page-picture{
-    border-radius: 50%;
+.profile-page-picture-container{
     width: 160px;
+    background-color: #011731;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .friends-list{
@@ -634,7 +667,15 @@ body{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #00ABFF;
+    background-color: #011731;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-profile-picture-placeholder-icon{
+    width: 55%;
+    height: 55%;
 }
 
 .friend-request-icon{
@@ -960,11 +1001,29 @@ body{
     cursor: pointer;
 }
 
-.author-profile-picture{
+.author-profile-picture-container{
     background-color: white;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    background-color: #011731;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.author-profile-picture{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-profile-picture-placeholer-icon{
+    width: 25px;
+    height: 25px;
 }
 
 .post-content{
@@ -1095,10 +1154,13 @@ body{
 }
 
 .comment-profile-picture{
-    background-color: white;
+    background-color: #011731;
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .comment-textarea{
@@ -2168,7 +2230,7 @@ body{
 
 @media (max-width: 1500px){
     .feed{
-        width: 100%;
+        width: 80%;
     }
 }
 
