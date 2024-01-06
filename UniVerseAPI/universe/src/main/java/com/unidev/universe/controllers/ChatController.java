@@ -17,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/chats")
 public class ChatController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final ChatService chatService;
@@ -46,12 +47,12 @@ public class ChatController {
         simpMessagingTemplate.convertAndSendToUser(newMessage.getReceiver().getUsername(), "/queue/message", newMessage);
     }
 
-    @GetMapping("/api/getMessages")
+    @GetMapping("/getMessages")
     public List<Message> getMessages(@RequestParam("user") String user, @RequestParam("chatUser") String chatUser) {
         return chatService.getChatMessages(userService.getUserByUsername(user).getId(), userService.getUserByUsername(chatUser).getId());
     }
 
-    @GetMapping("/api/getUserChats")
+    @GetMapping("/getUserChats")
     public List<Chat> getUserChats(@RequestParam("user") String user) {
         return chatService.getUserChats(userService.getUserByUsername(user).getId());
     }
