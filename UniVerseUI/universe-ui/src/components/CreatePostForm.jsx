@@ -1,48 +1,15 @@
-import { useEffect, useState } from "react"
-import ErrorFallback from "./fallbacks/ErrorFallback";
+import { useState } from "react"
+import { useForm } from "react-hook-form";
 
 const CreatePostForm = ({setCreatingPost, createPost}) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const {register, handleSubmit, formState: {errors}, resetField} = useForm();
+
   const [image, setImage] = useState(null);
   const [imageName, setImageName] = useState('');
 
-  const [isError, setIsError] = useState(false);
-  const [error, setError] = useState('');
-  const [isTitleError, setIsTitleError] = useState(false);
-  const [isContentError, setIsContentError] = useState(false);
-
-  useEffect(() => {
-    setIsTitleError(false);
-  }, [title])
-
-  useEffect(() => {
-    setIsContentError(false);
-  }, [content])
-
-  useEffect(() => {
-    if(!isTitleError && !isContentError) {
-      setIsError(false);
-      setError('');
-    }
-  }, [isTitleError, isContentError])
-
-  const handleSubmit = () => {
-    if(title === ''){
-      setIsTitleError(true);
-    }
-    if(content === ''){
-      setIsContentError(true);
-    }
-
-    if(title === '' || content === ''){
-      setIsError(true);
-      setError('Fields cannot be empty');
-      return;
-    }
-
+  const onSubmit = (data) => {
     setCreatingPost(false); 
-    createPost(title, content, image);
+    createPost(data);
   }
   
   const handleImageChange = (e) => {
@@ -52,21 +19,21 @@ const CreatePostForm = ({setCreatingPost, createPost}) => {
   };
 
   return (
-    <div className='create-post'>
+    <form onSubmit={handleSubmit(onSubmit)} className='create-post'>
       <input 
-        className={`create-post-input ${isTitleError ? 'input-error' : ''}`}
+        className={`create-post-input ${errors.title ? 'input-error' : ''}`}
         type="text"
-        value={title} 
-        onChange={(e) => setTitle(e.target.value)} 
         placeholder='Title'
+        {...register("title", {required: "Title is required"})}
       />
+      {errors.title && <span style={{color: "red"}}>{errors.title?.message}</span>}
       <textarea 
-        className={`create-post-textarea ${isContentError ? 'input-error' : ''}`}
+        className={`create-post-textarea ${errors.content ? 'input-error' : ''}`}
         type="text" 
-        value={content} 
-        onChange={(e) => setContent(e.target.value)} 
         placeholder='Content'
+        {...register("content", {required: "Content is required"})}
       />
+      {errors.content && <span style={{color: "red"}}>{errors.content?.message}</span>}
       <label 
         htmlFor="file"
         className="create-post-add-image">
@@ -78,24 +45,25 @@ const CreatePostForm = ({setCreatingPost, createPost}) => {
         id="file"
         accept="image/*"
         style={{display: "none"}}
-        onChange={handleImageChange}
+        {...register("image",{
+          onChange: (e) => handleImageChange(e)
+        })}
       />
       {image &&
       <div className="create-post-image-container">
-        <button 
-          onClick={() => setImage(null)}>
+        <button
+          onClick={() => {setImage(null); resetField("image", { defaultValue: null })}}>
             X
         </button>
         <img src={URL.createObjectURL(image)} alt="PostImagePreview"/>
       </div> 
       }
       <button 
-        className="confirm-button"
-        onClick={handleSubmit}>
+        type="submit"
+        className="confirm-button">
           Confirm
       </button>
-      {isError && <ErrorFallback error={error}/>}
-    </div>
+    </form>
   )
 }
 

@@ -43,6 +43,11 @@ public class AuthService{
         String accessToken = jwtService.generateToken(user.getUsername());
         String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), user.getUsername());
 
+        user.setIsOnline(true);
+
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+
         Cookie accessTokenCookie = new Cookie("accessToken", accessToken);
         accessTokenCookie.setHttpOnly(true);
         accessTokenCookie.setSecure(true);
@@ -67,6 +72,39 @@ public class AuthService{
         return jwtResponse;
     }
 
+    public void logout(HttpServletRequest request, HttpServletResponse response){
+        String accessToken = null;
+
+        for (Cookie cookie : request.getCookies()) {
+            if (cookie.getName().equals("accessToken")){
+                accessToken = cookie.getValue();
+            }
+        }
+
+        Cookie emptyAccessCookie = new Cookie("accessToken", null);
+        emptyAccessCookie.setHttpOnly(true);
+        emptyAccessCookie.setSecure(true);
+        emptyAccessCookie.setPath("/");
+        emptyAccessCookie.setMaxAge(0);
+
+        Cookie emptyRefreshCookie = new Cookie("refreshToken", null);
+        emptyRefreshCookie.setHttpOnly(true);
+        emptyRefreshCookie.setSecure(true);
+        emptyRefreshCookie.setPath("/");
+        emptyRefreshCookie.setMaxAge(0);
+
+        String email = jwtService.extractUser(accessToken);
+        User user = userRepository.findByEmail(email);
+
+        user.setIsOnline(false);
+
+        user.setRefreshToken(null);
+        userRepository.save(user);
+
+        response.addCookie(emptyAccessCookie);
+        response.addCookie(emptyRefreshCookie);
+    }
+
     public JwtResponse refreshToken(HttpServletRequest request, HttpServletResponse response){
         String accessToken = null;
 
@@ -82,6 +120,9 @@ public class AuthService{
         if(jwtService.validateToken(accessToken, user)){
             String newAccessToken = jwtService.generateToken(user.getUsername());
             String newRefreshToken = jwtService.generateRefreshToken(new HashMap<>(), user.getUsername());
+
+            user.setRefreshToken(newRefreshToken);
+            userRepository.save(user);
 
             Cookie accessTokenCookie = new Cookie("accessToken", newAccessToken);
             accessTokenCookie.setHttpOnly(true);
@@ -102,10 +143,17 @@ public class AuthService{
             JwtResponse jwtResponse = new JwtResponse();
             jwtResponse.setAccessToken(newAccessToken);
             jwtResponse.setRefreshToken(newRefreshToken);
+            jwtResponse.setUsername(user.getName());
 
             return jwtResponse;
         }
 
         return null;
+    }
+
+    public boolean getUserByInfo(RegisterRequest request){
+        User user =  userRepository.findByUsername(request.getUsername());
+
+        return passwordEncoder.matches(request.getPassword(), user.getPassword());
     }
 }

@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "../api/axios";
 
 export const getChats = async (username) => {
-    const response = await axios.get('http://localhost:8080/api/getUserChats', {
+    const response = await axios.get('/chats/getUserChats', {
         params: {
           user: username
         }
@@ -11,7 +11,7 @@ export const getChats = async (username) => {
 }
 
 export const getChat = async (user, chatUser) => {
-    const response = await axios.get('http://localhost:8080/api/getMessages', {
+    const response = await axios.get('/chat/getMessages', {
      params: {
        user: user,
        chatUser: chatUser

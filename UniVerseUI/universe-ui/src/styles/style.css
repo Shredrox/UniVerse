@@ -451,6 +451,15 @@ body{
     padding: 1rem 1rem 1rem 0;
 }
 
+.friend-requests-container{
+    position: relative;
+    height: 94%;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .notification-container{
     position: relative;
     width: 30px;
@@ -482,10 +491,9 @@ body{
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    font-size: 1.1rem;
-    width: 300px;
+    font-size: 1rem;
+    width: 14rem;
     max-height: 300px;
-    
     background-color: #03254C;
     padding: 1rem;
     border: 5px solid transparent;
@@ -524,7 +532,7 @@ body{
     align-items: center;
     gap: 1rem;
     background-color: #03254C;
-    width: 15rem;
+    width: 90%;
     height: 16rem;
     border: 5px solid transparent;
     border-radius: 1rem;
@@ -630,13 +638,14 @@ body{
 }
 
 .friend-request-icon{
-    height: 94%;
+    height: 100%;
     width: 50px;
+    cursor: pointer;
 }
 
 .sidebar{
     background-color: #01152a;
-    width: 270px;
+    width: 230px;
     height: 100%;
     font-family: 'Raleway', sans-serif;
     font-size: 1.625rem; 
@@ -746,7 +755,7 @@ body{
 .feed{
     padding: 0 1rem 0 1rem;
     height: 760px;
-    width: 80%;
+    width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -872,7 +881,7 @@ body{
 }
 
 .line{
-    width: 95%;
+    width: 90%;
     height: 2px;
     background-color: #8763D2;
     border-radius: 2rem;
@@ -897,6 +906,14 @@ body{
     align-items: center;
     gap: 1rem;
     justify-content: space-between;
+}
+
+.post-image{
+    max-width: 100%;
+    max-height: auto;
+    width: auto;
+    height: auto;
+    border-radius: 0.7rem;
 }
 
 .post h3{
@@ -963,6 +980,11 @@ body{
 .post-content img{
     margin-top: 15px;
     width: 100%;
+}
+
+.post-content p{
+    font-size: 0.9rem;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .interaction-container{

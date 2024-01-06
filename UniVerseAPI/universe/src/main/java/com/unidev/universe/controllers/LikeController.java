@@ -1,14 +1,14 @@
 package com.unidev.universe.controllers;
 
+import com.unidev.universe.dto.LikeDTO;
 import com.unidev.universe.services.LikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/likes")
+@RequestMapping("/api/v1/likes")
 public class LikeController {
 
     private final LikeService likeService;
@@ -25,13 +25,13 @@ public class LikeController {
         return ResponseEntity.ok(isLiked);
     }
 
-    @PostMapping("/post/{postId}/like")
-    public ResponseEntity<String> likePost(@PathVariable long postId, @RequestParam String username) {
-        likeService.likePost(postId, username);
+    @PostMapping("/post/like")
+    public ResponseEntity<String> likePost(@RequestBody LikeDTO request) {
+        likeService.likePost(request.getPostId(), request.getUsername());
         return ResponseEntity.ok("Post liked successfully.");
     }
 
-    @PostMapping("/post/{postId}/unlike")
+    @DeleteMapping("/post/{postId}/unlike")
     public ResponseEntity<String> unlikePost(@PathVariable long postId, @RequestParam String username) {
         likeService.unlikePost(postId, username);
         return ResponseEntity.ok("Post unliked successfully.");

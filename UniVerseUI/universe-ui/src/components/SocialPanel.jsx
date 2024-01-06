@@ -1,29 +1,48 @@
 import { FaUserFriends } from "react-icons/fa";
 import BellIcon from '../assets/icons/icon-bell.svg'
 import { useAuth } from '../hooks/useAuth';
-import { useQuery } from "@tanstack/react-query";
-import { getUserOnlineFriends } from "../services/usersService";
-import { useSocket } from '../hooks/useSocket'
 import { useState } from "react";
 import Loading from '../components/fallbacks/Loading'
+import useAlertsData from "../hooks/useAlertsData";
 
 const SocialPanel = () => {
   const { auth } = useAuth();
-  const { notifications } = useSocket();
 
   const [isNotificationTabOn, setIsNotificationTabOn] = useState(false);
+  const [isFriendRequstsTabOn, setIsFriendRequstsTabOn] = useState(false);
 
-  const {data: onlineFriends, isLoading, isError, error} = useQuery({ 
-    queryKey: ["userOnlineFriends", auth.user],
-    queryFn: () => getUserOnlineFriends(auth.user),
-    refetchInterval: 10000,
-  });
+  const { 
+    alertData, 
+    isAlertsLoading, 
+    isAlertsError, 
+    alertsError, 
+    acceptFriendRequestMutation, 
+    rejectFriendRequestMutation,
+    readNotificationsMutation
+  } = useAlertsData(auth?.user);
 
-  if(isError){
-    return <div>{error.message}</div>
+  const unreadNotificationsCount = alertData.notifications
+  ? alertData.notifications.filter(notification => !notification.read).length
+  : 0;
+
+  const handleNotificationsOpen = () =>{
+    readNotificationsMutation(auth?.user);
+    setIsNotificationTabOn(!isNotificationTabOn);
   }
 
-  if(isLoading){
+  const handleAcceptFriendRequest = (friendshipId) =>{
+    acceptFriendRequestMutation(friendshipId);
+  }
+
+  const handleRejectFriendRequest = (friendshipId) =>{
+    rejectFriendRequestMutation(friendshipId);
+  }
+
+  if(isAlertsError){
+    return <div>{alertsError.message}</div>
+  }
+
+  if(isAlertsLoading){
     return <Loading/>
   }
 
@@ -31,18 +50,36 @@ const SocialPanel = () => {
     <div className='social-panel'>
       <div className='notifications-container'>
         <div className="notification-container">
-          <img onClick={() => setIsNotificationTabOn(!isNotificationTabOn)} className="notification-icon" src={BellIcon} alt="BellIcon" />
-          {notifications?.length > 0 && 
-          <div className="notification-count">{notifications?.length}</div>}
+          <img onClick={handleNotificationsOpen} className="notification-icon" src={BellIcon} alt="BellIcon" />
+          {unreadNotificationsCount > 0 && 
+          <div className="notification-count">{unreadNotificationsCount}</div>}
         </div>
-        <FaUserFriends className="friend-request-icon"/>
+        <div className="friend-requests-container">
+          <FaUserFriends onClick={() => setIsFriendRequstsTabOn(!isFriendRequstsTabOn)} className="friend-request-icon"/>
+          {alertData.friendRequests?.length > 0 && 
+          <div className="notification-count">{alertData.friendRequests?.length}</div>}
+        </div>
       </div>
       {isNotificationTabOn &&
       <div className="notification-list-container">
         <h3>Notifications</h3>
         <div className="notification-list">
-          {notifications?.map((notification, index) => 
+          {alertData.notifications?.map((notification, index) => 
           <div key={index}>{notification.message}</div>
+          )}
+        </div>
+      </div>
+      }
+      {isFriendRequstsTabOn &&
+      <div className="notification-list-container">
+        <h3>Friend Requests</h3>
+        <div className="notification-list">
+          {alertData.friendRequests?.map((friendRequest, index) => 
+          <div key={index}>
+            {friendRequest.senderName}
+            <button onClick={() => handleAcceptFriendRequest(friendRequest.id)} className="confirm-button">Accept</button>
+            <button onClick={() => handleRejectFriendRequest(friendRequest.id)} className="cancel-button">Reject</button>
+          </div>
           )}
         </div>
       </div>
@@ -51,12 +88,15 @@ const SocialPanel = () => {
       <div className='friends-container'>
         Online Friends
         <div className='friends-list'>
-          {onlineFriends?.map((friend, index) => 
-            <div key={index} className="friend">
-              <div className='chat-profile-picture'></div>
-              {friend.username}
-            </div>
-          )}
+          {alertData.onlineFriends.length > 0 ?
+          alertData.onlineFriends?.map((friend, index) => 
+          <div key={index} className="friend">
+            <div className='chat-profile-picture'></div>
+            {friend}
+          </div>
+          ) 
+          :
+          <div>No Online Friends</div>}
         </div>
       </div>
     </div>

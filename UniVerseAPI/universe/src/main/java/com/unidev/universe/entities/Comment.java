@@ -23,6 +23,9 @@ public class Comment {
     @Column(name = "content")
     private String content;
 
+    @NotNull
+    private String author;
+
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     private Comment parentComment;

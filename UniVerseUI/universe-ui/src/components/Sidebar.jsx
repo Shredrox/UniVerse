@@ -14,11 +14,12 @@ const Sidebar = () => {
   const location = useLocation();
   const { auth } = useAuth();
   const logout = useLogout();
-  const { disconnectSocketClient } = useSocket();
+  const { disconnectSocketClient, sendIsOnlineAlert } = useSocket();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logout();
+    sendIsOnlineAlert(auth?.user);
     disconnectSocketClient(); 
     navigate('/');
   }

@@ -1,94 +1,31 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom"
-import { addFriend, checkFriendship, confirmPassword, getUserByName, removeFriend, updateUserProfile } from "../services/usersService";
+import { useParams } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth";
 import Loading from '../components/fallbacks/Loading'
-import { useEffect, useState } from "react";
-import ErrorFallback from '../components/fallbacks/ErrorFallback'
+import { useState } from "react";
+import useProfileData from "../hooks/useProfileData";
+import ProfileEditForm from "../components/ProfileEditForm";
 
 const Profile = () => {
   const { auth } = useAuth();
   const { username } = useParams();
 
-  const navigate = useNavigate();
-
-  const queryClient = useQueryClient();
-
-  const {data: user, isLoading, isError, error} = useQuery({ 
-    queryKey: ["userDetails", username],
-    queryFn: () => getUserByName(username),
-  });
+  const { 
+    profileData, 
+    isProfileLoading, 
+    isProfileError, 
+    profileError,
+    addFriendMutation,
+    removeFriendMutation,
+    updateUserProfileMutation 
+  } = useProfileData(username, auth?.user);
 
   const [isEditOn, setIsEditOn] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [isValidPassword, setIsValidPassword] = useState(true);
 
-  const loggedInUserProfile = auth?.user === user?.username;
-
-  const {data: areUsersFriends} = useQuery({
-    queryKey: ["areUsersFriends", auth?.user, user?.username],
-    queryFn: () => checkFriendship(auth?.user, user?.username),
-    enabled: !loggedInUserProfile,
-  });
-
-  const {mutateAsync: addFriendMutation} = useMutation({
-    mutationFn: addFriend,
-    onSuccess: () =>{
-      queryClient.invalidateQueries(["areUsersFriends"]);
-    },
-  });
-
-  const {mutateAsync: removeFriendMutation} = useMutation({
-    mutationFn: removeFriend,
-    onSuccess: () =>{
-      queryClient.invalidateQueries(["areUsersFriends"]);
-    },
-  });
-
-  const {mutateAsync: updateUserProfileMutation} = useMutation({
-    mutationFn: updateUserProfile,
-    onSuccess: () =>{
-      navigate(`/profile/${name}`)
-      window.location.reload(); 
-    },
-  });
-
-  useEffect(() =>{
-    if(user !== null){
-      setName(user?.username);
-      setEmail(user?.email);
-    }
-  }, [user])
-
-  useEffect(() =>{
-    setIsValidPassword(true);
-  }, [password])
-
-  const handleProfileEdit = async () =>{
-    const validPasswrd = await confirmPassword({username: user?.username, password: password});
-
-    if(!validPasswrd){
-      setIsValidPassword(false);
-      return;
-    }
-
-    updateUserProfileMutation({username: user?.username, newUsername: name, email: email, password: newPassword});
+  if(isProfileError){
+    throw Error(profileError);
   }
 
-  const handleCancel = () =>{
-    setIsEditOn(false);
-    setIsValidPassword(true);
-    setPassword('');
-  }
-
-  if(isError){
-    throw Error(error);
-  }
-
-  if(isLoading){
+  if(isProfileLoading){
     return <Loading/>
   }
 
@@ -96,38 +33,32 @@ const Profile = () => {
     <div className="profile-page-container">
       <div className="profile-page-tab">
         <img className="profile-page-picture" src="https://picsum.photos/200/200" alt="ProfilePicture" />
-        <h3>{user?.username}</h3>
+        <h3>{profileData.user?.username}</h3>
         <div className="profile-social-tab">
-          <div className="profile-counts"><span>Friends</span>69</div>
-          <div className="profile-counts"><span>Posts</span>420</div>
+          <div className="profile-counts"><span>Friends</span>{profileData.friendsCount}</div>
+          <div className="profile-counts"><span>Posts</span>{profileData.postsCount}</div>
         </div>
 
-        {!loggedInUserProfile && 
+        {!profileData.loggedInUserProfile && 
         <button 
-        className="profile-friend-button" 
-        onClick={() => areUsersFriends ? 
-          removeFriendMutation({ loggedInUser: auth?.user, profileUser: user?.username }) 
-          : 
-          addFriendMutation({ loggedInUser: auth?.user, profileUser: user?.username })}>
-          {areUsersFriends ? "Remove Friend" : "Add Friend"}
+          className="profile-friend-button" 
+          onClick={() => profileData.friendshipStatus === "ACCEPTED" ? 
+            removeFriendMutation({ loggedInUser: auth?.user, profileUser: profileData.user?.username }) 
+            : 
+            addFriendMutation({ sender: auth?.user, receiver: profileData.user?.username })}>
+            {profileData.friendshipStatus === "ACCEPTED" ? "Remove Friend" : profileData.friendshipStatus === "PENDING" ? "Pending" : "Add Friend"}
         </button>
         }
 
-        {loggedInUserProfile && 
+        {profileData.loggedInUserProfile && 
         <div className="user-details">
-          {user?.email}
+          {profileData.user?.email}
           {isEditOn ? 
-          <div className="profile-edit-container">
-            <input value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder="Username"/>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" />
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Old Password"/>
-            {!isValidPassword && <ErrorFallback error={"Wrong password!"}/>}
-            <input value={newPassword} onChange={(e) => setNewPassword(e.target.value)} type="password" placeholder="New Password"/>
-            <div className="profile-edit-button-container">
-              <button onClick={handleCancel} className="confirm-button">Cancel</button>
-              <button onClick={handleProfileEdit} className="confirm-button">Save</button>
-            </div>
-          </div>
+          <ProfileEditForm 
+            profileUser={profileData.user} 
+            updateUserProfileMutation={updateUserProfileMutation}
+            setIsEditOn={setIsEditOn}
+          />
           :
           <button onClick={() => setIsEditOn(true)} className="confirm-button">Edit</button>
           }

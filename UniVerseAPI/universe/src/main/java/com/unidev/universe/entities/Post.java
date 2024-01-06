@@ -27,6 +27,9 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+    @Column(columnDefinition = "BYTEA")
+    private byte[] imageData;
+
     @NotNull
     @Column(name = "authorName")
     private String authorName;
