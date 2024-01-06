@@ -4,6 +4,7 @@ import Loading from '../components/fallbacks/Loading'
 import { useState } from "react";
 import useProfileData from "../hooks/useProfileData";
 import ProfileEditForm from "../components/ProfileEditForm";
+import { FaUserAstronaut } from "react-icons/fa";
 
 const Profile = () => {
   const { auth } = useAuth();
@@ -32,7 +33,12 @@ const Profile = () => {
   return (
     <div className="profile-page-container">
       <div className="profile-page-tab">
-        <img className="profile-page-picture" src="https://picsum.photos/200/200" alt="ProfilePicture" />
+        <div className="profile-page-picture-container">
+          {profileData.profilePicture.size > 0 ? 
+          <img className='profile-page-profile-picture' src={URL.createObjectURL(profileData.profilePicture)} alt='postImage'/> 
+          : 
+          <FaUserAstronaut className='profile-picture-placeholer-icon'/>}
+        </div>
         <h3>{profileData.user?.username}</h3>
         <div className="profile-social-tab">
           <div className="profile-counts"><span>Friends</span>{profileData.friendsCount}</div>

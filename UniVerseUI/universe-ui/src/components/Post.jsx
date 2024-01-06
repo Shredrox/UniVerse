@@ -10,6 +10,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from './fallbacks/ErrorFallback';
 import usePostData from '../hooks/usePostData';
+import { FaUserAstronaut } from "react-icons/fa";
+import useProfilePicture from '../hooks/useProfilePicture';
 
 const Post = ({post}) => {
   const [isCommentSectionOn, setIsCommentSectionOn] = useState(false);
@@ -26,6 +28,8 @@ const Post = ({post}) => {
     likePostMutation, 
     unlikePostMutation
   } = usePostData(post.id, auth?.user);
+
+  const { profilePicture } = useProfilePicture("postUserProfilePicture", post.authorName);
 
   const handleLike = () => {
     likePostMutation({postId: post.id, username: auth?.user});
@@ -60,7 +64,12 @@ const Post = ({post}) => {
       <div className='line'>&nbsp;</div>
       <div className='post'>
         <div className='post-author'>
-          <div className='author-profile-picture'></div>
+          <div className='author-profile-picture-container'>
+            {profilePicture?.size > 0 ? 
+            <img className='author-profile-picture' src={URL.createObjectURL(profilePicture)} alt="ProfilePicture" /> 
+            :
+            <FaUserAstronaut className='post-profile-picture-placeholer-icon'/>}
+          </div>
           <span onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
         </div>
         <div className='post-content'>

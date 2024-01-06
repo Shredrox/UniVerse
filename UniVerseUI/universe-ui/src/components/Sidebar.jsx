@@ -9,13 +9,18 @@ import EventsIcon from '../assets/icons/icon-calendar.svg'
 import ChatsIcon from '../assets/icons/icon-chat.svg'
 import SettingsIcon from '../assets/icons/icon-cog.svg'
 import useLogout from '../hooks/useLogout';
+import { FaUserAstronaut } from "react-icons/fa";
+import useProfilePicture from '../hooks/useProfilePicture';
 
 const Sidebar = () => {
   const location = useLocation();
   const { auth } = useAuth();
   const logout = useLogout();
   const { disconnectSocketClient, sendIsOnlineAlert } = useSocket();
+
   const navigate = useNavigate();
+
+  const { profilePicture } = useProfilePicture("profilePictureSidebar", auth?.user);
 
   const handleLogout = async () => {
     await logout();
@@ -44,7 +49,10 @@ const Sidebar = () => {
       </div>
       <div className='profile-container'>
         <div className='profile-picture'>
-          <img src="https://picsum.photos/100/100" alt="ProfilePicture" />
+          {profilePicture?.size > 0 ? 
+          <img src={URL.createObjectURL(profilePicture)} alt="ProfilePicture" /> 
+          :
+          <FaUserAstronaut className='profile-picture-placeholer-icon'/>}
         </div>
         <label className='username' onClick={() => navigate(`/profile/${auth.user}`)}>{auth.user}</label> 
         <button onClick={handleLogout} className='confirm-button'>Log Out</button>         
