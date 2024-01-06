@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { addCommentReply, getCommentReplies } from "../services/postsService";
 import { useAuth } from '../hooks/useAuth'
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
   const [replyOn, setReplyOn] = useState(false);
   const { sendPrivateNotification } = useSocket();
+  const queryClient = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ const Comment = ({comment, isReply}) => {
       return;
     }
 
-    addReplyMutation({commentId: comment.id, username: auth?.user});
+    addReplyMutation({commentId: comment.id, username: auth?.user, content: commentText});
     sendPrivateNotification(
       { 
         message: `${auth?.user} replied to your comment: "${commentText}"`, 
@@ -53,6 +54,7 @@ const Comment = ({comment, isReply}) => {
       }
     ); 
     setCommentText('')
+    setReplyOn(false);
   }
 
   const handleCancel = () =>{
