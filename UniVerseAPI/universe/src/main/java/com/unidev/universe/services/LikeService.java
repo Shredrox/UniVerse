@@ -6,6 +6,7 @@ import com.unidev.universe.repository.PostRepository;
 import com.unidev.universe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class LikeService {
         }
     }
 
+    @Transactional
     public void unlikePost(long postId, String username) {
         likeRepository.deleteByPostIdAndUserId(postId, userRepository.findByUsername(username).getId());
     }

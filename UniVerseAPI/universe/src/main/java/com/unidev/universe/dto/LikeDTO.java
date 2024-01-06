@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class LikeDTO {
-    private User user;
-    private Post post;
+    private Long postId;
+    private String username;
 }
