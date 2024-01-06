@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 /*
 * The User cass represents a single user entity
@@ -36,6 +35,12 @@ public class User implements UserDetails {
 
     @Column(name = "password",nullable=false)
     private String password;
+
+    @Column(name = "refreshToken")
+    private String refreshToken;
+
+    @Column(name = "isOnline")
+    private Boolean isOnline;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "roles")
