@@ -70,6 +70,10 @@ export const SocketProvider = ({ children }) => {
     }
   };
 
+  const setUserNotifications = (newNotifications) =>{
+    setNotifications(newNotifications);
+  }
+
   //Chats
   const onMessageReceived = (message) => {
     const receivedMessage = JSON.parse(message.body);
@@ -138,6 +142,7 @@ export const SocketProvider = ({ children }) => {
     notifications, 
     sendNotification,
     sendPrivateNotification,
+    setUserNotifications,
     connectSocketClient,
     disconnectSocketClient,
     unsubscribeFromGeneralNotifications,
