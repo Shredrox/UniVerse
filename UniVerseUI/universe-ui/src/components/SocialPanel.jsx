@@ -17,8 +17,18 @@ const SocialPanel = () => {
     isAlertsError, 
     alertsError, 
     acceptFriendRequestMutation, 
-    rejectFriendRequestMutation
+    rejectFriendRequestMutation,
+    readNotificationsMutation
   } = useAlertsData(auth?.user);
+
+  const unreadNotificationsCount = alertData.notifications
+  ? alertData.notifications.filter(notification => !notification.read).length
+  : 0;
+
+  const handleNotificationsOpen = () =>{
+    readNotificationsMutation(auth?.user);
+    setIsNotificationTabOn(!isNotificationTabOn);
+  }
 
   const handleAcceptFriendRequest = (friendshipId) =>{
     acceptFriendRequestMutation(friendshipId);
@@ -40,11 +50,15 @@ const SocialPanel = () => {
     <div className='social-panel'>
       <div className='notifications-container'>
         <div className="notification-container">
-          <img onClick={() => setIsNotificationTabOn(!isNotificationTabOn)} className="notification-icon" src={BellIcon} alt="BellIcon" />
-          {alertData.notifications?.length > 0 && 
-          <div className="notification-count">{alertData.notifications?.length}</div>}
+          <img onClick={handleNotificationsOpen} className="notification-icon" src={BellIcon} alt="BellIcon" />
+          {unreadNotificationsCount > 0 && 
+          <div className="notification-count">{unreadNotificationsCount}</div>}
         </div>
-        <FaUserFriends onClick={() => setIsFriendRequstsTabOn(!isFriendRequstsTabOn)} className="friend-request-icon"/>
+        <div className="friend-requests-container">
+          <FaUserFriends onClick={() => setIsFriendRequstsTabOn(!isFriendRequstsTabOn)} className="friend-request-icon"/>
+          {alertData.friendRequests?.length > 0 && 
+          <div className="notification-count">{alertData.friendRequests?.length}</div>}
+        </div>
       </div>
       {isNotificationTabOn &&
       <div className="notification-list-container">
@@ -76,10 +90,10 @@ const SocialPanel = () => {
         <div className='friends-list'>
           {alertData.onlineFriends.length > 0 ?
           alertData.onlineFriends?.map((friend, index) => 
-            <div key={index} className="friend">
-              <div className='chat-profile-picture'></div>
-              {friend.username}
-            </div>
+          <div key={index} className="friend">
+            <div className='chat-profile-picture'></div>
+            {friend.username}
+          </div>
           ) 
           :
           <div>No Online Friends</div>}
