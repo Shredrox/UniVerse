@@ -5,17 +5,17 @@ import { useSocket } from '../hooks/useSocket'
 import { getUserNotifications, readUserNotifications } from "../services/alertsService";
 
 const useAlertsData = (loggedUser) =>{
-  const { notifications, setUserNotifications, friendRequests, setUserFriendRequests } = useSocket();
+  const { notifications, setUserNotifications, friendRequests, setUserFriendRequests, newOnlineFriend, setNewOnlineFriend } = useSocket();
   const queryClient = useQueryClient();
 
   const {data: onlineFriends, 
     isLoading: isOnlineFriendsLoading, 
     isError: isOnlineFriendsError,
-    error: onlineFriendsError
+    error: onlineFriendsError,
+    refetch: refetchOnlineFriends
   } = useQuery({ 
     queryKey: ["userOnlineFriends", loggedUser],
     queryFn: () => getUserOnlineFriends(loggedUser),
-    refetchInterval: 10000,
   });
 
   const {data: userNotifications,
@@ -35,6 +35,13 @@ const useAlertsData = (loggedUser) =>{
     queryKey: ["friendRequests", loggedUser],
     queryFn: () => getUserFriendRequests(loggedUser)
   });
+
+  useEffect(() =>{
+    if(newOnlineFriend){
+      refetchOnlineFriends();
+      setNewOnlineFriend(!newOnlineFriend);
+    }
+  }, [newOnlineFriend])
 
   useEffect(() => {
     if (friendRequestsData) {
