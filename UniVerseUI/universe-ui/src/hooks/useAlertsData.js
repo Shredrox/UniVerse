@@ -2,9 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getUserOnlineFriends, getUserFriendRequests, acceptFriendRequest, rejectFriendRequest } from "../services/usersService";
 import { useEffect } from "react";
 import { useSocket } from '../hooks/useSocket'
+import { getUserNotifications, readUserNotifications } from "../services/alertsService";
 
 const useAlertsData = (loggedUser) =>{
-  const { notifications, friendRequests, setUserFriendRequests } = useSocket();
+  const { notifications, setUserNotifications, friendRequests, setUserFriendRequests } = useSocket();
   const queryClient = useQueryClient();
 
   const {data: onlineFriends, 
@@ -15,6 +16,15 @@ const useAlertsData = (loggedUser) =>{
     queryKey: ["userOnlineFriends", loggedUser],
     queryFn: () => getUserOnlineFriends(loggedUser),
     refetchInterval: 10000,
+  });
+
+  const {data: userNotifications,
+    isLoading: isUserNotificationsLoading, 
+    isError: isUserNotificationsError,
+    error: userNotificationsError
+  } = useQuery({ 
+    queryKey: ["userNotifications", loggedUser],
+    queryFn: () => getUserNotifications(loggedUser)
   });
 
   const {data: friendRequestsData,
@@ -32,6 +42,19 @@ const useAlertsData = (loggedUser) =>{
     }
   }, [friendRequestsData]);
 
+  useEffect(() => {
+    if (userNotifications) {
+      setUserNotifications(userNotifications);
+    }
+  }, [userNotifications]);
+
+  const {mutateAsync: readNotificationsMutation} = useMutation({
+    mutationFn: readUserNotifications,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["userNotifications", loggedUser]);
+    },
+  });
+
   const {mutateAsync: acceptFriendRequestMutation} = useMutation({
     mutationFn: acceptFriendRequest,
     onSuccess: () =>{
@@ -46,9 +69,9 @@ const useAlertsData = (loggedUser) =>{
     },
   });
 
-  const isAlertsError =  isOnlineFriendsError || isFriendRequestsDataError;
-  const alertsError = onlineFriendsError || friendRequestsDataError;
-  const isAlertsLoading = isOnlineFriendsLoading || isFriendRequestsDataLoading;
+  const isAlertsError =  isOnlineFriendsError || isFriendRequestsDataError || isUserNotificationsError;
+  const alertsError = onlineFriendsError || friendRequestsDataError || userNotificationsError;
+  const isAlertsLoading = isOnlineFriendsLoading || isFriendRequestsDataLoading || isUserNotificationsLoading;
 
   return {
     alertData: { notifications, friendRequests, onlineFriends }, 
@@ -56,7 +79,8 @@ const useAlertsData = (loggedUser) =>{
     isAlertsError, 
     alertsError,
     acceptFriendRequestMutation,
-    rejectFriendRequestMutation
+    rejectFriendRequestMutation,
+    readNotificationsMutation
   }
 }
 
