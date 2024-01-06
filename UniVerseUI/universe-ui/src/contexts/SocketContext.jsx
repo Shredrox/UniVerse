@@ -12,12 +12,12 @@ export const SocketProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [chats, setChats] = useState([]);
   const [friendRequests, setFriendRequests] = useState([]);
+  const [newOnlineFriend,  setNewOnlineFriend] = useState(false);
 
   useEffect(() =>{
     if(auth.user !== undefined){
       connectSocketClient(auth.user);
     }
-    
   }, [auth.user])
 
   const connectSocketClient = (username) =>{
@@ -32,6 +32,9 @@ export const SocketProvider = ({ children }) => {
       client.subscribe(`/user/${username}/queue/message`, onMessageReceived, { id: "privateMessages"});
       client.subscribe(`/user/${username}/queue/friend-request`, onFriendRequestReceieved, { id: "friendRequests"});
       client.subscribe(`/user/${username}/queue/chat`, onChatCreated, { id: "userChats"});
+      client.subscribe(`/user/${username}/queue/online-friends`, onFriendOnline, { id: "userOnlineFriends"});
+
+      client.send('/app/sendIsOnlineAlert', {}, username);
     });
   }
 
@@ -138,6 +141,17 @@ export const SocketProvider = ({ children }) => {
     setFriendRequests(newFriendRequests);
   }
 
+  //Online Friends
+  const onFriendOnline = () =>{
+    setNewOnlineFriend(!newOnlineFriend);
+  }
+
+  const sendIsOnlineAlert = (username) =>{
+    if(stompClient && stompClient.connected){
+      stompClient.send('/app/sendIsOnlineAlert', {}, username);
+    }
+  }
+
   const contextValue = {
     notifications, 
     sendNotification,
@@ -155,7 +169,10 @@ export const SocketProvider = ({ children }) => {
     chats,
     friendRequests,
     sendFriendRequest,
-    setUserFriendRequests
+    setUserFriendRequests,
+    newOnlineFriend,
+    setNewOnlineFriend,
+    sendIsOnlineAlert
   };
 
   return (
