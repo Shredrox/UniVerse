@@ -34,4 +34,8 @@ public class Friendship {
     @NotNull
     @Column(name = "date")
     Date date;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private FriendshipStatus status;
 }
