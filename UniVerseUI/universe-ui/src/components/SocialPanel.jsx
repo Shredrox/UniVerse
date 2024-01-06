@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useState } from "react";
 import Loading from '../components/fallbacks/Loading'
 import useAlertsData from "../hooks/useAlertsData";
+import OnlineFriend from "./OnlineFriend";
 
 const SocialPanel = () => {
   const { auth } = useAuth();
@@ -90,10 +91,7 @@ const SocialPanel = () => {
         <div className='friends-list'>
           {alertData.onlineFriends.length > 0 ?
           alertData.onlineFriends?.map((friend, index) => 
-          <div key={index} className="friend">
-            <div className='chat-profile-picture'></div>
-            {friend}
-          </div>
+          <OnlineFriend key={index} friend={friend}/>
           ) 
           :
           <div>No Online Friends</div>}
