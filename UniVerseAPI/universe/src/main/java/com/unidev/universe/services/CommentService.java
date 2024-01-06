@@ -30,8 +30,13 @@ public class CommentService {
     }
 
     public List<Comment> getPostComments(Long postId) {
-        Optional<List<Comment>> postComments = commentRepository.findByPostId(postId);
+        Optional<List<Comment>> postComments = commentRepository.findByPostIdAndParentCommentIsNull(postId);
         return postComments.orElse(null);
+    }
+
+    public int getPostCommentsCount(Long postId) {
+        Optional<List<Comment>> postComments = commentRepository.findByPostId(postId);
+        return postComments.orElse(null).size();
     }
 
     public List<Comment> getCommentReplies(Long parentCommentId) {
@@ -47,19 +52,21 @@ public class CommentService {
         comment.setContent(request.getContent());
         comment.setPost(post);
         comment.setUser(user);
+        comment.setAuthor(user.getName());
 
         return commentRepository.save(comment);
     }
 
     public Comment addReply(Long commendId, CommentDTO request) {
-        Post post = postRepository.findById(request.getPostId());
         User user = userRepository.findByUsername(request.getUsername());
         Optional<Comment> parentComment = commentRepository.findById(commendId);
+        Optional<Post> post = postRepository.findById(parentComment.get().getPost().getId());
 
         Comment comment = new Comment();
         comment.setContent(request.getContent());
-        comment.setPost(post);
         comment.setUser(user);
+        comment.setPost(post.orElse(null));
+        comment.setAuthor(user.getName());
         comment.setParentComment(parentComment.orElse(null));
 
         return commentRepository.save(comment);
