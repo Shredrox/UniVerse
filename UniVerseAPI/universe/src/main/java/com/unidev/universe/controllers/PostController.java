@@ -1,13 +1,16 @@
 package com.unidev.universe.controllers;
 
+import com.unidev.universe.dto.PostDTO;
 import com.unidev.universe.entities.Post;
 import com.unidev.universe.services.FriendshipService;
 import com.unidev.universe.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -22,6 +25,11 @@ public class PostController {
         return postService.getAllPosts();
     }
 
+    @GetMapping("/user/{username}/count")
+    public ResponseEntity<Integer> getUserPostsCount(@PathVariable String username) {
+        return ResponseEntity.ok(postService.getPostsByAuthorName(username).size());
+    }
+
     @GetMapping("/getFriendsPosts/{username}")
     public List<Post> getFriendsPosts(@PathVariable String username) {
         List<String> friends = friendshipService.getFriendUsernames(username);
@@ -33,10 +41,15 @@ public class PostController {
         return postService.getPostById(postId);
     }
 
+    @GetMapping("/{postId}/image")
+    public ResponseEntity<byte[]> getPostImage(@PathVariable Long postId) {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(postService.getPostImage(postId));
+    }
+
     @PostMapping("/createPost")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
+    public ResponseEntity<byte[]> createPost(@ModelAttribute PostDTO post) throws IOException {
         Post createdPost = postService.createPost(post);
-        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(createdPost.getImageData());
     }
 
     @PutMapping("/{postId}")

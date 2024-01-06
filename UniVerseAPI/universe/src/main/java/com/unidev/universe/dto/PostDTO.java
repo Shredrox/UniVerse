@@ -1,16 +1,12 @@
 package com.unidev.universe.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Builder
 public class PostDTO {
-    @NotBlank(message = "Post description field cannot be blank!")
-    private String description;
+    private String title;
+    private String content;
+    private String authorName;
+    private MultipartFile image;
 }
