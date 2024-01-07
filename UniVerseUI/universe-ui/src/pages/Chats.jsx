@@ -1,45 +1,29 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../hooks/useAuth'
 import ChatCard from '../components/ChatCard';
-import { getChats } from '../services/chatsService';
 import { userExists } from '../services/usersService';
-import { useEffect, useState } from 'react';
-import { useSocket } from '../hooks/useSocket';
+import { useState } from 'react';
 import Loading from '../components/fallbacks/Loading'
 import { useErrorBoundary } from 'react-error-boundary';
+import useChatsData from '../hooks/useChatsData';
 
 const Chats = () => {
   const { auth } = useAuth();
-  const { createChat, setUserChats, chats } = useSocket();
-
   const { showBoundary } = useErrorBoundary();
 
-  const queryClient = useQueryClient();
-
-  const {data: chatsData, isLoading, isError, error} = useQuery({ 
-    queryKey: ["chats", auth?.user],
-    queryFn: () => getChats(auth?.user),
-  });
-
-  const {mutateAsync: addChatMutation} = useMutation({
-    mutationFn: createChat,
-    onSuccess: () =>{
-      queryClient.invalidateQueries(["chats", auth?.user]);
-    },
-  });
-
-  useEffect(() => {
-    if (chatsData) {
-      setUserChats(chatsData);
-    }
-  }, [chatsData]);
+  const { 
+    chats,
+    isChatsLoading,
+    isChatsError,
+    chatsError,
+    addChatMutation 
+  } = useChatsData(auth?.user);
 
   const [isAddingChat, setIsAddingChat] = useState(false);
   const [newChatUser, setNewChatUser] = useState('');
   const [inputError, setInputError] = useState('');
 
-  const handleAddChat = () => {
-    if(!userExists(newChatUser)){
+  const handleAddChat = async () => {
+    if(!await userExists(newChatUser)){
       setInputError("User doesn't exist");
       return;
     }
@@ -55,11 +39,11 @@ const Chats = () => {
     setInputError('');
   }
 
-  if(isError){
-    showBoundary(error.message);
+  if(isChatsError){
+    showBoundary(chatsError.message);
   }
 
-  if(isLoading){
+  if(isChatsLoading){
     return <Loading/>
   }
 
