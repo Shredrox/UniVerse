@@ -11,7 +11,7 @@ export const getChats = async (username) => {
 }
 
 export const getChat = async (user, chatUser) => {
-    const response = await axios.get('/chat/getMessages', {
+    const response = await axios.get('/chats/getMessages', {
      params: {
        user: user,
        chatUser: chatUser
