@@ -41,7 +41,7 @@ public class ChatController {
     }
 
     @MessageMapping("/sendPrivateMessage")
-    public void sendPrivateMessage(@Payload MessageDTO request) throws ParseException {
+    public void sendPrivateMessage(@Payload MessageDTO request){
         User sender = userService.getUserByUsername(request.getSender());
         User receiver = userService.getUserByUsername(request.getReceiver());
 
