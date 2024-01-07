@@ -15,7 +15,7 @@ export const SocketProvider = ({ children }) => {
   const [newOnlineFriend,  setNewOnlineFriend] = useState(false);
 
   useEffect(() =>{
-    if(auth.user !== undefined){
+    if(auth.user !== undefined && !stompClient){
       connectSocketClient(auth.user);
     }
   }, [auth.user])
@@ -55,7 +55,6 @@ export const SocketProvider = ({ children }) => {
   }
 
   const onNotificationReceived = (notification) => {
-    console.log('Received: ' + notification);
     setNotifications(prevNotifications => [
       ...prevNotifications, JSON.parse(notification.body)
     ]);
@@ -65,13 +64,13 @@ export const SocketProvider = ({ children }) => {
     if (stompClient && stompClient.connected) {
       stompClient.send('/app/sendNotification', {}, JSON.stringify(notification));
     }
-  };
+  }
 
   const sendPrivateNotification = (notification) => {
     if (stompClient && stompClient.connected) {
       stompClient.send('/app/sendUserNotification', {}, JSON.stringify(notification));
     }
-  };
+  }
 
   const setUserNotifications = (newNotifications) =>{
     setNotifications(newNotifications);
@@ -123,15 +122,11 @@ export const SocketProvider = ({ children }) => {
   }
 
   const sendFriendRequest = ({sender, receiver}) =>{
-    console.log(sender + receiver);
-
     if(stompClient && stompClient.connected){
       const friendRequest = {
         sender: sender,
         receiver: receiver
       };
-
-      console.log(friendRequest)
 
       stompClient.send('/app/sendFriendRequest', {}, JSON.stringify(friendRequest));
     }
