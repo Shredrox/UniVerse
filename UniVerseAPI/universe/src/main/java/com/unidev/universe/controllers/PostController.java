@@ -2,6 +2,7 @@ package com.unidev.universe.controllers;
 
 import com.unidev.universe.dto.PostDTO;
 import com.unidev.universe.entities.Post;
+import com.unidev.universe.responses.PostResponse;
 import com.unidev.universe.services.FriendshipService;
 import com.unidev.universe.services.PostService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class PostController {
     }
 
     @GetMapping("/getFriendsPosts/{username}")
-    public List<Post> getFriendsPosts(@PathVariable String username) {
+    public List<PostResponse> getFriendsPosts(@PathVariable String username) {
         List<String> friends = friendshipService.getFriendUsernames(username);
         return postService.getPostsByAuthorNames(friends);
     }

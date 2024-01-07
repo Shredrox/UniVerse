@@ -1,14 +1,20 @@
 package com.unidev.universe.services;
 
 import com.unidev.universe.dto.PostDTO;
+import com.unidev.universe.entities.Message;
 import com.unidev.universe.entities.User;
 import com.unidev.universe.repository.PostRepository;
 import com.unidev.universe.entities.Post;
 import com.unidev.universe.repository.UserRepository;
+import com.unidev.universe.responses.MessageResponse;
+import com.unidev.universe.responses.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,8 +33,23 @@ public class PostService {
         return optionalPost.orElse(null);
     }
 
-    public List<Post> getPostsByAuthorNames(List<String> authorNames) {
-        return postRepository.findAllByAuthorNameIn(authorNames);
+    public List<PostResponse> getPostsByAuthorNames(List<String> authorNames) {
+        List<Post> userPosts = postRepository.findAllByAuthorNameIn(authorNames);
+        List<PostResponse> userPostsResponse = new ArrayList<>();
+
+        for (Post post: userPosts) {
+            PostResponse postResponse = new PostResponse();
+            postResponse.setId(post.getId());
+            postResponse.setTitle(post.getTitle());
+            postResponse.setContent(post.getContent());
+            postResponse.setTimestamp(post.getTimestamp());
+            postResponse.setAuthorName(post.getAuthorName());
+            postResponse.setImageData(post.getImageData());
+
+            userPostsResponse.add(postResponse);
+        }
+
+        return userPostsResponse;
     }
 
     public List<Post> getPostsByAuthorName(String authorName) {
@@ -47,6 +68,7 @@ public class PostService {
         newPost.setTitle(request.getTitle());
         newPost.setContent(request.getContent());
         newPost.setImageData(request.getImage().getBytes());
+        newPost.setTimestamp(LocalDateTime.now());
         newPost.setAuthorName(user.getName());
         newPost.setUser(user);
 
