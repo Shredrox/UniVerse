@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -32,7 +32,7 @@ public class GroupEvent {
 
     @NotNull
     @Column(name = "date")
-    Date date;
+    LocalDateTime date;
 
     @NotNull
     @ManyToOne

@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,7 +33,7 @@ public class Friendship {
 
     @NotNull
     @Column(name = "date")
-    Date date;
+    LocalDateTime date;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

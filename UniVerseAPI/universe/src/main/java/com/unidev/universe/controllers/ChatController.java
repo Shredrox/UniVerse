@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -34,7 +35,7 @@ public class ChatController {
 
         newChat.setUser1(userService.getUserByUsername(request.getUser1()));
         newChat.setUser2(userService.getUserByUsername(request.getUser2()));
-        newChat.setCreatedAt(new Date());
+        newChat.setCreatedAt(LocalDateTime.now());
         chatService.createChat(newChat);
 
         simpMessagingTemplate.convertAndSendToUser(newChat.getUser2().getName(), "/queue/chat", newChat);
@@ -51,7 +52,7 @@ public class ChatController {
         newMessage.setContent(request.getContent());
         newMessage.setSender(sender);
         newMessage.setReceiver(receiver);
-        newMessage.setTimestamp(new Date());
+        newMessage.setTimestamp(LocalDateTime.now());
         newMessage.setChat(chat);
 
         chatService.saveMessage(newMessage);
@@ -61,9 +62,6 @@ public class ChatController {
         messageResponse.setSender(newMessage.getSender().getName());
         messageResponse.setReceiver(newMessage.getSender().getName());
         messageResponse.setTimestamp(newMessage.getTimestamp());
-
-
-
 
         simpMessagingTemplate.convertAndSendToUser(newMessage.getReceiver().getName(), "/queue/message", messageResponse);
     }

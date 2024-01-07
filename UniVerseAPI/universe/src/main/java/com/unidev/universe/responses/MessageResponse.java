@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,5 +17,5 @@ public class MessageResponse {
     String sender;
     String receiver;
     @JsonFormat(pattern="dd-MM-yyyy HH:mm")
-    Date timestamp;
+    LocalDateTime timestamp;
 }

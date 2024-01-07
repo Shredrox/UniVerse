@@ -1,15 +1,13 @@
 package com.unidev.universe.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -44,5 +42,5 @@ public class Message {
 
     @NotNull
     @Column(name = "timestamp")
-    private Date timestamp;
+    private LocalDateTime timestamp;
 }

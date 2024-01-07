@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -43,7 +44,7 @@ public class FriendshipService {
             Friendship newFriendship = new Friendship();
             newFriendship.setUser1(sender);
             newFriendship.setUser2(receiver);
-            newFriendship.setDate(new Date());
+            newFriendship.setDate(LocalDateTime.now());
             newFriendship.setStatus(FriendshipStatus.PENDING);
 
             friendshipRepository.save(newFriendship);
