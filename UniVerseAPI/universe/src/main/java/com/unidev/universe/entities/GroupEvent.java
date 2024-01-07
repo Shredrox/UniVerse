@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,4 +38,12 @@ public class GroupEvent {
     @ManyToOne
     @JoinColumn(name = "organiser_id")
     User organiser;
+
+    @ManyToMany
+    @JoinTable(
+            name = "group_event_attendees",
+            joinColumns = @JoinColumn(name = "group_event_id"),
+            inverseJoinColumns = @JoinColumn(name = "attendee_id")
+    )
+    List<User> attendees;
 }

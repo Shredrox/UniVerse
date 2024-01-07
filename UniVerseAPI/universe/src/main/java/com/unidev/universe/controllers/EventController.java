@@ -1,6 +1,6 @@
 package com.unidev.universe.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,20 +11,39 @@ import com.unidev.universe.services.EventService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/events")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/events")
 public class EventController {
-
-    @Autowired
-    private EventService eventService;
+    private final EventService eventService;
 
     @GetMapping
     public List<GroupEvent> getAllEvents() {
         return eventService.getAllEvents();
     }
 
+    @GetMapping("/trending")
+    public List<GroupEvent> getTrendingEvents() {
+        return eventService.getTrendingEvents();
+    }
+
     @GetMapping("/{eventId}")
     public GroupEvent getEventById(@PathVariable Long eventId) {
         return eventService.getEventById(eventId);
+    }
+
+    @GetMapping("/{eventId}/is-attending/{username}")
+    public ResponseEntity<Boolean> getEventIsAttending(@PathVariable Long eventId, @PathVariable String username) {
+        return ResponseEntity.ok(eventService.isAttending(eventId, username));
+    }
+
+    @PostMapping("/{eventId}/attend/{username}")
+    public void attendEvent(@PathVariable Long eventId, @PathVariable String username) {
+        eventService.attendEvent(eventId, username);
+    }
+
+    @PostMapping("/{eventId}/remove-attending/{username}")
+    public void removeAttending(@PathVariable Long eventId, @PathVariable String username) {
+        eventService.removeAttending(eventId, username);
     }
 
     @PostMapping
