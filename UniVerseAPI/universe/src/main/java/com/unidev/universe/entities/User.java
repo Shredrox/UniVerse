@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "password",nullable=false)
     private String password;
 
+    @Column(columnDefinition = "BYTEA")
+    private byte[] profilePicture;
+
     @Column(name = "refreshToken")
     private String refreshToken;
 

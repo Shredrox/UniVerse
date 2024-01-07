@@ -2,18 +2,15 @@ package com.unidev.universe.services;
 
 import com.unidev.universe.entities.User;
 import com.unidev.universe.repository.UserRepository;
-import com.unidev.universe.requests.RegisterRequest;
 import com.unidev.universe.requests.UpdateProfileRequest;
 import com.unidev.universe.responses.UserResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,15 +57,17 @@ public class UserService implements UserDetailsService {
         return result;
     }
 
-    public void updateUserLastSeen(String username){
+    public byte[] getUserProfilePictureImage(String username) {
         User user = userRepository.findByUsername(username);
-        //user.setLastSeen(LocalDateTime.now());
-        //user.setOnline(true);
 
-        //userRepository.save(user);
+        if(user == null){
+            return null;
+        }
+
+        return user.getProfilePicture();
     }
 
-    public boolean updateProfile(UpdateProfileRequest request){
+    public boolean updateProfile(UpdateProfileRequest request) throws IOException {
         User user = userRepository.findByUsername(request.getUsername());
 
         if(user == null){
@@ -83,6 +82,9 @@ public class UserService implements UserDetailsService {
         }
         if(!request.getNewPassword().isEmpty()){
             user.setPassword(request.getNewPassword());
+        }
+        if(!request.getProfilePicture().isEmpty()){
+            user.setProfilePicture(request.getProfilePicture().getBytes());
         }
 
         userRepository.save(user);
