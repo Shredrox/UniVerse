@@ -70,7 +70,8 @@ const Post = ({post}) => {
             :
             <FaUserAstronaut className='post-profile-picture-placeholer-icon'/>}
           </div>
-          <span onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
+          <span className='post-author-span' onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
+          <span className='post-timestamp'>{post.timestamp}</span>
         </div>
         <div className='post-content'>
           <h3>{post.title}</h3>
