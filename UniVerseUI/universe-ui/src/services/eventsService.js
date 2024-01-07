@@ -11,8 +11,6 @@ export const getTrendingEvents = async () =>{
 }
 
 export const getIsAttending = async (eventId, username) => {
-    console.log(eventId, username)
-
     const response = await axios.get(`/events/${eventId}/is-attending/${username}`);
     return response.data;
 }
