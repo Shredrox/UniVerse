@@ -6,16 +6,22 @@ export const getJobs = async () =>{
 }
 
 export const getJobById = async (id) =>{
-    return await axios.get(`/jobs/${id}`, id);
+    const response = await axios.get(`/jobs/${id}`, id);
+    return response.data;
+}
+
+export const getIsAppliedToJob = async (jobId, username) =>{
+    const response = await axios.get(`/jobs/${jobId}/is-applied/${username}`);
+    return response.data;
 }
 
 export const applyToJob = async ({jobId, username}) =>{
-    const response = await axios.post(`/jobs/${jobId}/apply`, {
-        params: {
-          username: username
-        }
-    });
-    
+    const response = await axios.post(`/jobs/${jobId}/apply/${username}`);
+    return response.data;
+}
+
+export const cancelApplicationToJob = async ({jobId, username}) =>{
+    const response = await axios.post(`/jobs/${jobId}/cancel-application/${username}`);
     return response.data;
 }
 
