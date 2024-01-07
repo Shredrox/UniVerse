@@ -76,10 +76,12 @@ const SocialPanel = () => {
         <h3>Friend Requests</h3>
         <div className="notification-list">
           {alertData.friendRequests?.map((friendRequest, index) => 
-          <div key={index}>
+          <div className="friend-request" key={index}>
             {friendRequest.senderName}
-            <button onClick={() => handleAcceptFriendRequest(friendRequest.id)} className="confirm-button">Accept</button>
-            <button onClick={() => handleRejectFriendRequest(friendRequest.id)} className="cancel-button">Reject</button>
+            <div className="friend-request-button-container">
+              <button onClick={() => handleAcceptFriendRequest(friendRequest.id)} className="friend-request-accept-button">Accept</button>
+              <button onClick={() => handleRejectFriendRequest(friendRequest.id)} className="friend-request-reject-button">Reject</button>
+            </div>
           </div>
           )}
         </div>
