@@ -1,17 +1,21 @@
 package com.unidev.universe.services;
 
 import com.unidev.universe.entities.JobOffer;
+import com.unidev.universe.entities.User;
 import com.unidev.universe.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unidev.universe.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class JobService {
-    @Autowired
-    private JobRepository jobRepository;
+    private final JobRepository jobRepository;
+    private final UserRepository userRepository;
 
     public List<JobOffer> getAllJobs(){
         return jobRepository.findAll();
@@ -21,12 +25,45 @@ public class JobService {
         return jobRepository.findById(id);
     }
 
+    public boolean isAppliedToJob(Long jobId, String username){
+        Optional<JobOffer> optionalJobOffer = jobRepository.findById(jobId);
+        User user = userRepository.findByUsername(username);
+
+        if (user != null && optionalJobOffer.isPresent()) {
+            JobOffer jobOffer = optionalJobOffer.get();
+
+            for (User applicant: jobOffer.getApplicants()) {
+                if(Objects.equals(applicant, user)){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public JobOffer createJob(JobOffer jobOffer){
         return jobRepository.save(jobOffer);
     }
 
     public void applyToJob( Long jobId, String username){
-        //TODO
+        User applicant = userRepository.findByUsername(username);
+        Optional<JobOffer> optionalJobOffer = jobRepository.findById(jobId);
+        if (applicant != null && optionalJobOffer.isPresent()) {
+            JobOffer jobOffer = optionalJobOffer.get();
+            jobOffer.getApplicants().add(applicant);
+            jobRepository.save(jobOffer);
+        }
+    }
+
+    public void cancelApplicationToJob(Long jobId, String username){
+        User applicant = userRepository.findByUsername(username);
+        Optional<JobOffer> optionalJobOffer = jobRepository.findById(jobId);
+        if (applicant != null && optionalJobOffer.isPresent()) {
+            JobOffer jobOffer = optionalJobOffer.get();
+            jobOffer.getApplicants().remove(applicant);
+            jobRepository.save(jobOffer);
+        }
     }
 
     public JobOffer updateJob(Long id, JobOffer updatedJob){

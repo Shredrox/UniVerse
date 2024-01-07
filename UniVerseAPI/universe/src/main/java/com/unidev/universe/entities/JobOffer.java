@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -32,6 +34,14 @@ public class JobOffer {
     private String requirements;
 
     @NotNull
+    @Column(name = "location")
+    private String location;
+
+    @NotNull
+    @Column(name = "type")
+    private String type;
+
+    @NotNull
     @Column(name = "salary")
     private Integer salary;
 
@@ -39,4 +49,12 @@ public class JobOffer {
     @ManyToOne
     @JoinColumn(name = "employer_id")
     User employer;
+
+    @ManyToMany
+    @JoinTable(
+            name = "job_offer_applicants",
+            joinColumns = @JoinColumn(name = "job_offer_id"),
+            inverseJoinColumns = @JoinColumn(name = "applicant_id")
+    )
+    List<User> applicants;
 }
