@@ -468,7 +468,6 @@ body{
     align-items: center;
     flex-direction: column;
     gap: 1.5rem;
-    flex: 0.6;
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     padding: 1rem 1rem 1rem 0;
@@ -1540,6 +1539,23 @@ body{
 
 .job-offer:hover{
     box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.job-confirm-button{
+    width: 190px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.job-confirm-button:hover{
+    box-shadow: 0 0 15px #8763D2;
 }
 
 .job-offer-info{
