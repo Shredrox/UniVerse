@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useSocket } from '../hooks/useSocket'
 import { useForm } from 'react-hook-form';
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
 
@@ -9,7 +8,6 @@ import axios from '../api/axios';
 
 const AccessForm = () => {
   const { setAuth } = useAuth();
-  const { connectSocketClient } = useSocket();
 
   const {register, handleSubmit, formState: {errors}, watch, clearErrors, reset} = useForm({
     defaultValues:{
@@ -59,7 +57,6 @@ const AccessForm = () => {
       const user = response?.data?.username;
 
       setAuth({user: user, accessToken: accessToken});
-      connectSocketClient(user);
       navigate(from, { replace: true });
     }
     catch(error){
