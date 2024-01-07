@@ -1,5 +1,6 @@
 package com.unidev.universe.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,5 @@ public class Message {
 
     @NotNull
     @Column(name = "timestamp")
-    @DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
     private Date timestamp;
 }
