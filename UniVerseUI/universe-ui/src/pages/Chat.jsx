@@ -1,36 +1,20 @@
 import { useParams } from 'react-router-dom'
-import { useSocket } from '../hooks/useSocket'
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getChat } from '../services/chatsService';
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
+import useMessagesData from '../hooks/useMessagesData';
 
 const Chat = () => {
   const { username } = useParams();
-  const { sendMessage, setChatMessages, messages } = useSocket();
   const { auth } = useAuth();
 
-  const queryClient = useQueryClient();
-
-  const {data: messagesData, isLoading, isError, error} = useQuery({ 
-    queryKey: ["chat", auth?.user, username],
-    queryFn: () => getChat(auth?.user, username),
-  });
-
-  const {mutateAsync: sendMessageMutation} = useMutation({
-    mutationFn: sendMessage,
-    onSuccess: () =>{
-      queryClient.invalidateQueries(["chat", auth?.user, username]);
-    },
-  });
-
-  useEffect(() => {
-    if (messagesData) {
-      setChatMessages(messagesData);
-    }
-  }, [messagesData]);
+  const { messages, 
+    isMessagesLoading, 
+    isMessagesError, 
+    messagesError,
+    sendMessageMutation
+  } = useMessagesData(auth?.user, username);
 
   const [message, setMessage] = useState('');
   const chatRef = useRef(null);
@@ -62,13 +46,13 @@ const Chat = () => {
       e.preventDefault(); 
       handleMessageSent();
     }
-  };
-
-  if(isError){
-    return <ErrorFallback error={error.message}/>
   }
 
-  if(isLoading){
+  if(isMessagesError){
+    return <ErrorFallback error={messagesError.message}/>
+  }
+
+  if(isMessagesLoading){
     return <Loading/>
   }
 
