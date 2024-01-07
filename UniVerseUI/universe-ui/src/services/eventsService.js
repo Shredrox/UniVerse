@@ -10,28 +10,20 @@ export const getTrendingEvents = async () =>{
     return response.data;
 }
 
-export const getIsAttending = async ({eventId, username}) => {
-    const response = await axios.get(`/events/${eventId}/attending/${username}`);
+export const getIsAttending = async (eventId, username) => {
+    console.log(eventId, username)
+
+    const response = await axios.get(`/events/${eventId}/is-attending/${username}`);
     return response.data;
 }
 
 export const attendEvent = async ({eventId, username}) =>{
-    const response = await axios.post(`/events/${eventId}/attend`, {
-        params: {
-          username: username
-        }
-    });
-
+    const response = await axios.post(`/events/${eventId}/attend/${username}`);
     return response.data;
 }
 
 export const removeAttending = async ({eventId, username}) =>{
-    const response = await axios.post(`/events/${eventId}/remove-attending`, {
-        params: {
-          username: username
-        }
-    });
-
+    const response = await axios.post(`/events/${eventId}/remove-attending/${username}`);
     return response.data;
 }
 
