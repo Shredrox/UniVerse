@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -33,6 +35,10 @@ public class Post {
     @NotNull
     @Column(name = "authorName")
     private String authorName;
+
+    @NotNull
+    @Column(name = "timestamp")
+    private LocalDateTime timestamp;
 
     @NotNull
     @ManyToOne
