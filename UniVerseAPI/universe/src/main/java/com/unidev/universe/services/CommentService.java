@@ -1,90 +1,25 @@
 package com.unidev.universe.services;
 import com.unidev.universe.dto.CommentDTO;
-import com.unidev.universe.entities.Post;
-import com.unidev.universe.entities.User;
-import com.unidev.universe.repository.PostRepository;
-import com.unidev.universe.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import com.unidev.universe.entities.Comment;
-import com.unidev.universe.repository.CommentRepository;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class CommentService {
-    private final CommentRepository commentRepository;
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
+public interface CommentService {
+    List<Comment> getAllComments();
 
-    public List<Comment> getAllComments() {
-        return commentRepository.findAll();
-    }
+    Comment getCommentById(Long commentId);
 
-    public Comment getCommentById(Long commentId) {
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        return optionalComment.orElse(null);
-    }
+    List<Comment> getPostComments(Long postId);
 
-    public List<Comment> getPostComments(Long postId) {
-        Optional<List<Comment>> postComments = commentRepository.findByPostIdAndParentCommentIsNull(postId);
-        return postComments.orElse(null);
-    }
+    int getPostCommentsCount(Long postId);
 
-    public int getPostCommentsCount(Long postId) {
-        Optional<List<Comment>> postComments = commentRepository.findByPostId(postId);
-        return postComments.orElse(null).size();
-    }
+    List<Comment> getCommentReplies(Long parentCommentId);
 
-    public List<Comment> getCommentReplies(Long parentCommentId) {
-        Optional<List<Comment>> postComments = commentRepository.findAllByParentCommentId(parentCommentId);
-        return postComments.orElse(null);
-    }
+    Comment createComment(CommentDTO request);
 
-    public Comment createComment(CommentDTO request) {
-        Post post = postRepository.findById(request.getPostId());
-        User user = userRepository.findByUsername(request.getUsername());
+    Comment addReply(Long commendId, CommentDTO request);
 
-        Comment comment = new Comment();
-        comment.setContent(request.getContent());
-        comment.setPost(post);
-        comment.setUser(user);
-        comment.setAuthor(user.getName());
+    Comment updateComment(Long commentId, Comment updatedComment);
 
-        return commentRepository.save(comment);
-    }
-
-    public Comment addReply(Long commendId, CommentDTO request) {
-        User user = userRepository.findByUsername(request.getUsername());
-        Optional<Comment> parentComment = commentRepository.findById(commendId);
-        Optional<Post> post = postRepository.findById(parentComment.get().getPost().getId());
-
-        Comment comment = new Comment();
-        comment.setContent(request.getContent());
-        comment.setUser(user);
-        comment.setPost(post.orElse(null));
-        comment.setAuthor(user.getName());
-        comment.setParentComment(parentComment.orElse(null));
-
-        return commentRepository.save(comment);
-    }
-
-    public Comment updateComment(Long commentId, Comment updatedComment) {
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
-
-        if (optionalComment.isPresent()) {
-            Comment existingComment = optionalComment.get();
-            existingComment.setContent(updatedComment.getContent());
-            return commentRepository.save(existingComment);
-        } else {
-            return null;
-        }
-    }
-
-    public void deleteComment(Long commentId) {
-        commentRepository.deleteById(commentId);
-    }
+    void deleteComment(Long commentId);
 }

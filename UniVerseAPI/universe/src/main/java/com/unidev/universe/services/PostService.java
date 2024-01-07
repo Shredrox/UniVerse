@@ -1,93 +1,27 @@
 package com.unidev.universe.services;
 
 import com.unidev.universe.dto.PostDTO;
-import com.unidev.universe.entities.Message;
-import com.unidev.universe.entities.User;
-import com.unidev.universe.repository.PostRepository;
 import com.unidev.universe.entities.Post;
-import com.unidev.universe.repository.UserRepository;
-import com.unidev.universe.responses.MessageResponse;
 import com.unidev.universe.responses.PostResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-@Service
-@RequiredArgsConstructor
-public class PostService {
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
+public interface PostService {
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
-    }
+    List<Post> getAllPosts();
 
-    public Post getPostById(Long postId) {
-        Optional<Post> optionalPost = postRepository.findById(postId);
-        return optionalPost.orElse(null);
-    }
+    Post getPostById(Long postId);
 
-    public List<PostResponse> getPostsByAuthorNames(List<String> authorNames) {
-        List<Post> userPosts = postRepository.findAllByAuthorNameIn(authorNames);
-        List<PostResponse> userPostsResponse = new ArrayList<>();
+    List<PostResponse> getPostsByAuthorNames(List<String> authorNames);
 
-        for (Post post: userPosts) {
-            PostResponse postResponse = new PostResponse();
-            postResponse.setId(post.getId());
-            postResponse.setTitle(post.getTitle());
-            postResponse.setContent(post.getContent());
-            postResponse.setTimestamp(post.getTimestamp());
-            postResponse.setAuthorName(post.getAuthorName());
-            postResponse.setImageData(post.getImageData());
+    List<Post> getPostsByAuthorName(String authorName);
 
-            userPostsResponse.add(postResponse);
-        }
+    byte[] getPostImage(Long postId);
 
-        return userPostsResponse;
-    }
+    Post createPost(PostDTO request) throws IOException;
 
-    public List<Post> getPostsByAuthorName(String authorName) {
-        return postRepository.findAllByAuthorName(authorName);
-    }
+    Post updatePost(Long postId, Post updatedPost);
 
-    public byte[] getPostImage(Long postId) {
-        Optional<Post> post = postRepository.findById(postId);
-        return post.orElseThrow().getImageData();
-    }
-
-    public Post createPost(PostDTO request) throws IOException {
-        User user = userRepository.findByUsername(request.getAuthorName());
-
-        Post newPost = new Post();
-        newPost.setTitle(request.getTitle());
-        newPost.setContent(request.getContent());
-        newPost.setImageData(request.getImage().getBytes());
-        newPost.setTimestamp(LocalDateTime.now());
-        newPost.setAuthorName(user.getName());
-        newPost.setUser(user);
-
-        return postRepository.save(newPost);
-    }
-
-    public Post updatePost(Long postId, Post updatedPost) {
-        Optional<Post> optionalPost = postRepository.findById(postId);
-
-        if (optionalPost.isPresent()) {
-            Post existingPost = optionalPost.get();
-            existingPost.setContent(updatedPost.getContent());
-            return postRepository.save(existingPost);
-        } else {
-            return null;
-        }
-    }
-
-    public void deletePost(Long postId) {
-        postRepository.deleteById(postId);
-    }
+    void deletePost(Long postId);
 }
