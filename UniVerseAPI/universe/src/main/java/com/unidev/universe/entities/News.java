@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -29,6 +28,9 @@ public class News {
     @NotNull
     @Column(name = "content")
     private String content;
+
+    @Column(columnDefinition = "BYTEA")
+    private byte[] imageData;
 
     @NotNull
     @Column(name = "pinned")
