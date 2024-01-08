@@ -4,10 +4,16 @@ import PinnedIcon from '../assets/icons/icon-pinned.svg'
 const NewsCard = ({news}) => {
   const navigate = useNavigate();
 
+  const getRandomSize = () => {
+    const width = Math.floor(Math.random() * 880) + 200;
+    const height = Math.floor(Math.random() * 880) + 200;
+    return `https://picsum.photos/${width}/${height}`;
+  };
+
   return (
     <div onClick={() => navigate(`/news/${news.title}`)} className={`news-card ${news.pinned ? 'news-card-pinned' : ''}`}>
       <div className='news-image-container'>
-        {news.image && <img src={news.image} alt="NewsImage" />}
+        <img src={getRandomSize()} alt="NewsImage" />
       </div>
       <div className="news-content-container">
         <h3 className="news-text">{news.title}</h3> 
