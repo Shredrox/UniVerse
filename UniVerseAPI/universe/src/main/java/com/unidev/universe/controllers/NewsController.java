@@ -1,9 +1,9 @@
 package com.unidev.universe.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unidev.universe.responses.NewsResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import com.unidev.universe.entities.News;
@@ -12,14 +12,13 @@ import com.unidev.universe.services.NewsService;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/news")
 public class NewsController {
-
-    @Autowired
-    private NewsService newsService;
+    private final NewsService newsService;
 
     @GetMapping
-    public List<News> getAllNews() {
+    public List<NewsResponse> getAllNews() {
         return newsService.getAllNews();
     }
 
@@ -34,7 +33,7 @@ public class NewsController {
         return new ResponseEntity<>(createdNews, HttpStatus.CREATED);
     }
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
+    @PatchMapping("/{newsId}")
     public ResponseEntity<News> updateNews(@PathVariable Long newsId, @RequestBody News updatedNews) {
         News result = newsService.updateNews(newsId, updatedNews);
 
@@ -45,7 +44,7 @@ public class NewsController {
         }
     }
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
+    @DeleteMapping("/{newsId}")
     public ResponseEntity<Void> deleteNews(@PathVariable Long newsId) {
         newsService.deleteNews(newsId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

@@ -1,11 +1,12 @@
 package com.unidev.universe.services;
 
 import com.unidev.universe.entities.News;
+import com.unidev.universe.responses.NewsResponse;
 
 import java.util.List;
 
 public interface NewsService {
-    List<News> getAllNews();
+    List<NewsResponse> getAllNews();
 
     News getNewsByTitle(String newsTitle);
 

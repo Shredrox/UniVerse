@@ -32,7 +32,7 @@ public class News {
 
     @NotNull
     @Column(name = "pinned")
-    boolean pinned;
+    Boolean pinned;
 
     @NotNull
     @Column(name = "date")

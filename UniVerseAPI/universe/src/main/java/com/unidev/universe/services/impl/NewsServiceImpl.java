@@ -2,10 +2,12 @@ package com.unidev.universe.services.impl;
 
 import com.unidev.universe.entities.News;
 import com.unidev.universe.repository.NewsRepository;
+import com.unidev.universe.responses.NewsResponse;
 import com.unidev.universe.services.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,8 +16,22 @@ import java.util.Optional;
 public class NewsServiceImpl implements NewsService {
     private final NewsRepository newsRepository;
 
-    public List<News> getAllNews() {
-        return newsRepository.findAll();
+    public List<NewsResponse> getAllNews() {
+        List<News> news = newsRepository.findAll();
+        List<NewsResponse> newsResponses = new ArrayList<>();
+
+        for (News newsItem: news) {
+            NewsResponse newsResponse = new NewsResponse();
+            newsResponse.setId(newsItem.getId());
+            newsResponse.setTitle(newsItem.getTitle());
+            newsResponse.setContent(newsItem.getContent());
+            newsResponse.setDate(newsItem.getDate());
+            newsResponse.setPinned(newsItem.getPinned());
+
+            newsResponses.add(newsResponse);
+        }
+
+        return newsResponses;
     }
 
     public News getNewsByTitle(String newsTitle) {
