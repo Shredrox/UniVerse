@@ -5,8 +5,13 @@ export const getNews = async () =>{
     return response.data;
 }
 
-export const getNewsByTitle = async (title) =>{
-    const response = await axios.get(`/news/${title}`);
+export const getNewsImage = async (id) =>{
+    const response = await axios.get(`/news/${id}/image`, { responseType: 'blob'});
+    return response.data;
+}
+
+export const getNewsById = async (newsId) =>{
+    const response = await axios.get(`/news/${newsId}`);
     return response.data;
 }
 
@@ -14,10 +19,12 @@ export const addNews = async (news) =>{
     return await axios.post('/news/createNews', news);
 }
 
-export const updateNews = async (news) =>{
-    return await axios.patch(`/news/${post.id}`, news);
+export const updateNews = async (data) =>{
+    console.log(data);
+
+    return await axios.post(`/news/update`, data);
 }
 
-export const deleteNews = async ({id}) =>{
-    return await axios.delete(`/news/${id}`, id);
+export const deleteNews = async (newsId) =>{
+    return await axios.delete(`/news/delete/${newsId}`, newsId);
 }
