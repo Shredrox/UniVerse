@@ -39,7 +39,10 @@ const ProfileEditForm = ({profileUser, updateUserProfileMutation, setIsEditOn}) 
     requestData.append('newUsername', name);
     requestData.append('newEmail', email);
     requestData.append('newPassword', newPassword);
-    requestData.append('profilePicture', image);
+
+    if(image !== null){
+      requestData.append('profilePicture', image);
+    }
 
     await updateUserProfileMutation(requestData);
 
