@@ -1,19 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import PinnedIcon from '../assets/icons/icon-pinned.svg'
+import useNewsImage from '../hooks/useNewsImage';
 
 const NewsCard = ({news}) => {
   const navigate = useNavigate();
 
-  const getRandomSize = () => {
-    const width = Math.floor(Math.random() * 880) + 200;
-    const height = Math.floor(Math.random() * 880) + 200;
-    return `https://picsum.photos/${width}/${height}`;
-  };
+  const { newsImage } = useNewsImage(news.id);
 
   return (
-    <div onClick={() => navigate(`/news/${news.title}`)} className={`news-card ${news.pinned ? 'news-card-pinned' : ''}`}>
+    <div onClick={() => navigate(`/news/${news.id}`)} className={`news-card ${news.pinned ? 'news-card-pinned' : ''}`}>
       <div className='news-image-container'>
-        <img src={getRandomSize()} alt="NewsImage" />
+      {newsImage?.size > 0 && 
+      <img src={URL.createObjectURL(newsImage)} alt='NewsImage'/> 
+      }
       </div>
       <div className="news-content-container">
         <h3 className="news-text">{news.title}</h3> 
