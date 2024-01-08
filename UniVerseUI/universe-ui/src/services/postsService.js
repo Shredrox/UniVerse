@@ -1,6 +1,11 @@
 import axios from "../api/axios";
 
 //posts--------------------------
+export const getAllPosts = async () =>{
+    const response = await axios.get(`/posts`);
+    return response.data;
+}
+
 export const getFriendsPosts = async (username) =>{
     const response = await axios.get(`/posts/getFriendsPosts/${username}`);
     return response.data;
