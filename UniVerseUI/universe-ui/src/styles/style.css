@@ -185,6 +185,7 @@ body{
     background: rgb(173, 0, 0);
     border-style: none;
     border-radius: 1rem;
+    transition: 0.2s;
 }
 
 .cancel-button:hover{
