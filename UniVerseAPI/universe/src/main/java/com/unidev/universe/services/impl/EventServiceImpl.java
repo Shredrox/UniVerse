@@ -7,6 +7,7 @@ import com.unidev.universe.repository.UserRepository;
 import com.unidev.universe.services.EventService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    @Transactional
     public void deleteEvent(Long eventId) {
         eventRepository.deleteById(eventId);
     }

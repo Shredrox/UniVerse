@@ -7,6 +7,7 @@ import com.unidev.universe.repository.UserRepository;
 import com.unidev.universe.services.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +76,7 @@ public class JobServiceImpl implements JobService {
         return null;
     }
 
+    @Transactional
     public Boolean deleteJob(Long id){
         if(jobRepository.existsById(id)){
             jobRepository.deleteById(id);

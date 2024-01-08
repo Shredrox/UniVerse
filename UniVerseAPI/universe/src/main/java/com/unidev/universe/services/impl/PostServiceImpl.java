@@ -3,12 +3,15 @@ package com.unidev.universe.services.impl;
 import com.unidev.universe.dto.PostDTO;
 import com.unidev.universe.entities.Post;
 import com.unidev.universe.entities.User;
+import com.unidev.universe.repository.CommentRepository;
+import com.unidev.universe.repository.LikeRepository;
 import com.unidev.universe.repository.PostRepository;
 import com.unidev.universe.repository.UserRepository;
 import com.unidev.universe.responses.PostResponse;
 import com.unidev.universe.services.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,6 +24,8 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     public List<PostResponse> getAllPosts() {
         List<Post> posts = postRepository.findAll();
@@ -71,7 +76,11 @@ public class PostServiceImpl implements PostService {
 
     public byte[] getPostImage(Long postId) {
         Optional<Post> post = postRepository.findById(postId);
-        return post.orElseThrow().getImageData();
+        if(post.isPresent()){
+            return post.get().getImageData();
+        }
+
+        return null;
     }
 
     public Post createPost(PostDTO request) throws IOException {
@@ -80,7 +89,9 @@ public class PostServiceImpl implements PostService {
         Post newPost = new Post();
         newPost.setTitle(request.getTitle());
         newPost.setContent(request.getContent());
-        newPost.setImageData(request.getImage().getBytes());
+        if(request.getImage() != null) {
+            newPost.setImageData(request.getImage().getBytes());
+        }
         newPost.setTimestamp(LocalDateTime.now());
         newPost.setAuthorName(user.getName());
         newPost.setUser(user);
@@ -100,7 +111,11 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Transactional
     public void deletePost(Long postId) {
+        likeRepository.deleteAllByPostId(postId);
+        commentRepository.deleteAllByPostId(postId);
+
         postRepository.deleteById(postId);
     }
 }

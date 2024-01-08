@@ -7,6 +7,7 @@ import com.unidev.universe.responses.NewsResponse;
 import com.unidev.universe.services.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,6 +86,7 @@ public class NewsServiceImpl implements NewsService {
         }
     }
 
+    @Transactional
     public void deleteNews(Long newsId) {
         newsRepository.deleteById(newsId);
     }
