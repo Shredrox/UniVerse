@@ -14,7 +14,7 @@ const Feed = () => {
     isPostsError,
     postsError,
     addPostMutation 
-  } = useFeedData(auth?.user);
+  } = useFeedData(auth?.user, auth?.role);
 
   const [creatingPost, setCreatingPost] = useState(false);
 
@@ -23,7 +23,11 @@ const Feed = () => {
       const requestData = new FormData();
       requestData.append('title', data.title);
       requestData.append('content', data.content);
-      requestData.append('image', data.image[0]);
+
+      if(data.image.length > 0){
+        requestData.append('image', data.image[0]);
+      }
+
       requestData.append('authorName', auth?.user);
 
       await addPostMutation(requestData);
