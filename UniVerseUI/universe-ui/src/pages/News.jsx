@@ -1,35 +1,43 @@
-import { useQuery } from '@tanstack/react-query';
-import { getNews } from '../services/newsService';
 import NewsCard from '../components/NewsCard'
 import Loading from '../components/fallbacks/Loading'
+import { useAuth } from '../hooks/useAuth';
+import { useState } from 'react';
+import useNewsListData from '../hooks/useNewsListData';
+import CreateNewsForm from '../components/CreateNewsForm';
 
 const News = () => {
-  const {data: news, isLoading, isError, error} = useQuery({ 
-    queryKey: ["news"],
-    queryFn: () => getNews(),
-  });
+  const { auth } =  useAuth();
 
-  const sortedNews = news?.sort((a, b) => {
-    if (a.pinned !== b.pinned) {
-      return a.pinned ? -1 : 1;
-    } else {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
-      return dateB - dateA;
-    }
-  });
+  const { 
+    news, 
+    isNewsDataLoading,
+    isNewsDataError,
+    newsDataError,
+    addNewsMutation
+  } = useNewsListData();
 
-  if(isError){
-    throw Error(error);
+  const [isAddingNews, setIsAddingNews] = useState(false);
+
+  if(isNewsDataError){
+    throw Error(newsDataError);
   }
 
   return (
     <div className='news-container'>
       <h2>Latest News</h2>
+      {auth?.role === "ADMIN" &&
+        <button onClick={() => setIsAddingNews(!isAddingNews)} className='confirm-button'>Create News</button>
+      }
+      {isAddingNews &&
+        <CreateNewsForm 
+          setIsAddingNews={setIsAddingNews}
+          addNewsMutation={addNewsMutation}
+        />
+      }
       <div className='news-list'>
-        {isLoading ? <Loading/> :
-        sortedNews.length > 0 ? 
-        sortedNews?.map((news, index) => (
+        {isNewsDataLoading ? <Loading/> :
+        news.length > 0 ? 
+        news?.map((news, index) => (
           <NewsCard key={index} news={news}/>
         ))
         :
