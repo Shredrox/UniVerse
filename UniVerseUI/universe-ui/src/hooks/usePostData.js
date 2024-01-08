@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getIsLiked, getPostCommentCount, getPostImage, getPostLikes, likePost, unlikePost } from "../services/postsService";
+import { deletePost, getIsLiked, getPostCommentCount, getPostImage, getPostLikes, likePost, unlikePost } from "../services/postsService";
 
 const usePostData = (postId, user) =>{
   const queryClient = useQueryClient();
@@ -54,6 +54,13 @@ const usePostData = (postId, user) =>{
     },
   });
 
+  const {mutateAsync: deletePostMutation} = useMutation({
+    mutationFn: deletePost,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["posts"]);
+    },
+  });
+
   const isPostError =  isLikesError || isPostImageError || isCommentsError ||  isLikedError;
   const postError = likesError || postImageError || commentsError || likedError;
   const isPostLoading = likesLoading || postImageLoading || commentCountLoading || postLikedLoading;
@@ -64,7 +71,8 @@ const usePostData = (postId, user) =>{
     isPostError, 
     postError,
     likePostMutation,
-    unlikePostMutation
+    unlikePostMutation,
+    deletePostMutation
   }
 }
 

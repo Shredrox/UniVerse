@@ -26,7 +26,8 @@ const Post = ({post}) => {
     isPostError, 
     postError, 
     likePostMutation, 
-    unlikePostMutation
+    unlikePostMutation,
+    deletePostMutation
   } = usePostData(post.id, auth?.user);
 
   const { profilePicture } = useProfilePicture("postUserProfilePicture", post.authorName);
@@ -51,6 +52,10 @@ const Post = ({post}) => {
     setIsCommentSectionOn(!isCommentSectionOn);
   }
 
+  const handleDelete = async () =>{
+    await deletePostMutation(post.id);
+  }
+
   if(isPostError){
     return <ErrorFallback error={postError.message}/>
   }
@@ -72,6 +77,13 @@ const Post = ({post}) => {
           </div>
           <span className='post-author-span' onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
           <span className='post-timestamp'>{post.timestamp}</span>
+          {auth?.role === "ADMIN" && 
+          <button 
+            onClick={handleDelete} 
+            className="cancel-button">
+              Delete
+          </button>
+          }
         </div>
         <div className='post-content'>
           <h3>{post.title}</h3>
