@@ -1,7 +1,6 @@
 package com.unidev.universe.services.impl;
 
 import com.unidev.universe.entities.News;
-import com.unidev.universe.entities.Post;
 import com.unidev.universe.repository.NewsRepository;
 import com.unidev.universe.requests.NewsEditRequest;
 import com.unidev.universe.responses.NewsResponse;
@@ -70,10 +69,18 @@ public class NewsServiceImpl implements NewsService {
 
         if (optionalNews.isPresent()) {
             News existingNews = optionalNews.get();
-            existingNews.setTitle(updatedNews.getTitle());
-            existingNews.setContent(updatedNews.getContent());
-            existingNews.setImageData(updatedNews.getImage().getBytes());
 
+            if(!updatedNews.getTitle().isEmpty()){
+                existingNews.setTitle(updatedNews.getTitle());
+            }
+            if(!updatedNews.getContent().isEmpty()){
+                existingNews.setContent(updatedNews.getContent());
+            }
+            if(updatedNews.getImage() != null){
+                existingNews.setImageData(updatedNews.getImage().getBytes());
+            }
+
+            existingNews.setPinned(updatedNews.getPinned());
             newsRepository.save(existingNews);
         }
     }
