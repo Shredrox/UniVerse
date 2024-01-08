@@ -63,6 +63,10 @@ public class User implements UserDetails {
         this.enabled = true;
     }
 
+    public User(String username) {
+        this.username = username;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority simpleGrantedAuthority =
