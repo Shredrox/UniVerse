@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { attendEvent, getIsAttending, removeAttending } from "../services/eventsService";
+import { attendEvent, deleteEvent, getIsAttending, removeAttending } from "../services/eventsService";
 
 const useEventData = (eventId, user) =>{
   const queryClient = useQueryClient();
@@ -27,13 +27,21 @@ const useEventData = (eventId, user) =>{
     },
   });
 
+  const {mutateAsync: deleteEventMutation} = useMutation({
+    mutationFn: deleteEvent,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["events"]);
+    },
+  });
+
   return {
     isAttending, 
     isAttendingLoading, 
     isAttendingError, 
     attendingError,
     attendEventMutation,
-    removeAttendingMutation
+    removeAttendingMutation,
+    deleteEventMutation
   }
 }
 

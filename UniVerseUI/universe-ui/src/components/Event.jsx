@@ -8,6 +8,7 @@ const Event = ({event}) => {
     isAttending, 
     attendEventMutation,
     removeAttendingMutation,
+    deleteEventMutation
   } = useEventData(event.id, auth?.user);
 
   const handleClick = () =>{
@@ -17,6 +18,10 @@ const Event = ({event}) => {
     }
 
     attendEventMutation({eventId: event.id, username: auth?.user});
+  }
+
+  const handleDelete = async () =>{
+    await deleteEventMutation(event.id);
   }
 
   return (
@@ -31,6 +36,13 @@ const Event = ({event}) => {
           className="confirm-button">
           {isAttending ? "Attending" : "Attend"}
         </button>
+        {auth?.role === "ADMIN" && 
+        <button 
+          onClick={handleDelete} 
+          className="cancel-button">
+            Delete
+        </button>
+        }
       </div>
     </div>
   )

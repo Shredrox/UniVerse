@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { applyToJob, cancelApplicationToJob, getIsAppliedToJob, getJobById } from "../services/jobsService";
+import { applyToJob, cancelApplicationToJob, deleteJob, getIsAppliedToJob, getJobById } from "../services/jobsService";
 
 const useJobData = (jobId, user) =>{
   const queryClient = useQueryClient();
@@ -36,6 +36,13 @@ const useJobData = (jobId, user) =>{
     },
   });
 
+  const {mutateAsync: deleteJobMutation} = useMutation({
+    mutationFn: deleteJob,
+    onSuccess: () =>{
+      queryClient.invalidateQueries(["jobOffers"]);
+    },
+  });
+
   const isJobError =  isJobDetailsError || isAppliedError;
   const jobError = jobDetailsError || appliedError;
   const isJobLoading = isJobDetailsLoading || isAppliedLoading;
@@ -46,7 +53,8 @@ const useJobData = (jobId, user) =>{
     isJobError, 
     jobError,
     applyToJobMutation,
-    cancelApplicationToJobMutation
+    cancelApplicationToJobMutation,
+    deleteJobMutation
   }
 }
 

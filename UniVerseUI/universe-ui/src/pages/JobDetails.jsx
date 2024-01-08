@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth";
 import { IoBriefcase } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
@@ -10,13 +10,16 @@ const JobDetails = () => {
   const { jobId } = useParams();
   const { auth } = useAuth();
 
+  const navigate = useNavigate();
+
   const { 
     jobData, 
     isJobLoading,
     isJobError,
     jobError,
     applyToJobMutation,
-    cancelApplicationToJobMutation
+    cancelApplicationToJobMutation,
+    deleteJobMutation 
   } = useJobData(jobId, auth?.user);
 
   const handleApply = () =>{
@@ -26,6 +29,12 @@ const JobDetails = () => {
     }
 
     applyToJobMutation({jobId: jobId, username: auth?.user})
+  }
+
+  const handleDelete = async () =>{
+    await deleteJobMutation(jobId);
+
+    navigate('/jobs');
   }
 
   if(isJobError){
@@ -50,6 +59,13 @@ const JobDetails = () => {
         className="job-confirm-button">
           {jobData.isApplied ? "Cancel Application" : "Apply"}
         </button>
+        {auth?.role === "ADMIN" && 
+        <button 
+          onClick={handleDelete} 
+          className="cancel-button">
+            Delete
+        </button>
+        }
       </div>
     </div>
   )
