@@ -83,7 +83,7 @@ public class UserService implements UserDetailsService {
         if(!request.getNewPassword().isEmpty()){
             user.setPassword(request.getNewPassword());
         }
-        if(!request.getProfilePicture().isEmpty()){
+        if(request.getProfilePicture() != null){
             user.setProfilePicture(request.getProfilePicture().getBytes());
         }
 

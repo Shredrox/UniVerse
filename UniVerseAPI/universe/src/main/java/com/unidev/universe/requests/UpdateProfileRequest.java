@@ -1,5 +1,6 @@
 package com.unidev.universe.requests;
 
+import jakarta.annotation.Nullable;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,5 +10,7 @@ public class UpdateProfileRequest {
     private String newUsername;
     private String newEmail;
     private String newPassword;
+
+    @Nullable
     private MultipartFile profilePicture;
 }
