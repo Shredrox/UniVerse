@@ -55,8 +55,9 @@ const AccessForm = () => {
 
       const accessToken = response?.data?.accessToken;
       const user = response?.data?.username;
+      const role = response?.data?.role;
 
-      setAuth({user: user, accessToken: accessToken});
+      setAuth({user: user, accessToken: accessToken, role: role});
       navigate(from, { replace: true });
     }
     catch(error){
