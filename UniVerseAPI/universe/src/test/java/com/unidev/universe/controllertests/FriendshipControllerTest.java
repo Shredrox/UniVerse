@@ -1,10 +1,8 @@
 package com.unidev.universe.controllertests;
 
 import com.unidev.universe.controllers.FriendshipController;
-import com.unidev.universe.entities.Friendship;
 import com.unidev.universe.entities.FriendshipStatus;
 import com.unidev.universe.entities.User;
-import com.unidev.universe.requests.FriendRequest;
 import com.unidev.universe.responses.FriendRequestResponse;
 import com.unidev.universe.services.FriendshipService;
 import org.junit.jupiter.api.BeforeEach;
