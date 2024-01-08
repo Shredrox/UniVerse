@@ -1456,6 +1456,34 @@ body{
     width: 100%;
 }
 
+.edit-textarea{
+    background-color: #7B4DDC82;
+    border-style: none;
+    border-radius: 1rem;
+    outline: none;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+    height: 200px;
+    text-align:start;
+    resize:none;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.edit-textarea:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
+}
+
+.pinned{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .jobs-container{
     width: 100%;
     height: 700px;
