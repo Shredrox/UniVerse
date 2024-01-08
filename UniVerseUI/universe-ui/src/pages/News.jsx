@@ -28,9 +28,12 @@ const News = () => {
       <h2>Latest News</h2>
       <div className='news-list'>
         {isLoading ? <Loading/> :
+        sortedNews.length > 0 ? 
         sortedNews?.map((news, index) => (
           <NewsCard key={index} news={news}/>
         ))
+        :
+        <div>No news.</div>
         }
       </div>
     </div>
