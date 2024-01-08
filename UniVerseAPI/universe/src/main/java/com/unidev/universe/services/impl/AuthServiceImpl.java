@@ -71,6 +71,7 @@ public class AuthServiceImpl implements AuthService {
         jwtResponse.setAccessToken(accessToken);
         jwtResponse.setRefreshToken(refreshToken);
         jwtResponse.setUsername(user.getName());
+        jwtResponse.setRole(user.getUserRole().name());
 
         return jwtResponse;
     }
@@ -147,6 +148,7 @@ public class AuthServiceImpl implements AuthService {
             jwtResponse.setAccessToken(newAccessToken);
             jwtResponse.setRefreshToken(newRefreshToken);
             jwtResponse.setUsername(user.getName());
+            jwtResponse.setRole(user.getUserRole().name());
 
             return jwtResponse;
         }
