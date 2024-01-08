@@ -1,13 +1,18 @@
 import { useNavigate } from 'react-router-dom'
 import PinnedIcon from '../assets/icons/icon-pinned.svg'
+import useNewsImage from '../hooks/useNewsImage';
 
 const NewsCard = ({news}) => {
   const navigate = useNavigate();
 
+  const { newsImage } = useNewsImage(news.id);
+
   return (
-    <div onClick={() => navigate(`/news/${news.title}`)} className={`news-card ${news.pinned ? 'news-card-pinned' : ''}`}>
+    <div onClick={() => navigate(`/news/${news.id}`)} className={`news-card ${news.pinned ? 'news-card-pinned' : ''}`}>
       <div className='news-image-container'>
-        {news.image && <img src={news.image} alt="NewsImage" />}
+      {newsImage?.size > 0 && 
+      <img src={URL.createObjectURL(newsImage)} alt='NewsImage'/> 
+      }
       </div>
       <div className="news-content-container">
         <h3 className="news-text">{news.title}</h3> 

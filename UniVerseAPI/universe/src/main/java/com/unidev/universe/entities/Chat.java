@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,5 +33,5 @@ public class Chat {
 
     @NotNull
     @Column(name = "created_at")
-    Date createdAt;
+    LocalDateTime createdAt;
 }

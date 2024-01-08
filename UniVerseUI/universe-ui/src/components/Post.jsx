@@ -10,6 +10,8 @@ import { IoIosArrowForward } from "react-icons/io";
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from './fallbacks/ErrorFallback';
 import usePostData from '../hooks/usePostData';
+import { FaUserAstronaut } from "react-icons/fa";
+import useProfilePicture from '../hooks/useProfilePicture';
 
 const Post = ({post}) => {
   const [isCommentSectionOn, setIsCommentSectionOn] = useState(false);
@@ -24,8 +26,11 @@ const Post = ({post}) => {
     isPostError, 
     postError, 
     likePostMutation, 
-    unlikePostMutation
+    unlikePostMutation,
+    deletePostMutation
   } = usePostData(post.id, auth?.user);
+
+  const { profilePicture } = useProfilePicture("postUserProfilePicture", post.authorName);
 
   const handleLike = () => {
     likePostMutation({postId: post.id, username: auth?.user});
@@ -47,6 +52,10 @@ const Post = ({post}) => {
     setIsCommentSectionOn(!isCommentSectionOn);
   }
 
+  const handleDelete = async () =>{
+    await deletePostMutation(post.id);
+  }
+
   if(isPostError){
     return <ErrorFallback error={postError.message}/>
   }
@@ -60,8 +69,21 @@ const Post = ({post}) => {
       <div className='line'>&nbsp;</div>
       <div className='post'>
         <div className='post-author'>
-          <div className='author-profile-picture'></div>
-          <span onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
+          <div className='author-profile-picture-container'>
+            {profilePicture?.size > 0 ? 
+            <img className='author-profile-picture' src={URL.createObjectURL(profilePicture)} alt="ProfilePicture" /> 
+            :
+            <FaUserAstronaut className='post-profile-picture-placeholer-icon'/>}
+          </div>
+          <span className='post-author-span' onClick={() => navigate(`/profile/${post.authorName}`)}>{post.authorName}</span>
+          <span className='post-timestamp'>{post.timestamp}</span>
+          {auth?.role === "ADMIN" && 
+          <button 
+            onClick={handleDelete} 
+            className="cancel-button">
+              Delete
+          </button>
+          }
         </div>
         <div className='post-content'>
           <h3>{post.title}</h3>

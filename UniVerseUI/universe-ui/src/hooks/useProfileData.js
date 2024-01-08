@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { checkFriendship, getUserByName, getUserFriendsCount, removeFriend, updateUserProfile } from "../services/usersService";
+import { checkFriendship, getUserByName, getUserFriendsCount, getUserProfilePicture, removeFriend, updateUserProfile } from "../services/usersService";
 import { useSocket } from "./useSocket";
 import { getUserPostsCount } from "../services/postsService";
 
@@ -35,6 +35,7 @@ const useProfileData = (profileUser, loggedUser) =>{
 	} = useQuery({
     queryKey: ["friendsCount", user?.username],
     queryFn: () => getUserFriendsCount(user?.username),
+    enabled: !!user,
   });
 
   const {data: postsCount, 
@@ -44,6 +45,17 @@ const useProfileData = (profileUser, loggedUser) =>{
 	} = useQuery({
     queryKey: ["postsCount", user?.username],
     queryFn: () => getUserPostsCount(user?.username),
+    enabled: !!user,
+  });
+
+  const {data: profilePicture, 
+    isLoading: isProfilePictureLoading, 
+    isError: isProfilePictureError, 
+    error: profilePictureError
+	} = useQuery({
+    queryKey: ["profilePicture", user?.username],
+    queryFn: () => getUserProfilePicture(user?.username),
+    enabled: !!user,
   });
 
   const {mutateAsync: addFriendMutation} = useMutation({
@@ -64,12 +76,12 @@ const useProfileData = (profileUser, loggedUser) =>{
     mutationFn: updateUserProfile,
   });
 
-  const isProfileError =  isProfileUserError || isFriendshipError || isfriendsCountError || isPostsCountError;
-  const profileError = profileUserError || friendshipError || friendsCountError || postsCountError;
-  const isProfileLoading = isProfileUserLoading || isFriendshipLoading || isfriendsCountLoading || isPostsCountLoading;
+  const isProfileError =  isProfileUserError || isFriendshipError || isfriendsCountError || isPostsCountError || isProfilePictureError;
+  const profileError = profileUserError || friendshipError || friendsCountError || postsCountError || profilePictureError;
+  const isProfileLoading = isProfileUserLoading || isFriendshipLoading || isfriendsCountLoading || isPostsCountLoading || isProfilePictureLoading;
 
   return {
-    profileData: {user, loggedInUserProfile, friendshipStatus, friendsCount, postsCount}, 
+    profileData: {user, loggedInUserProfile, friendshipStatus, friendsCount, postsCount, profilePicture}, 
     isProfileLoading, 
     isProfileError, 
     profileError,

@@ -1,50 +1,23 @@
 package com.unidev.universe.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.unidev.universe.dto.NewsDTO;
 import com.unidev.universe.entities.News;
-import com.unidev.universe.repository.NewsRepository;
+import com.unidev.universe.requests.NewsEditRequest;
+import com.unidev.universe.responses.NewsResponse;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class NewsService {
+public interface NewsService {
+    List<NewsResponse> getAllNews();
 
-    @Autowired
-    private NewsRepository newsRepository;
+    byte[] getNewsImage(Long newsId);
 
-    public List<News> getAllNews() {
-        return newsRepository.findAll();
-    }
+    NewsResponse getNewsById(Long newsId);
 
-    public News getNewsByTitle(String newsTitle) {
-        Optional<News> optionalNews = newsRepository.findByTitle(newsTitle);
-        return optionalNews.orElse(null);
-    }
+    News createNews(NewsDTO news) throws IOException;
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-    public News createNews(News news) {
-        return newsRepository.save(news);
-    }
+    void updateNews(NewsEditRequest updatedNews) throws IOException;
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-    public News updateNews(Long newsId, News updatedNews) {
-        Optional<News> optionalNews = newsRepository.findById(newsId);
-
-        if (optionalNews.isPresent()) {
-            News existingNews = optionalNews.get();
-            existingNews.setTitle(updatedNews.getTitle());
-            existingNews.setContent(updatedNews.getContent());
-            return newsRepository.save(existingNews);
-        } else {
-            return null;
-        }
-    }
-
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-    public void deleteNews(Long newsId) {
-        newsRepository.deleteById(newsId);
-    }
+    void deleteNews(Long newsId);
 }

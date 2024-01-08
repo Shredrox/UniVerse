@@ -1,26 +1,20 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Post from './Post'
-import { addPost, getFriendsPosts } from '../services/postsService';
 import { useState } from 'react';
 import CreatePostForm from './CreatePostForm';
 import { useAuth } from '../hooks/useAuth'
 import Loading from '../components/fallbacks/Loading'
+import useFeedData from '../hooks/useFeedData';
 
 const Feed = () => {
   const { auth } = useAuth();
-  const queryClient = useQueryClient();
 
-  const {data: posts, isLoading, isError, error} = useQuery({ 
-    queryKey: ["posts", auth?.user],
-    queryFn: () => getFriendsPosts(auth?.user),
-  });
-
-  const {mutateAsync: addPostMutation} = useMutation({
-    mutationFn: addPost,
-    onSuccess: () =>{
-      queryClient.invalidateQueries(["posts"]);
-    },
-  });
+  const { 
+    posts,
+    isPostsLoading,
+    isPostsError,
+    postsError,
+    addPostMutation 
+  } = useFeedData(auth?.user, auth?.role);
 
   const [creatingPost, setCreatingPost] = useState(false);
 
@@ -29,7 +23,11 @@ const Feed = () => {
       const requestData = new FormData();
       requestData.append('title', data.title);
       requestData.append('content', data.content);
-      requestData.append('image', data.image[0]);
+
+      if(data.image.length > 0){
+        requestData.append('image', data.image[0]);
+      }
+
       requestData.append('authorName', auth?.user);
 
       await addPostMutation(requestData);
@@ -38,11 +36,11 @@ const Feed = () => {
     }
   }
 
-  if(isError){
-    throw Error(error);
+  if(isPostsError){
+    throw Error(postsError);
   }
 
-  if(isLoading){
+  if(isPostsLoading){
     return <Loading/>
   }
 

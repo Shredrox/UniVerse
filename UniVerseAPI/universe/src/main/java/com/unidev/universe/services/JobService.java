@@ -1,47 +1,24 @@
 package com.unidev.universe.services;
 
 import com.unidev.universe.entities.JobOffer;
-import com.unidev.universe.repository.JobRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class JobService {
-    @Autowired
-    private JobRepository jobRepository;
+public interface JobService {
+    List<JobOffer> getAllJobs();
 
-    public List<JobOffer> getAllJobs(){
-        return jobRepository.findAll();
-    }
+    Optional<JobOffer> getJobById(Long id);
 
-    public Optional<JobOffer> getJobById(Long id){
-        return jobRepository.findById(id);
-    }
+    boolean isAppliedToJob(Long jobId, String username);
 
-    public JobOffer createJob(JobOffer jobOffer){
-        return jobRepository.save(jobOffer);
-    }
+    JobOffer createJob(JobOffer jobOffer);
 
-    public void applyToJob( Long jobId, String username){
-        //TODO
-    }
+    void applyToJob( Long jobId, String username);
 
-    public JobOffer updateJob(Long id, JobOffer updatedJob){
-        if(jobRepository.existsById(id)){
-            updatedJob.setId(id);
-            return jobRepository.save(updatedJob);
-        }
-        return null;
-    }
+    void cancelApplicationToJob(Long jobId, String username);
 
-    public Boolean deleteJob(Long id){
-        if(jobRepository.existsById(id)){
-            jobRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+    JobOffer updateJob(Long id, JobOffer updatedJob);
+
+    Boolean deleteJob(Long id);
 }

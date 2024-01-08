@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -36,7 +37,7 @@ public class Notification {
 
     @NotNull
     @Column(name = "time_stamp")
-    private Date timestamp;
+    private LocalDateTime timestamp;
 
     @NotNull
     @ManyToOne

@@ -30,6 +30,11 @@ export const getUserFriendsCount = async (username) =>{
     return response.data;
 }
 
+export const getUserProfilePicture = async (username) =>{
+    const response = await axios.get(`/users/${username}/profile-picture`, { responseType: 'blob'});
+    return response.data;
+}
+
 export const getUserFriendRequests = async (username) =>{
     const response = await axios.get(`/friendships/${username}/friend-requests`);
     return response.data;
@@ -73,14 +78,7 @@ export const confirmPassword = async ({ username, password }) =>{
     return response.data;
 }
 
-export const updateUserProfile = async ({username, newUsername, email, password}) =>{
-    const details = { 
-        username: username, 
-        newUsername: newUsername, 
-        newEmail: email, 
-        newPassword: password 
-    };
-
-    const response = await axios.post('/users/update-profile', details);
+export const updateUserProfile = async (data) =>{
+    const response = await axios.post('/users/update-profile', data);
     return response.data;
 }

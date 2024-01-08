@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,11 +29,14 @@ public class News {
     @Column(name = "content")
     private String content;
 
+    @Column(columnDefinition = "BYTEA")
+    private byte[] imageData;
+
     @NotNull
     @Column(name = "pinned")
-    boolean pinned;
+    Boolean pinned;
 
     @NotNull
     @Column(name = "date")
-    Date date;
+    LocalDateTime date;
 }

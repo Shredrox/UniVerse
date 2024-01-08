@@ -26,14 +26,24 @@ public class JobsController {
         return job.map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/{jobId}/is-applied/{username}")
+    public ResponseEntity<Boolean> isAppliedToJob(@PathVariable Long jobId, @PathVariable String username){
+        return ResponseEntity.ok(jobService.isAppliedToJob(jobId, username));
+    }
+
     @PostMapping("/createJob")
     public ResponseEntity<JobOffer> createJob(@RequestBody JobOffer job){
         return ResponseEntity.ok(jobService.createJob(job));
     }
 
-    @PostMapping("/{jobId}/apply")
-    public void createJob(@PathVariable Long jobId, @RequestParam String username){
+    @PostMapping("/{jobId}/apply/{username}")
+    public void applyToJob(@PathVariable Long jobId, @PathVariable String username){
         jobService.applyToJob(jobId, username);
+    }
+
+    @PostMapping("/{jobId}/cancel-application/{username}")
+    public void cancelApplicationToJob(@PathVariable Long jobId, @PathVariable String username){
+        jobService.cancelApplicationToJob(jobId, username);
     }
 
     @PutMapping("/{id}")

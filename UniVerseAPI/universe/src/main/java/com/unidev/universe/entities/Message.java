@@ -6,9 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -43,6 +42,5 @@ public class Message {
 
     @NotNull
     @Column(name = "timestamp")
-    @DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
-    private Date timestamp;
+    private LocalDateTime timestamp;
 }

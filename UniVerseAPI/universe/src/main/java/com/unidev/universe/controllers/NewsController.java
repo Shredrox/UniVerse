@@ -1,51 +1,55 @@
 package com.unidev.universe.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.unidev.universe.dto.NewsDTO;
+import com.unidev.universe.requests.NewsEditRequest;
+import com.unidev.universe.responses.NewsResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import com.unidev.universe.entities.News;
 import com.unidev.universe.services.NewsService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/news")
 public class NewsController {
-
-    @Autowired
-    private NewsService newsService;
+    private final NewsService newsService;
 
     @GetMapping
-    public List<News> getAllNews() {
+    public List<NewsResponse> getAllNews() {
         return newsService.getAllNews();
     }
 
-    @GetMapping("/{newsTitle}")
-    public News getNewsById(@PathVariable String newsTitle) {
-        return newsService.getNewsByTitle(newsTitle);
+    @GetMapping("/{newsId}")
+    public NewsResponse getNewsById(@PathVariable Long newsId) {
+        return newsService.getNewsById(newsId);
+    }
+
+    @GetMapping("/{newsId}/image")
+    public ResponseEntity<byte[]> getNewsImage(@PathVariable Long newsId) {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(newsService.getNewsImage(newsId));
     }
 
     @PostMapping("/createNews")
-    public ResponseEntity<News> createNews(@RequestBody News news) {
+    public ResponseEntity<News> createNews(@ModelAttribute NewsDTO news) throws IOException {
         News createdNews = newsService.createNews(news);
         return new ResponseEntity<>(createdNews, HttpStatus.CREATED);
     }
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-    public ResponseEntity<News> updateNews(@PathVariable Long newsId, @RequestBody News updatedNews) {
-        News result = newsService.updateNews(newsId, updatedNews);
+    @PostMapping("/update")
+    public ResponseEntity<String> updateNews(@ModelAttribute NewsEditRequest updatedNews) throws IOException {
+        newsService.updateNews(updatedNews);
 
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok("News updated.");
     }
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
+    @DeleteMapping("/delete/{newsId}")
     public ResponseEntity<Void> deleteNews(@PathVariable Long newsId) {
         newsService.deleteNews(newsId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

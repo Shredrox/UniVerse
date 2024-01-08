@@ -4,6 +4,8 @@ import com.unidev.universe.dto.ChatDTO;
 import com.unidev.universe.dto.MessageDTO;
 import com.unidev.universe.entities.Chat;
 import com.unidev.universe.entities.Message;
+import com.unidev.universe.entities.User;
+import com.unidev.universe.responses.MessageResponse;
 import com.unidev.universe.services.ChatService;
 import com.unidev.universe.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +14,12 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,31 +35,44 @@ public class ChatController {
 
         newChat.setUser1(userService.getUserByUsername(request.getUser1()));
         newChat.setUser2(userService.getUserByUsername(request.getUser2()));
-        newChat.setCreatedAt(new Date());
+        newChat.setCreatedAt(LocalDateTime.now());
         chatService.createChat(newChat);
 
-        simpMessagingTemplate.convertAndSendToUser(newChat.getUser2().getUsername(), "/queue/chat", newChat);
+        simpMessagingTemplate.convertAndSendToUser(newChat.getUser2().getName(), "/queue/chat", newChat);
     }
 
     @MessageMapping("/sendPrivateMessage")
     public void sendPrivateMessage(@Payload MessageDTO request){
+        User sender = userService.getUserByUsername(request.getSender());
+        User receiver = userService.getUserByUsername(request.getReceiver());
+
+        Chat chat = chatService.getChat(sender, receiver);
+
         Message newMessage = new Message();
         newMessage.setContent(request.getContent());
-        newMessage.setSender(userService.getUserByUsername(request.getSender()));
-        newMessage.setReceiver(userService.getUserByUsername(request.getReceiver()));
-        newMessage.setTimestamp(new Date());
+        newMessage.setSender(sender);
+        newMessage.setReceiver(receiver);
+        newMessage.setTimestamp(LocalDateTime.now());
+        newMessage.setChat(chat);
+
         chatService.saveMessage(newMessage);
 
-        simpMessagingTemplate.convertAndSendToUser(newMessage.getReceiver().getUsername(), "/queue/message", newMessage);
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setContent(newMessage.getContent());
+        messageResponse.setSender(newMessage.getSender().getName());
+        messageResponse.setReceiver(newMessage.getSender().getName());
+        messageResponse.setTimestamp(newMessage.getTimestamp());
+
+        simpMessagingTemplate.convertAndSendToUser(newMessage.getReceiver().getName(), "/queue/message", messageResponse);
     }
 
     @GetMapping("/getMessages")
-    public List<Message> getMessages(@RequestParam("user") String user, @RequestParam("chatUser") String chatUser) {
-        return chatService.getChatMessages(userService.getUserByUsername(user).getId(), userService.getUserByUsername(chatUser).getId());
+    public List<MessageResponse> getMessages(@RequestParam("user") String user, @RequestParam("chatUser") String chatUser) {
+        return chatService.getChatMessages(userService.getUserByUsername(user), userService.getUserByUsername(chatUser));
     }
 
     @GetMapping("/getUserChats")
-    public List<Chat> getUserChats(@RequestParam("user") String user) {
+    public List<ChatDTO> getUserChats(@RequestParam("user") String user) {
         return chatService.getUserChats(userService.getUserByUsername(user).getId());
     }
 }

@@ -185,6 +185,7 @@ body{
     background: rgb(173, 0, 0);
     border-style: none;
     border-radius: 1rem;
+    transition: 0.2s;
 }
 
 .cancel-button:hover{
@@ -359,6 +360,29 @@ body{
     gap: 0.5rem;
 }
 
+.profile-page-add-image{
+    width: 215px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.1rem;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    cursor: pointer;
+    border-radius: 1rem;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.profile-page-add-image:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+.profile-page-profile-picture{
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .profile-page-tab{
     background: url('../assets/images/background-profile.jpg');
     background-position: center;
@@ -445,7 +469,6 @@ body{
     align-items: center;
     flex-direction: column;
     gap: 1.5rem;
-    flex: 0.6;
     font-family: 'Inter', sans-serif;
     font-size: 1.5rem;
     padding: 1rem 1rem 1rem 0;
@@ -458,6 +481,56 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.friend-request{
+    background-color: #023a78;
+    border-radius: 1rem;
+    padding: 0.6rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.friend-request-button-container{
+    display: flex;
+    gap: 0.4rem;
+}
+
+.friend-request-accept-button{
+    width: 75px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.friend-request-accept-button:hover{
+    box-shadow: 0 0 15px #8763D2;
+}
+
+.friend-request-reject-button{
+    width: 75px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: 'Raleway', sans-serif;
+    background: rgb(173, 0, 0);
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.friend-request-reject-button:hover{
+    box-shadow: 0 0 15px red;
 }
 
 .notification-container{
@@ -592,13 +665,18 @@ body{
 }
 
 .profile-picture{
-    background-color: #00ABFF;
+    background-color: #011731;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.profile-picture-placeholer-icon{
+    width: 60px;
+    height: 60px;
 }
 
 .profile-picture img{
@@ -608,9 +686,14 @@ body{
     height: 100%;
 }
 
-.profile-page-picture{
-    border-radius: 50%;
+.profile-page-picture-container{
     width: 160px;
+    background-color: #011731;
+    height: 160px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .friends-list{
@@ -634,7 +717,15 @@ body{
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #00ABFF;
+    background-color: #011731;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat-profile-picture-placeholder-icon{
+    width: 55%;
+    height: 55%;
 }
 
 .friend-request-icon{
@@ -908,6 +999,11 @@ body{
     justify-content: space-between;
 }
 
+.post-timestamp{
+    font-size: 0.7rem;
+    color: rgb(153, 153, 153);
+}
+
 .post-image{
     max-width: 100%;
     max-height: auto;
@@ -956,15 +1052,33 @@ body{
     gap: 0.6rem;
 }
 
-.post-author span{
+.post-author-span{
     cursor: pointer;
 }
 
-.author-profile-picture{
+.author-profile-picture-container{
     background-color: white;
     width: 40px;
     height: 40px;
     border-radius: 50%;
+    background-color: #011731;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.author-profile-picture{
+    background-color: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-profile-picture-placeholer-icon{
+    width: 25px;
+    height: 25px;
 }
 
 .post-content{
@@ -1095,10 +1209,13 @@ body{
 }
 
 .comment-profile-picture{
-    background-color: white;
+    background-color: #011731;
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .comment-textarea{
@@ -1340,6 +1457,34 @@ body{
     width: 100%;
 }
 
+.edit-textarea{
+    background-color: #7B4DDC82;
+    border-style: none;
+    border-radius: 1rem;
+    outline: none;
+    color: white;
+    width: 100%;
+    padding: 1rem;
+    height: 200px;
+    text-align:start;
+    resize:none;
+    overflow-y: scroll;
+    overflow: auto;
+    scrollbar-color: #8763D2 #001A33;
+    scrollbar-width: thin;
+}
+
+.edit-textarea:focus{
+    box-shadow: 0 0 10px 2px #b89cf7;
+}
+
+.pinned{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .jobs-container{
     width: 100%;
     height: 700px;
@@ -1478,6 +1623,23 @@ body{
 
 .job-offer:hover{
     box-shadow: 0 0 10px 1px #b89cf7;
+}
+
+.job-confirm-button{
+    width: 190px;
+    height: 40px;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: 'Raleway', sans-serif;
+    background: linear-gradient(#8763D2, rgb(122, 77, 220));
+    border-style: none;
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+.job-confirm-button:hover{
+    box-shadow: 0 0 15px #8763D2;
 }
 
 .job-offer-info{
@@ -2168,7 +2330,7 @@ body{
 
 @media (max-width: 1500px){
     .feed{
-        width: 100%;
+        width: 80%;
     }
 }
 

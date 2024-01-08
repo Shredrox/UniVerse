@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column(name = "password",nullable=false)
     private String password;
 
+    @Column(columnDefinition = "BYTEA")
+    private byte[] profilePicture;
+
     @Column(name = "refreshToken")
     private String refreshToken;
 
@@ -49,6 +52,20 @@ public class User implements UserDetails {
     private Boolean isLocked = false;
 
     private Boolean enabled = true;
+
+    public User(String username, String email, String password, UserRole userRole) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+        this.isOnline = false;
+        this.isLocked = false;
+        this.enabled = true;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

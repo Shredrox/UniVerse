@@ -9,6 +9,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -23,14 +24,14 @@ public class NotificationController {
     @SendTo("/topic/publicNotification")
     public Notification sendNotification(@Payload Notification notification){
         notification.setRead(false);
-        notification.setTimestamp(new Date());
+        notification.setTimestamp(LocalDateTime.now());
         return notification;
     }
 
     @MessageMapping("/sendUserNotification")
     public void sendUserNotification(@Payload Notification notification){
         notification.setRead(false);
-        notification.setTimestamp(new Date());
+        notification.setTimestamp(LocalDateTime.now());
 
         notificationService.addNotification(notification);
 
@@ -38,7 +39,7 @@ public class NotificationController {
     }
 
     @GetMapping("/{username}")
-    public List<Notification> getUserNotifications(@PathVariable String username){
+    public List<Notification> getUserNotifications(@PathVariable String username) {
         return notificationService.getUserNotifications(username);
     }
 

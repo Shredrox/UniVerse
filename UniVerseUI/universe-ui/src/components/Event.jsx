@@ -1,4 +1,29 @@
-const Event = ({event, attendEvent}) => {
+import { useAuth } from "../hooks/useAuth";
+import useEventData from "../hooks/useEventData";
+
+const Event = ({event}) => {
+  const { auth } = useAuth();
+
+  const { 
+    isAttending, 
+    attendEventMutation,
+    removeAttendingMutation,
+    deleteEventMutation
+  } = useEventData(event.id, auth?.user);
+
+  const handleClick = () =>{
+    if(isAttending){
+      removeAttendingMutation({eventId: event.id, username: auth?.user});
+      return;
+    }
+
+    attendEventMutation({eventId: event.id, username: auth?.user});
+  }
+
+  const handleDelete = async () =>{
+    await deleteEventMutation(event.id);
+  }
+
   return (
     <div className='event'>
       <img src="https://picsum.photos/250/200" alt="EventImage" />
@@ -7,10 +32,17 @@ const Event = ({event, attendEvent}) => {
         <h4>{event.date}</h4>
         <span>{event.description}</span>
         <button 
-          onClick={() => attendEvent(event.id)} 
+          onClick={handleClick} 
           className="confirm-button">
-            Attend
+          {isAttending ? "Attending" : "Attend"}
         </button>
+        {auth?.role === "ADMIN" && 
+        <button 
+          onClick={handleDelete} 
+          className="cancel-button">
+            Delete
+        </button>
+        }
       </div>
     </div>
   )

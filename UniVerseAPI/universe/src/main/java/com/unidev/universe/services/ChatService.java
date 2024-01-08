@@ -1,33 +1,21 @@
 package com.unidev.universe.services;
 
+import com.unidev.universe.dto.ChatDTO;
 import com.unidev.universe.entities.Chat;
 import com.unidev.universe.entities.Message;
-import com.unidev.universe.repository.ChatRepository;
-import com.unidev.universe.repository.MessageRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.unidev.universe.entities.User;
+import com.unidev.universe.responses.MessageResponse;
 
 import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ChatService {
-    private final ChatRepository chatRepository;
-    private final MessageRepository messageRepository;
+public interface ChatService {
+    void createChat(Chat newChat);
 
-    public void createChat(Chat newChat) {
-        chatRepository.save(newChat);
-    }
+    void saveMessage(Message message);
 
-    public void saveMessage(Message message){
-        messageRepository.save(message);
-    }
+    Chat getChat(User user1, User user2);
 
-    public List<Message> getChatMessages(long user1Id, long user2Id){
-       return messageRepository.findBySenderIdOrReceiverId(user1Id, user2Id);
-    }
+    List<MessageResponse> getChatMessages(User user1, User user2);
 
-    public List<Chat> getUserChats(long userId){
-        return chatRepository.findByUser1IdOrUser2Id(userId, userId);
-    }
+    List<ChatDTO> getUserChats(long userId);
 }

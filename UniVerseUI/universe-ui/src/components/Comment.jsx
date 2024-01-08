@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from '../hooks/useSocket'
 import Loading from '../components/fallbacks/Loading'
 import ErrorFallback from '../components/fallbacks/ErrorFallback'
+import useProfilePicture from "../hooks/useProfilePicture";
+import { FaUserAstronaut } from "react-icons/fa";
 
 const Comment = ({comment, isReply}) => {
   const [commentText, setCommentText] = useState('');
@@ -31,6 +33,8 @@ const Comment = ({comment, isReply}) => {
       queryClient.invalidateQueries(["commentReplies", comment.id]);
     },
   });
+
+  const { profilePicture } = useProfilePicture("commentUserProfilePicture", comment.author);
 
   useEffect(() => {
     setIsError(false);
@@ -69,7 +73,12 @@ const Comment = ({comment, isReply}) => {
       <div className={isReply ? "reply" : "comment"}>
         <div className={isReply ? "" : "comment-content"}>
           <div className='comment-author'>
-            <div className='comment-profile-picture'></div>
+            <div className='comment-profile-picture'>
+              {profilePicture?.size > 0 ? 
+              <img className='author-profile-picture' src={URL.createObjectURL(profilePicture)} alt="ProfilePicture" /> 
+              :
+              <FaUserAstronaut/>}
+            </div>
             <span onClick={() => navigate(`/profile/${comment.author}`)}>{comment.author}</span>
           </div>
           <p className="comment-text">{comment.content}</p>
