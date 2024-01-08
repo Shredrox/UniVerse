@@ -52,8 +52,7 @@ public class EventController {
         return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
     }
 
-    //TODO: Authorization with logged users, only specific users can create, edit and delete events!
-
+    @PutMapping("/{eventId}")
     public ResponseEntity<GroupEvent> updateEvent(@PathVariable Long eventId, @RequestBody GroupEvent updatedEvent) {
         GroupEvent result = eventService.updateEvent(eventId, updatedEvent);
 
@@ -64,6 +63,7 @@ public class EventController {
         }
     }
 
+    @DeleteMapping("/{eventId}")
     public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
         eventService.deleteEvent(eventId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
