@@ -53,6 +53,20 @@ public class User implements UserDetails {
 
     private Boolean enabled = true;
 
+    public User(String username, String email, String password, UserRole userRole) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.userRole = userRole;
+        this.isOnline = false;
+        this.isLocked = false;
+        this.enabled = true;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority simpleGrantedAuthority =

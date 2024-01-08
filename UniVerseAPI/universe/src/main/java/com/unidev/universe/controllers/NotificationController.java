@@ -39,7 +39,7 @@ public class NotificationController {
     }
 
     @GetMapping("/{username}")
-    public List<Notification> getUserNotifications(@PathVariable String username){
+    public List<Notification> getUserNotifications(@PathVariable String username) {
         return notificationService.getUserNotifications(username);
     }
 
