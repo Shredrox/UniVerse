@@ -20,8 +20,6 @@ export const addNews = async (news) =>{
 }
 
 export const updateNews = async (data) =>{
-    console.log(data);
-
     return await axios.post(`/news/update`, data);
 }
 

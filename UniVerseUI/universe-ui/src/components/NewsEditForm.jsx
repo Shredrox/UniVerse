@@ -43,7 +43,6 @@ const NewsEditForm = ({news, setIsEditOn, updateNewsMutation}) => {
 
   const handleCancel = () =>{
     setIsEditOn(false);
-    setPassword('');
   }
 
   return (
