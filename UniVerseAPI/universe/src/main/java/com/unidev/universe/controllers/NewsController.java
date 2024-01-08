@@ -1,5 +1,6 @@
 package com.unidev.universe.controllers;
 
+import com.unidev.universe.dto.NewsDTO;
 import com.unidev.universe.requests.NewsEditRequest;
 import com.unidev.universe.responses.NewsResponse;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class NewsController {
     }
 
     @PostMapping("/createNews")
-    public ResponseEntity<News> createNews(@RequestBody News news) {
+    public ResponseEntity<News> createNews(@ModelAttribute NewsDTO news) throws IOException {
         News createdNews = newsService.createNews(news);
         return new ResponseEntity<>(createdNews, HttpStatus.CREATED);
     }

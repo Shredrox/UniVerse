@@ -1,5 +1,6 @@
 package com.unidev.universe.services.impl;
 
+import com.unidev.universe.dto.NewsDTO;
 import com.unidev.universe.entities.News;
 import com.unidev.universe.repository.NewsRepository;
 import com.unidev.universe.requests.NewsEditRequest;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +63,17 @@ public class NewsServiceImpl implements NewsService {
         return news.orElseThrow().getImageData();
     }
 
-    public News createNews(News news) {
+    public News createNews(NewsDTO request) throws IOException {
+        News news = new News();
+        news.setTitle(request.getTitle());
+        news.setContent(request.getContent());
+        news.setPinned(request.getPinned());
+        news.setDate(LocalDateTime.now());
+
+        if(request.getImage() != null){
+            news.setImageData(request.getImage().getBytes());
+        }
+
         return newsRepository.save(news);
     }
 

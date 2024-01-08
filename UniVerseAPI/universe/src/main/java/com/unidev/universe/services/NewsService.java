@@ -1,5 +1,6 @@
 package com.unidev.universe.services;
 
+import com.unidev.universe.dto.NewsDTO;
 import com.unidev.universe.entities.News;
 import com.unidev.universe.requests.NewsEditRequest;
 import com.unidev.universe.responses.NewsResponse;
@@ -14,7 +15,7 @@ public interface NewsService {
 
     NewsResponse getNewsById(Long newsId);
 
-    News createNews(News news);
+    News createNews(NewsDTO news) throws IOException;
 
     void updateNews(NewsEditRequest updatedNews) throws IOException;
 
