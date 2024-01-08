@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface PostService {
 
-    List<Post> getAllPosts();
+    List<PostResponse> getAllPosts();
 
     Post getPostById(Long postId);
 

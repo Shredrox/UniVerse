@@ -22,7 +22,7 @@ public class PostController {
     private final FriendshipService friendshipService;
 
     @GetMapping
-    public List<Post> getAllPosts() {
+    public List<PostResponse> getAllPosts() {
         return postService.getAllPosts();
     }
 

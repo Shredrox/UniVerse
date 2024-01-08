@@ -22,8 +22,23 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostResponse> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+        List<PostResponse> allPostsResponse = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostResponse postResponse = new PostResponse();
+            postResponse.setId(post.getId());
+            postResponse.setTitle(post.getTitle());
+            postResponse.setContent(post.getContent());
+            postResponse.setTimestamp(post.getTimestamp());
+            postResponse.setAuthorName(post.getAuthorName());
+            postResponse.setImageData(post.getImageData());
+
+            allPostsResponse.add(postResponse);
+        }
+
+        return allPostsResponse;
     }
 
     public Post getPostById(Long postId) {
